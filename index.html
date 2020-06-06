@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+     <meta charset="UTF-8" />
+     <title>Tommy Unger's data, analysis, ideas, and adventures</title>
+     <style>
+         body{
+            font-family: Avenir, Helvetica, Sans-serif;
+         }
+         body>div{
+            width: 1000px;
+            margin-left: auto;
+            margin-right: auto;
+            padding: 2em;
+         }
+         h1{
+            margin-top: 0;
+            background-color: #eee;
+            padding: 0.2em;
+            position: relative;
+         }
+         h2{
+            margin-bottom: 0.2em;
+         }
+         a{
+            color: #5577aa;
+         }
+        adventure{
+           position: relative;
+           display: inline-block;
+           width: 450px;
+           height: 450px;
+           margin: 0px 20px 20px 20px;
+        }
+
+        adventure:after {
+            content: "";
+            display: table;
+            clear: both;
+        }
+
+        adventure>div.pic{
+         position: absolute;
+         width: 450px;
+         height: 450px;
+         overflow: hidden;
+         float: left;
+        }
+
+        adventure>div.pic>div{
+         position: absolute;
+         left: 0%;
+         top: 0%;
+         width: auto;
+         z-index: 1;
+        }
+
+        adventure .pic img{
+           width: 450px;
+           box-sizing: border-box;
+            background-clip: content-box;
+            border: 0px solid transparent;
+            border-radius: 18px;
+            z-index: -1;
+        }
+
+        adventure h3{
+           position: absolute;
+           width: 430px;
+           bottom: -18px;
+           left: 0px;
+           z-index: 5;
+           background-color: rgba(255, 255, 255, 0.7);
+           padding: 10px;
+           line-height: 1.1em;
+           font-weight: normal;
+           font-size: 1.1em;
+           height: 100px;
+        }
+
+        adventure h3 img{
+           height: 100px;
+           box-sizing: border-box;
+            background-clip: content-box;
+            border: 0px solid transparent;
+            border-radius: 6px;
+            box-shadow: 0px 1px 2px #999;
+           float: right;
+        }
+
+        .pp{
+            width: 48px; 
+            height: 48px;
+            border-radius: 24px; 
+            float: right;
+        }
+
+        @media only screen 
+        and (max-width : 1000px) {
+           body{
+            font-size: 2.2em;
+            line-height: 1.8em;
+           }
+           body>div{
+            width: 98%;
+            padding: 0.1em;
+           }
+           adventure{
+              width: 800px;
+              height: 800px;
+           }
+           adventure>div.pic{
+            width: 100%;
+            height: 900px;
+           }
+           adventure .pic img{
+            width: 800px;
+           }
+           adventure h3{
+            width: 100%;
+            height: 6em;
+            bottom: -1em;
+            font-size: 1.0em;
+           }
+           adventure h3 img{
+              margin-right: 25px;
+           }
+           li{
+              font-size: 1.3em;
+           }
+           .pp{
+              width: 1.8em;
+              height: 1.8em;
+              border-radius: 0.9em; 
+           }
+        }
+     </style>
+     <link rel="shortcut icon" type="image/x-icon" href="favicon.ico" />
+ </head>
+ <body>
+    <div>
+     <h1><img src="/images/profile-pic.png" class="pp" />Tommy Unger's personal website</h1>
+
+     <h2>Data analysis and other side projects</h2>
+     <ul>
+         <li><a href="/qumulo/mac-osx-catalina-chrome-self-sign-cert.html">Self-signed Chrome browser certs with Mac OSX Catalina</a></li>
+         <li><a href="/hip-hop/history-of-rap.html">Top rap artists: A 30 year history of hip-hop</a></li>
+         <li><a href="/bike-share-jump-vs-lime/">Bike share comparison: Jump vs Lime</a></li>
+         <li><a href="/commute-viz/map.html">Downtown commute times for Metro Seattle</a></li>
+         <li><a href="https://campusbuilding.com/">Microsoft & Amazon HQ Maps and Addresses</a></li>
+     </ul>
+
+     <h2>Contact info</h2>
+     <ul>
+         <li>@<a href="https://twitter.com/tommyunger">tommyunger</a> on twitter</li>
+         <li><a href="/resume.html">Work experience & resume</a></li>
+         <li><a href="https://www.linkedin.com/in/tommyunger/">LinkedIn</a></li>
+     </ul>
+
+     <h2>Somewhat recent single-day adventures</h2>
+
+     <adventure>
+         <h3><img src="/images/map-mauna-loa.png" />
+            <b>Waikoloa to Mauna Loa</b><br />
+            From the Pacific Ocean, to (nearly) the top of Hawaii's Big Island<br />
+            100 miles + 10,000 feet + 🚲<br />
+         </h3>
+         <div class="pic">
+            <div>
+               <img src="/images/mauna-loa-lava.png" />
+            </div>
+         </div>
+      </adventure>
+
+      <adventure>
+         <h3><img src="/images/map-seattle-to-three-fingers.png" />
+            <b>Seattle to Three Fingers Lookout</b><br />
+            Bike home to Three Fingers Lookout trailhead @ Granite Falls. Hike to the lookout. Reverse.
+            150 miles + 11,000 feet + 🚲 + 🥾         
+         </h3>
+         <div class="pic">
+            <div>
+               <img src="/images/three-fingers-smoke.png" />
+            </div>
+         </div>
+      </adventure>
+
+      <adventure>
+         <h3><img src="/images/map-mountain-loop.png" />
+            <b>Mountain Loop Highway century ride</b><br />
+            100-mile bike ride starting and ending in Granite Falls. Included ~15 miles of dirt road.
+            100 miles + 5,000 feet + 🚲<br />
+         </h3>
+         <div class="pic">
+            <div>
+               <img src="/images/mountain-loop-highway.png" />
+            </div>
+         </div>
+      </adventure>
+
+      <adventure>
+         <h3><img src="/images/map-mount-constance.png" />
+            <b>Mount Constance Olympic NP climb</b><br />
+            Biked the Dosewallips River and hiked and climbed Mount Constance with Mike.
+            20 miles + 10,000 feet + 🚲 + 🥾<br />
+         </h3>
+         <div class="pic">
+            <div>
+               <img src="/images/adventure-mount-constance.png" />
+            </div>
+         </div>
+      </adventure>
+
+      <adventure>
+         <h3><img src="/images/map-shuksan.png" />
+            <b>Mount Shuksan Fisher Chimneys</b><br />
+            Hiked and scrambled my way up majestic Mount Shuksan with Zaher.
+            20 miles + 6,000 feet + 🥾<br />
+         </h3>
+         <div class="pic">
+            <div>
+               <img src="/images/mount-shuksan-at-night.png" />
+            </div>
+         </div>
+      </adventure>
+
+      <adventure>
+         <h3><img src="/images/map-lake-washington.png" />
+            <b>Bike ride around Lake Washington</b><br />
+            All of the Burke-Gilman Trail and a bit more over I-90 and around Ballard.<br />
+            75 miles + 🚲<br />
+         </h3>
+         <div class="pic">
+            <div>
+               <img src="/images/lake-washington-ride.png" />
+            </div>
+         </div>
+      </adventure>
+      
+    </div>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-141213264-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-141213264-1');
+</script>
+
+ </body>
+ </html>

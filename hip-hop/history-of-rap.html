@@ -1,0 +1,2244 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Definitive* History of Top Rap Artists</title>
+    <meta property="og:title" content="The Definitive* History of Top Rap Artists" />
+    <meta property="og:description" content="A visual exploration of the top 100 rap artists of the last 3 decades" />
+    <meta property="og:image" content="https://tommyseattle.com/images/top-rap-artists-screenshot.png" />
+    <meta property="og:url" content="https://tommyseattle.com/hip-hop/history-of-rap.html" />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:image" content="https://tommyseattle.com/images/top-rap-artists-screenshot.png" />
+
+    <script src="d3.min.js" integrity="sha256-+9Mf3cAVmxxudDsr1XwXUeRZFtvdWVYdq5/vcgiYyNU=" crossorigin="anonymous">
+    </script>
+    <style>
+        body{
+            font-family: Avenir, Helvetica;
+        }
+        li, ul, ol{
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+        }
+        h1{
+            font-size: 2.5em;
+            margin: 0.7em 0 0.7em 0;
+            padding: 0;
+            color: rgb(239, 53, 36);
+            line-height: 1em;
+        }
+        h3{
+            margin: 0;
+            padding: 0;
+            color: rgb(167, 95, 61);
+            font-size: 1.0em;
+            max-width: 50em;
+            line-height: 1.2em;
+        }
+        #tooltip{
+            position: absolute;
+            width: 290px;
+            border-radius: 6px;
+            background-color: white;
+            border: 1px solid #ccc;
+            display: none;
+            padding: 0.6em;
+            z-index: 10;
+        }
+        .pretty li{
+            clear: both;
+        }
+        .pretty h2{
+            display: block;
+            margin: 0;
+            padding: 0;
+            width: 10em;
+            float: left;
+            font-size: 1em;
+        }
+        .pretty p{
+            display: block;
+            margin: 0;
+            padding: 0;
+            width: 20px;
+            height: 20px;
+            border-radius: 0.4em;
+            overflow: hidden;
+            float: left;
+        }
+        .pretty p.e{
+            visibility: hidden;
+        }
+        hide{
+            display: none;
+        }
+        .cb{
+            margin-top: 0.5em;
+            margin-bottom: 1.5em;
+            color: #555555;
+        }
+        @media screen and (max-width: 800px) {
+            .pretty p.e{
+                display: none;
+            }
+            .pretty h2{
+                clear: both;
+                width: 100%;
+                margin-top: 0.7em;
+            }
+            .years{
+                display: none;
+            }
+        }
+
+        .years b{
+            font-size: 0.8em;
+            font-weight: normal;
+            width: 20px;
+            display: inline-block;
+            text-align: center;
+        }
+        a{
+            color: #777777;
+        }
+
+    </style>
+        
+</head>
+<body>
+<script>
+var color_scale = d3.scaleSequential(d3.interpolateYlOrRd)
+                        .domain([-10, 70])
+
+function handleMouseOut(d, i){
+    var tt = d3.select("#tooltip");
+    tt.style("display", "none");
+}
+
+function handleMouseOver(d, i){
+    var det = d3.select(this);
+    var m = d3.mouse(this);
+    var w = 290;
+    var tt = d3.select("#tooltip");
+    tt.html(det.select("hide").html())
+    if(d3.event.pageX < window.innerWidth - (w+30)){
+        tt.style("left", (d3.event.pageX+10) + "px");
+    }else if(d3.event.pageX-(w+20) > 0){
+        tt.style("left", (d3.event.pageX-(w+20))+ "px");
+    }else{
+        tt.style("left", (10)+ "px");
+    }
+
+    if(d3.event.pageY < document.documentElement.scrollHeight - 140){
+        tt.style("top", (d3.event.pageY+20)+ "px");
+    }else{
+        tt.style("top", (d3.event.pageY-115)+ "px");
+    }
+    tt.style("display", "block");
+}
+
+document.addEventListener("DOMContentLoaded", function(e){
+    d3.select("ol").attr('class', 'pretty');
+
+    d3.selectAll("p").each(function(d, i){
+    var el = d3.select(this);
+        if(el.attr('class') == null){
+            var t = el.text();
+            var m = t.match(/In ([0-9]+) (.*?) had ([0-9]+) song([s]*) on the rap charts for a total of ([0-9]+) week([s]*) with (.*?) going up to #([0-9]+)/);
+            var color = color_scale(m[5]);
+            var s = "In <i>"+m[1]+"</i>, <b>"+m[2]+"</b> had <b>"+m[3]+" song"+m[4]+"</b> on the rap charts for a total of <b style='background-color:" + color + "'>&nbsp;"+m[5]+" week"+m[6]+"&nbsp;</b>&nbsp;with \"<b><i>"+m[7]+"</i></b>\" going up to #"+m[8];
+            el.html("<hide>" + s + "</hide>");
+            el.style("background-color", color);
+            el.on("mouseover", handleMouseOver)
+            .on("mouseout", handleMouseOut);
+        }
+    });
+
+    d3.selectAll("li").each(function(d, i){
+        if(i % 20 == 0 || i == 99){
+            var where = ":first-child";
+            if(i == 99){
+                where = null;
+            }
+            var el = d3.select(this);
+            var years = el.insert("li",where).attr("class", "years");
+            years.append("h2").html("&nbsp;");
+            for(var yr = 2019; yr >= 1989; yr-=1){
+                years.append("b").text((yr.toString().substring(2,4)));
+            }
+        }
+    })
+
+});
+</script>
+
+<h1>The Definitive* History of Top Rap Artists</h1>
+<h3>* The charts below walk us through the top 100 rap artists of last 30 years. It excludes many artists 
+    and based mostly on their ability to rank in the charts. Basically it's just one person's opinion. 
+    Noteworthy artists left out: Post Malone, DJ Khaled, Nelly, Macklemore, Fabolous. Artists are listed 
+    in order of their first year ranking in the charts with the newest artists first. Created 
+    by: @<a href="https://twitter.com/tommyunger">tommyunger</a></h3>
+<br />
+<div id="tooltip">
+</div>
+
+<ol>
+<li><h2>DaBaby</h2>
+<p>In 2019 DaBaby had 10 songs on the rap charts for a total of 27 weeks with Suge going up to #2</p>
+</li>
+<li><h2>Lil Nas X</h2>
+<p>In 2019 Lil Nas X had 1 song on the rap charts for a total of 16 weeks with Panini going up to #2</p>
+</li>
+<li><h2>Rich The Kid</h2>
+<p class='e y y2019'></p>
+<p>In 2018 Rich The Kid had 2 songs on the rap charts for a total of 21 weeks with Plug Walk going up to #5</p>
+</li>
+<li><h2>Cardi B</h2>
+<p>In 2019 Cardi B had 4 songs on the rap charts for a total of 36 weeks with Please Me going up to #1</p>
+<p>In 2018 Cardi B had 12 songs on the rap charts for a total of 53 weeks with I Like It going up to #1</p>
+<p>In 2017 Cardi B had 1 song on the rap charts for a total of 23 weeks with Bodak Yellow (Money Moves) going up to #1</p>
+</li>
+<li><h2>Kodak Black</h2>
+<p>In 2019 Kodak Black had 2 songs on the rap charts for a total of 15 weeks with ZEZE going up to #4</p>
+<p>In 2018 Kodak Black had 6 songs on the rap charts for a total of 18 weeks with ZEZE going up to #1</p>
+<p>In 2017 Kodak Black had 7 songs on the rap charts for a total of 40 weeks with Tunnel Vision going up to #2</p>
+</li>
+<li><h2>XXXTENTACION</h2>
+<p>In 2019 XXXTENTACION had 1 song on the rap charts for a total of 1 week with BAD! going up to #22</p>
+<p>In 2018 XXXTENTACION had 10 songs on the rap charts for a total of 35 weeks with Sad! going up to #1</p>
+<p>In 2017 XXXTENTACION had 3 songs on the rap charts for a total of 30 weeks with Jocelyn Flores going up to #10</p>
+</li>
+<li><h2>Desiigner</h2>
+<p class='e y y2019'></p>
+<p class='e y y2018'></p>
+<p class='e y y2017'></p>
+<p>In 2016 Desiigner had 2 songs on the rap charts for a total of 42 weeks with Panda going up to #1</p>
+</li>
+<li><h2>21 Savage</h2>
+<p>In 2019 21 Savage had 4 songs on the rap charts for a total of 26 weeks with A Lot going up to #5</p>
+<p>In 2018 21 Savage had 1 song on the rap charts for a total of 3 weeks with Bank Account going up to #13</p>
+<p>In 2017 21 Savage had 6 songs on the rap charts for a total of 34 weeks with Bank Account going up to #4</p>
+<p>In 2016 21 Savage had 2 songs on the rap charts for a total of 13 weeks with X going up to #10</p>
+</li>
+<li><h2>Lil Yachty</h2>
+<p class='e y y2019'></p>
+<p class='e y y2018'></p>
+<p>In 2017 Lil Yachty had 1 song on the rap charts for a total of 1 week with Peek A Boo going up to #25</p>
+<p>In 2016 Lil Yachty had 1 song on the rap charts for a total of 14 weeks with 1 Night going up to #13</p>
+</li>
+<li><h2>Chance The Rapper</h2>
+<p>In 2019 Chance The Rapper had 1 song on the rap charts for a total of 1 week with Hot Shower going up to #21</p>
+<p>In 2018 Chance The Rapper had 1 song on the rap charts for a total of 1 week with I Might Need Security going up to #22</p>
+<p class='e y y2017'></p>
+<p>In 2016 Chance The Rapper had 1 song on the rap charts for a total of 22 weeks with No Problem going up to #10</p>
+</li>
+<li><h2>Travis Scott</h2>
+<p>In 2019 Travis Scott had 3 songs on the rap charts for a total of 16 weeks with Sicko Mode going up to #1</p>
+<p>In 2018 Travis Scott had 14 songs on the rap charts for a total of 23 weeks with Sicko Mode going up to #1</p>
+<p>In 2017 Travis Scott had 2 songs on the rap charts for a total of 32 weeks with Butterfly Effect going up to #12</p>
+<p>In 2016 Travis Scott had 2 songs on the rap charts for a total of 13 weeks with Antidote going up to #4</p>
+<p>In 2015 Travis Scott had 1 song on the rap charts for a total of 14 weeks with Antidote going up to #4</p>
+</li>
+<li><h2>G-Eazy</h2>
+<p class='e y y2019'></p>
+<p>In 2018 G-Eazy had 3 songs on the rap charts for a total of 21 weeks with No Limit going up to #2</p>
+<p>In 2017 G-Eazy had 4 songs on the rap charts for a total of 15 weeks with No Limit going up to #3</p>
+<p>In 2016 G-Eazy had 1 song on the rap charts for a total of 27 weeks with Me, Myself & I going up to #1</p>
+<p>In 2015 G-Eazy had 2 songs on the rap charts for a total of 7 weeks with Me, Myself & I going up to #7</p>
+<p>In 2014 G-Eazy had 2 songs on the rap charts for a total of 4 weeks with Lotta That going up to #21</p>
+</li>
+<li><h2>Young Thug</h2>
+<p>In 2019 Young Thug had 6 songs on the rap charts for a total of 20 weeks with The London going up to #5</p>
+<p>In 2018 Young Thug had 1 song on the rap charts for a total of 1 week with Chanel (Go Get It) going up to #25</p>
+<p>In 2017 Young Thug had 1 song on the rap charts for a total of 2 weeks with Relationship going up to #22</p>
+<p>In 2016 Young Thug had 5 songs on the rap charts for a total of 32 weeks with Pick Up The Phone going up to #7</p>
+<p>In 2015 Young Thug had 2 songs on the rap charts for a total of 6 weeks with Best Friend going up to #17</p>
+<p>In 2014 Young Thug had 1 song on the rap charts for a total of 20 weeks with Stoner going up to #4</p>
+</li>
+<li><h2>Migos</h2>
+<p class='e y y2019'></p>
+<p>In 2018 Migos had 7 songs on the rap charts for a total of 28 weeks with Stir Fry going up to #3</p>
+<p>In 2017 Migos had 8 songs on the rap charts for a total of 43 weeks with Bad And Boujee going up to #1</p>
+<p>In 2016 Migos had 2 songs on the rap charts for a total of 7 weeks with Bad And Boujee going up to #7</p>
+<p class='e y y2015'></p>
+<p>In 2014 Migos had 2 songs on the rap charts for a total of 24 weeks with Fight Night going up to #14</p>
+<p>In 2013 Migos had 1 song on the rap charts for a total of 2 weeks with Versace going up to #23</p>
+</li>
+<li><h2>ScHoolboy Q</h2>
+<p>In 2019 ScHoolboy Q had 2 songs on the rap charts for a total of 2 weeks with Floating going up to #22</p>
+<p>In 2018 ScHoolboy Q had 1 song on the rap charts for a total of 2 weeks with X going up to #21</p>
+<p class='e y y2017'></p>
+<p>In 2016 ScHoolboy Q had 1 song on the rap charts for a total of 18 weeks with THat Part going up to #8</p>
+<p class='e y y2015'></p>
+<p>In 2014 ScHoolboy Q had 3 songs on the rap charts for a total of 40 weeks with Studio going up to #5</p>
+<p>In 2013 ScHoolboy Q had 1 song on the rap charts for a total of 6 weeks with Collard Greens going up to #21</p>
+</li>
+<li><h2>A$AP Ferg</h2>
+<p class='e y y2019'></p>
+<p>In 2018 A$AP Ferg had 1 song on the rap charts for a total of 13 weeks with Plain Jane going up to #12</p>
+<p>In 2017 A$AP Ferg had 1 song on the rap charts for a total of 10 weeks with Plain Jane going up to #14</p>
+<p>In 2016 A$AP Ferg had 1 song on the rap charts for a total of 8 weeks with New Level going up to #17</p>
+<p class='e y y2015'></p>
+<p>In 2014 A$AP Ferg had 1 song on the rap charts for a total of 3 weeks with Shabba going up to #22</p>
+<p>In 2013 A$AP Ferg had 1 song on the rap charts for a total of 3 weeks with Work going up to #23</p>
+</li>
+<li><h2>Kendrick Lamar</h2>
+<p class='e y y2019'></p>
+<p>In 2018 Kendrick Lamar had 1 song on the rap charts for a total of 10 weeks with Love. going up to #5</p>
+<p>In 2017 Kendrick Lamar had 13 songs on the rap charts for a total of 34 weeks with Humble. going up to #1</p>
+<p>In 2016 Kendrick Lamar had 3 songs on the rap charts for a total of 5 weeks with Untitled 02 l 06.23.2014. going up to #12</p>
+<p>In 2015 Kendrick Lamar had 6 songs on the rap charts for a total of 28 weeks with King Kunta going up to #11</p>
+<p>In 2014 Kendrick Lamar had 2 songs on the rap charts for a total of 22 weeks with i going up to #8</p>
+<p>In 2013 Kendrick Lamar had 4 songs on the rap charts for a total of 37 weeks with Swimming Pools (Drank) going up to #4</p>
+<p>In 2012 Kendrick Lamar had 6 songs on the rap charts for a total of 21 weeks with Swimming Pools (Drank) going up to #3</p>
+</li>
+<li><h2>2 Chainz</h2>
+<p class='e y y2019'></p>
+<p>In 2018 2 Chainz had 1 song on the rap charts for a total of 2 weeks with Bigger > You going up to #24</p>
+<p>In 2017 2 Chainz had 3 songs on the rap charts for a total of 22 weeks with It's A Vibe going up to #13</p>
+<p>In 2016 2 Chainz had 3 songs on the rap charts for a total of 15 weeks with Watch Out going up to #10</p>
+<p class='e y y2015'></p>
+<p class='e y y2014'></p>
+<p>In 2013 2 Chainz had 6 songs on the rap charts for a total of 33 weeks with We Own It (Fast & Furious) going up to #3</p>
+<p>In 2012 2 Chainz had 3 songs on the rap charts for a total of 29 weeks with No Lie going up to #1</p>
+</li>
+<li><h2>French Montana</h2>
+<p>In 2019 French Montana had 1 song on the rap charts for a total of 3 weeks with No Stylist going up to #22</p>
+<p>In 2018 French Montana had 1 song on the rap charts for a total of 2 weeks with No Stylist going up to #20</p>
+<p>In 2017 French Montana had 2 songs on the rap charts for a total of 31 weeks with Unforgettable going up to #1</p>
+<p>In 2016 French Montana had 2 songs on the rap charts for a total of 11 weeks with No Shopping going up to #8</p>
+<p>In 2015 French Montana had 1 song on the rap charts for a total of 1 week with Bad B*tch going up to #21</p>
+<p class='e y y2014'></p>
+<p>In 2013 French Montana had 3 songs on the rap charts for a total of 28 weeks with Pop That going up to #11</p>
+<p>In 2012 French Montana had 2 songs on the rap charts for a total of 27 weeks with Pop That going up to #2</p>
+</li>
+<li><h2>Big Sean</h2>
+<p>In 2019 Big Sean had 1 song on the rap charts for a total of 1 week with Single Again going up to #22</p>
+<p class='e y y2018'></p>
+<p>In 2017 Big Sean had 5 songs on the rap charts for a total of 20 weeks with Bounce Back going up to #2</p>
+<p>In 2016 Big Sean had 2 songs on the rap charts for a total of 10 weeks with Bounce Back going up to #10</p>
+<p>In 2015 Big Sean had 6 songs on the rap charts for a total of 44 weeks with I Don't F**k With You going up to #1</p>
+<p>In 2014 Big Sean had 1 song on the rap charts for a total of 12 weeks with I Don't F**k With You going up to #1</p>
+<p>In 2013 Big Sean had 2 songs on the rap charts for a total of 32 weeks with Beware going up to #6</p>
+<p>In 2012 Big Sean had 2 songs on the rap charts for a total of 16 weeks with Dance (A$$) going up to #2</p>
+<p>In 2011 Big Sean had 3 songs on the rap charts for a total of 39 weeks with My Last going up to #1</p>
+</li>
+<li><h2>Future</h2>
+<p>In 2019 Future had 3 songs on the rap charts for a total of 4 weeks with Crushed Up going up to #15</p>
+<p>In 2018 Future had 2 songs on the rap charts for a total of 3 weeks with Fine China going up to #13</p>
+<p>In 2017 Future had 10 songs on the rap charts for a total of 36 weeks with Mask Off going up to #2</p>
+<p>In 2016 Future had 8 songs on the rap charts for a total of 43 weeks with Low Life going up to #3</p>
+<p>In 2015 Future had 6 songs on the rap charts for a total of 38 weeks with Where Ya At going up to #6</p>
+<p>In 2014 Future had 5 songs on the rap charts for a total of 29 weeks with Move That Doh going up to #5</p>
+<p>In 2013 Future had 4 songs on the rap charts for a total of 38 weeks with Neva End going up to #11</p>
+<p>In 2012 Future had 4 songs on the rap charts for a total of 46 weeks with Turn On The Lights going up to #4</p>
+<p>In 2011 Future had 1 song on the rap charts for a total of 10 weeks with Tony Montana going up to #18</p>
+</li>
+<li><h2>Wale</h2>
+<p>In 2019 Wale had 1 song on the rap charts for a total of 8 weeks with On Chill going up to #9</p>
+<p class='e y y2018'></p>
+<p class='e y y2017'></p>
+<p>In 2016 Wale had 1 song on the rap charts for a total of 14 weeks with My PYT going up to #11</p>
+<p>In 2015 Wale had 2 songs on the rap charts for a total of 30 weeks with The Matrimony going up to #13</p>
+<p>In 2014 Wale had 1 song on the rap charts for a total of 2 weeks with The Body going up to #24</p>
+<p>In 2013 Wale had 2 songs on the rap charts for a total of 30 weeks with Bad going up to #3</p>
+<p>In 2012 Wale had 4 songs on the rap charts for a total of 40 weeks with Lotus Flower Bomb going up to #3</p>
+<p>In 2011 Wale had 2 songs on the rap charts for a total of 22 weeks with That Way going up to #5</p>
+</li>
+<li><h2>Meek Mill</h2>
+<p>In 2019 Meek Mill had 3 songs on the rap charts for a total of 28 weeks with Going Bad going up to #5</p>
+<p>In 2018 Meek Mill had 7 songs on the rap charts for a total of 6 weeks with Going Bad going up to #2</p>
+<p>In 2017 Meek Mill had 4 songs on the rap charts for a total of 7 weeks with Whatever You Need going up to #15</p>
+<p>In 2016 Meek Mill had 4 songs on the rap charts for a total of 4 weeks with Litty going up to #14</p>
+<p>In 2015 Meek Mill had 7 songs on the rap charts for a total of 24 weeks with All Eyes On You going up to #5</p>
+<p>In 2014 Meek Mill had 1 song on the rap charts for a total of 1 week with I Don't Know going up to #22</p>
+<p>In 2013 Meek Mill had 1 song on the rap charts for a total of 3 weeks with Young & Gettin' It going up to #23</p>
+<p>In 2012 Meek Mill had 3 songs on the rap charts for a total of 29 weeks with Amen going up to #4</p>
+<p>In 2011 Meek Mill had 3 songs on the rap charts for a total of 22 weeks with Ima Boss going up to #17</p>
+</li>
+<li><h2>Tyga</h2>
+<p class='e y y2019'></p>
+<p>In 2018 Tyga had 1 song on the rap charts for a total of 25 weeks with Taste going up to #6</p>
+<p class='e y y2017'></p>
+<p class='e y y2016'></p>
+<p class='e y y2015'></p>
+<p>In 2014 Tyga had 1 song on the rap charts for a total of 19 weeks with Hookah going up to #17</p>
+<p>In 2013 Tyga had 2 songs on the rap charts for a total of 20 weeks with Dope going up to #15</p>
+<p>In 2012 Tyga had 4 songs on the rap charts for a total of 38 weeks with Rack City going up to #2</p>
+<p>In 2011 Tyga had 2 songs on the rap charts for a total of 19 weeks with Far Away going up to #16</p>
+</li>
+<li><h2>J. Cole</h2>
+<p>In 2019 J. Cole had 1 song on the rap charts for a total of 26 weeks with Middle Child going up to #2</p>
+<p>In 2018 J. Cole had 11 songs on the rap charts for a total of 7 weeks with ATM going up to #4</p>
+<p>In 2017 J. Cole had 6 songs on the rap charts for a total of 16 weeks with Deja Vu going up to #9</p>
+<p>In 2016 J. Cole had 14 songs on the rap charts for a total of 4 weeks with Deja Vu going up to #2</p>
+<p>In 2015 J. Cole had 3 songs on the rap charts for a total of 28 weeks with Apparently going up to #10</p>
+<p>In 2014 J. Cole had 6 songs on the rap charts for a total of 12 weeks with She Knows going up to #11</p>
+<p>In 2013 J. Cole had 3 songs on the rap charts for a total of 44 weeks with Power Trip going up to #3</p>
+<p>In 2012 J. Cole had 3 songs on the rap charts for a total of 41 weeks with Work Out going up to #4</p>
+<p>In 2011 J. Cole had 2 songs on the rap charts for a total of 17 weeks with Work Out going up to #3</p>
+<p>In 2010 J. Cole had 1 song on the rap charts for a total of 8 weeks with Who Dat going up to #19</p>
+</li>
+<li><h2>Drake</h2>
+<p>In 2019 Drake had 5 songs on the rap charts for a total of 17 weeks with Money In The Grave going up to #2</p>
+<p>In 2018 Drake had 17 songs on the rap charts for a total of 45 weeks with Nice For What going up to #1</p>
+<p>In 2017 Drake had 13 songs on the rap charts for a total of 27 weeks with Portland going up to #3</p>
+<p>In 2016 Drake had 24 songs on the rap charts for a total of 53 weeks with Hotline Bling going up to #1</p>
+<p>In 2015 Drake had 23 songs on the rap charts for a total of 45 weeks with Hotline Bling going up to #1</p>
+<p>In 2014 Drake had 6 songs on the rap charts for a total of 36 weeks with All Me going up to #6</p>
+<p>In 2013 Drake had 10 songs on the rap charts for a total of 41 weeks with Started From The Bottom going up to #2</p>
+<p>In 2012 Drake had 6 songs on the rap charts for a total of 37 weeks with The Motto going up to #1</p>
+<p>In 2011 Drake had 6 songs on the rap charts for a total of 34 weeks with Headlines going up to #1</p>
+<p>In 2010 Drake had 7 songs on the rap charts for a total of 52 weeks with Fancy going up to #1</p>
+<p>In 2009 Drake had 4 songs on the rap charts for a total of 34 weeks with Forever going up to #1</p>
+</li>
+<li><h2>Nicki Minaj</h2>
+<p>In 2019 Nicki Minaj had 1 song on the rap charts for a total of 1 week with MEGATRON going up to #9</p>
+<p>In 2018 Nicki Minaj had 7 songs on the rap charts for a total of 20 weeks with Chun-Li going up to #6</p>
+<p>In 2017 Nicki Minaj had 2 songs on the rap charts for a total of 3 weeks with No Frauds going up to #5</p>
+<p>In 2016 Nicki Minaj had 1 song on the rap charts for a total of 1 week with Black Barbies going up to #20</p>
+<p>In 2015 Nicki Minaj had 7 songs on the rap charts for a total of 37 weeks with Truffle Butter going up to #2</p>
+<p>In 2014 Nicki Minaj had 4 songs on the rap charts for a total of 30 weeks with Only going up to #1</p>
+<p>In 2013 Nicki Minaj had 1 song on the rap charts for a total of 14 weeks with High School going up to #15</p>
+<p>In 2012 Nicki Minaj had 4 songs on the rap charts for a total of 32 weeks with Beez In The Trap going up to #7</p>
+<p>In 2011 Nicki Minaj had 5 songs on the rap charts for a total of 53 weeks with Moment 4 Life going up to #1</p>
+<p>In 2010 Nicki Minaj had 5 songs on the rap charts for a total of 36 weeks with Your Love going up to #1</p>
+<p>In 2009 Nicki Minaj had 1 song on the rap charts for a total of 5 weeks with I Get Crazy going up to #20</p>
+</li>
+<li><h2>Waka Flocka Flame</h2>
+<p class='e y y2019'></p>
+<p class='e y y2018'></p>
+<p class='e y y2017'></p>
+<p class='e y y2016'></p>
+<p class='e y y2015'></p>
+<p class='e y y2014'></p>
+<p class='e y y2013'></p>
+<p>In 2012 Waka Flocka Flame had 3 songs on the rap charts for a total of 23 weeks with Round Of Applause going up to #16</p>
+<p>In 2011 Waka Flocka Flame had 3 songs on the rap charts for a total of 44 weeks with No Hands going up to #1</p>
+<p>In 2010 Waka Flocka Flame had 3 songs on the rap charts for a total of 46 weeks with No Hands going up to #1</p>
+<p>In 2009 Waka Flocka Flame had 1 song on the rap charts for a total of 2 weeks with O Let's Do It going up to #19</p>
+</li>
+<li><h2>Yo Gotti</h2>
+<p>In 2019 Yo Gotti had 1 song on the rap charts for a total of 12 weeks with Put A Date On It going up to #20</p>
+<p>In 2018 Yo Gotti had 1 song on the rap charts for a total of 1 week with Rake It Up going up to #21</p>
+<p>In 2017 Yo Gotti had 1 song on the rap charts for a total of 24 weeks with Rake It Up going up to #3</p>
+<p>In 2016 Yo Gotti had 2 songs on the rap charts for a total of 25 weeks with Down In The DM going up to #2</p>
+<p>In 2015 Yo Gotti had 1 song on the rap charts for a total of 3 weeks with Down In The DM going up to #16</p>
+<p>In 2014 Yo Gotti had 2 songs on the rap charts for a total of 12 weeks with I Know going up to #19</p>
+<p>In 2013 Yo Gotti had 1 song on the rap charts for a total of 4 weeks with Act Right going up to #22</p>
+<p class='e y y2012'></p>
+<p>In 2011 Yo Gotti had 1 song on the rap charts for a total of 5 weeks with We Can Get It On going up to #22</p>
+<p>In 2010 Yo Gotti had 1 song on the rap charts for a total of 15 weeks with Women Lie, Men Lie going up to #12</p>
+<p>In 2009 Yo Gotti had 1 song on the rap charts for a total of 20 weeks with 5 Star going up to #11</p>
+</li>
+<li><h2>Wiz Khalifa</h2>
+<p class='e y y2019'></p>
+<p>In 2018 Wiz Khalifa had 1 song on the rap charts for a total of 1 week with Hopeless Romantic going up to #25</p>
+<p class='e y y2017'></p>
+<p>In 2016 Wiz Khalifa had 1 song on the rap charts for a total of 6 weeks with Bake Sale going up to #9</p>
+<p>In 2015 Wiz Khalifa had 3 songs on the rap charts for a total of 29 weeks with See You Again going up to #1</p>
+<p>In 2014 Wiz Khalifa had 2 songs on the rap charts for a total of 36 weeks with We Dem Boyz going up to #4</p>
+<p>In 2013 Wiz Khalifa had 1 song on the rap charts for a total of 8 weeks with Remember You going up to #14</p>
+<p>In 2012 Wiz Khalifa had 3 songs on the rap charts for a total of 32 weeks with Work Hard, Play Hard going up to #3</p>
+<p>In 2011 Wiz Khalifa had 4 songs on the rap charts for a total of 39 weeks with Black And Yellow going up to #1</p>
+<p>In 2010 Wiz Khalifa had 1 song on the rap charts for a total of 9 weeks with Black And Yellow going up to #5</p>
+<p class='e y y2009'></p>
+<p>In 2008 Wiz Khalifa had 1 song on the rap charts for a total of 4 weeks with Say Yeah going up to #20</p>
+</li>
+<li><h2>Ace Hood</h2>
+<p class='e y y2019'></p>
+<p class='e y y2018'></p>
+<p class='e y y2017'></p>
+<p class='e y y2016'></p>
+<p class='e y y2015'></p>
+<p class='e y y2014'></p>
+<p>In 2013 Ace Hood had 1 song on the rap charts for a total of 18 weeks with Bugatti going up to #8</p>
+<p>In 2012 Ace Hood had 1 song on the rap charts for a total of 1 week with Body 2 Body going up to #17</p>
+<p>In 2011 Ace Hood had 2 songs on the rap charts for a total of 41 weeks with Body 2 Body going up to #6</p>
+<p class='e y y2010'></p>
+<p>In 2009 Ace Hood had 1 song on the rap charts for a total of 1 week with Ride going up to #14</p>
+<p>In 2008 Ace Hood had 1 song on the rap charts for a total of 11 weeks with Ride going up to #14</p>
+</li>
+<li><h2>Flo Rida</h2>
+<p class='e y y2019'></p>
+<p class='e y y2018'></p>
+<p class='e y y2017'></p>
+<p>In 2016 Flo Rida had 1 song on the rap charts for a total of 1 week with Hello Friday going up to #12</p>
+<p>In 2015 Flo Rida had 2 songs on the rap charts for a total of 38 weeks with G.D.F.R. going up to #2</p>
+<p>In 2014 Flo Rida had 2 songs on the rap charts for a total of 15 weeks with How I Feel going up to #12</p>
+<p>In 2013 Flo Rida had 2 songs on the rap charts for a total of 10 weeks with I Cry going up to #1</p>
+<p>In 2012 Flo Rida had 4 songs on the rap charts for a total of 52 weeks with I Cry going up to #1</p>
+<p>In 2011 Flo Rida had 1 song on the rap charts for a total of 7 weeks with Good Feeling going up to #10</p>
+<p>In 2010 Flo Rida had 1 song on the rap charts for a total of 16 weeks with Club Can't Handle Me going up to #12</p>
+<p>In 2009 Flo Rida had 3 songs on the rap charts for a total of 45 weeks with Right Round going up to #3</p>
+<p>In 2008 Flo Rida had 3 songs on the rap charts for a total of 38 weeks with Low going up to #1</p>
+<p>In 2007 Flo Rida had 1 song on the rap charts for a total of 13 weeks with Low going up to #2</p>
+</li>
+<li><h2>Soulja Boy Tell Em</h2>
+<p class='e y y2019'></p>
+<p class='e y y2018'></p>
+<p class='e y y2017'></p>
+<p class='e y y2016'></p>
+<p class='e y y2015'></p>
+<p class='e y y2014'></p>
+<p class='e y y2013'></p>
+<p class='e y y2012'></p>
+<p class='e y y2011'></p>
+<p>In 2010 Soulja Boy Tell Em had 2 songs on the rap charts for a total of 20 weeks with Pretty Boy Swag going up to #5</p>
+<p>In 2009 Soulja Boy Tell Em had 3 songs on the rap charts for a total of 32 weeks with Kiss Me Thru The Phone going up to #1</p>
+<p>In 2008 Soulja Boy Tell Em had 5 songs on the rap charts for a total of 29 weeks with Crank That (Soulja Boy) going up to #9</p>
+<p>In 2007 Soulja Boy Tell Em had 2 songs on the rap charts for a total of 25 weeks with Crank That (Soulja Boy) going up to #1</p>
+</li>
+<li><h2>Mims</h2>
+<p class='e y y2019'></p>
+<p class='e y y2018'></p>
+<p class='e y y2017'></p>
+<p class='e y y2016'></p>
+<p class='e y y2015'></p>
+<p class='e y y2014'></p>
+<p class='e y y2013'></p>
+<p class='e y y2012'></p>
+<p class='e y y2011'></p>
+<p class='e y y2010'></p>
+<p>In 2009 Mims had 1 song on the rap charts for a total of 17 weeks with Move (If You 'W'anna) going up to #11</p>
+<p>In 2008 Mims had 1 song on the rap charts for a total of 1 week with Move (If You 'W'anna) going up to #22</p>
+<p>In 2007 Mims had 2 songs on the rap charts for a total of 36 weeks with This Is Why I'm Hot going up to #1</p>
+</li>
+<li><h2>Rick Ross</h2>
+<p>In 2019 Rick Ross had 1 song on the rap charts for a total of 3 weeks with Gold Roses going up to #14</p>
+<p class='e y y2018'></p>
+<p class='e y y2017'></p>
+<p class='e y y2016'></p>
+<p>In 2015 Rick Ross had 1 song on the rap charts for a total of 2 weeks with Sorry going up to #23</p>
+<p>In 2014 Rick Ross had 4 songs on the rap charts for a total of 10 weeks with Sanctified going up to #11</p>
+<p>In 2013 Rick Ross had 1 song on the rap charts for a total of 2 weeks with Diced Pineapples going up to #19</p>
+<p>In 2012 Rick Ross had 4 songs on the rap charts for a total of 48 weeks with You The Boss going up to #10</p>
+<p>In 2011 Rick Ross had 3 songs on the rap charts for a total of 38 weeks with Aston Martin Music going up to #1</p>
+<p>In 2010 Rick Ross had 3 songs on the rap charts for a total of 35 weeks with Aston Martin Music going up to #1</p>
+<p>In 2009 Rick Ross had 1 song on the rap charts for a total of 18 weeks with Magnificent going up to #5</p>
+<p>In 2008 Rick Ross had 2 songs on the rap charts for a total of 38 weeks with The Boss going up to #2</p>
+<p class='e y y2007'></p>
+<p>In 2006 Rick Ross had 2 songs on the rap charts for a total of 37 weeks with Hustlin' going up to #7</p>
+</li>
+<li><h2>Birdman</h2>
+<p class='e y y2019'></p>
+<p class='e y y2018'></p>
+<p class='e y y2017'></p>
+<p class='e y y2016'></p>
+<p class='e y y2015'></p>
+<p class='e y y2014'></p>
+<p class='e y y2013'></p>
+<p>In 2012 Birdman had 1 song on the rap charts for a total of 1 week with Born Stunna going up to #24</p>
+<p>In 2011 Birdman had 2 songs on the rap charts for a total of 10 weeks with Fire Flame going up to #14</p>
+<p>In 2010 Birdman had 4 songs on the rap charts for a total of 23 weeks with Money To Blow going up to #2</p>
+<p>In 2009 Birdman had 3 songs on the rap charts for a total of 37 weeks with Money To Blow going up to #3</p>
+<p>In 2008 Birdman had 1 song on the rap charts for a total of 13 weeks with Pop Bottles going up to #6</p>
+<p>In 2007 Birdman had 3 songs on the rap charts for a total of 16 weeks with Pop Bottles going up to #9</p>
+<p>In 2006 Birdman had 1 song on the rap charts for a total of 23 weeks with Stuntin' Like My Daddy going up to #5</p>
+</li>
+<li><h2>Young Jeezy</h2>
+<p class='e y y2019'></p>
+<p class='e y y2018'></p>
+<p class='e y y2017'></p>
+<p class='e y y2016'></p>
+<p class='e y y2015'></p>
+<p>In 2014 Young Jeezy had 1 song on the rap charts for a total of 5 weeks with Seen It All going up to #20</p>
+<p>In 2013 Young Jeezy had 1 song on the rap charts for a total of 15 weeks with R.I.P. going up to #13</p>
+<p>In 2012 Young Jeezy had 3 songs on the rap charts for a total of 40 weeks with Leave You Alone going up to #2</p>
+<p>In 2011 Young Jeezy had 2 songs on the rap charts for a total of 12 weeks with I Do going up to #13</p>
+<p>In 2010 Young Jeezy had 1 song on the rap charts for a total of 25 weeks with Lose My Mind going up to #3</p>
+<p>In 2009 Young Jeezy had 1 song on the rap charts for a total of 7 weeks with My President going up to #13</p>
+<p>In 2008 Young Jeezy had 2 songs on the rap charts for a total of 32 weeks with Put On going up to #1</p>
+<p>In 2007 Young Jeezy had 2 songs on the rap charts for a total of 21 weeks with Go Getta going up to #3</p>
+<p>In 2006 Young Jeezy had 3 songs on the rap charts for a total of 20 weeks with I Luv It going up to #7</p>
+<p>In 2005 Young Jeezy had 4 songs on the rap charts for a total of 25 weeks with Soul Survivor going up to #1</p>
+</li>
+<li><h2>Gucci Mane</h2>
+<p>In 2019 Gucci Mane had 1 song on the rap charts for a total of 12 weeks with Wake Up In The Sky going up to #6</p>
+<p>In 2018 Gucci Mane had 2 songs on the rap charts for a total of 22 weeks with Wake Up In The Sky going up to #5</p>
+<p>In 2017 Gucci Mane had 4 songs on the rap charts for a total of 43 weeks with I Get The Bag going up to #5</p>
+<p>In 2016 Gucci Mane had 2 songs on the rap charts for a total of 1 week with Back On Road going up to #22</p>
+<p class='e y y2015'></p>
+<p class='e y y2014'></p>
+<p class='e y y2013'></p>
+<p class='e y y2012'></p>
+<p>In 2011 Gucci Mane had 1 song on the rap charts for a total of 2 weeks with Beat It Up going up to #24</p>
+<p>In 2010 Gucci Mane had 6 songs on the rap charts for a total of 39 weeks with Lemonade going up to #8</p>
+<p>In 2009 Gucci Mane had 2 songs on the rap charts for a total of 20 weeks with Wasted going up to #3</p>
+<p>In 2008 Gucci Mane had 1 song on the rap charts for a total of 6 weeks with Freaky Gurl going up to #14</p>
+<p>In 2007 Gucci Mane had 1 song on the rap charts for a total of 20 weeks with Freaky Gurl going up to #12</p>
+<p class='e y y2006'></p>
+<p>In 2005 Gucci Mane had 1 song on the rap charts for a total of 5 weeks with Icy going up to #23</p>
+</li>
+<li><h2>Mike Jones</h2>
+<p class='e y y2019'></p>
+<p class='e y y2018'></p>
+<p class='e y y2017'></p>
+<p class='e y y2016'></p>
+<p class='e y y2015'></p>
+<p class='e y y2014'></p>
+<p class='e y y2013'></p>
+<p class='e y y2012'></p>
+<p class='e y y2011'></p>
+<p class='e y y2010'></p>
+<p>In 2009 Mike Jones had 1 song on the rap charts for a total of 17 weeks with Next To You going up to #8</p>
+<p>In 2008 Mike Jones had 2 songs on the rap charts for a total of 24 weeks with Cuddy Buddy going up to #16</p>
+<p>In 2007 Mike Jones had 1 song on the rap charts for a total of 4 weeks with My 64 going up to #22</p>
+<p class='e y y2006'></p>
+<p>In 2005 Mike Jones had 2 songs on the rap charts for a total of 32 weeks with Back Then going up to #6</p>
+</li>
+<li><h2>Paul Wall</h2>
+<p class='e y y2019'></p>
+<p class='e y y2018'></p>
+<p class='e y y2017'></p>
+<p class='e y y2016'></p>
+<p class='e y y2015'></p>
+<p class='e y y2014'></p>
+<p class='e y y2013'></p>
+<p class='e y y2012'></p>
+<p class='e y y2011'></p>
+<p class='e y y2010'></p>
+<p>In 2009 Paul Wall had 1 song on the rap charts for a total of 2 weeks with Bizzy Body going up to #23</p>
+<p class='e y y2008'></p>
+<p>In 2007 Paul Wall had 2 songs on the rap charts for a total of 13 weeks with I'm Throwed going up to #21</p>
+<p>In 2006 Paul Wall had 1 song on the rap charts for a total of 14 weeks with Girl going up to #7</p>
+<p>In 2005 Paul Wall had 1 song on the rap charts for a total of 3 weeks with Sittin' Sidewayz going up to #24</p>
+</li>
+<li><h2>Pitbull</h2>
+<p class='e y y2019'></p>
+<p class='e y y2018'></p>
+<p class='e y y2017'></p>
+<p>In 2016 Pitbull had 2 songs on the rap charts for a total of 9 weeks with Messin' Around going up to #15</p>
+<p>In 2015 Pitbull had 3 songs on the rap charts for a total of 36 weeks with Time Of Our Lives going up to #1</p>
+<p>In 2014 Pitbull had 4 songs on the rap charts for a total of 49 weeks with Timber going up to #1</p>
+<p>In 2013 Pitbull had 3 songs on the rap charts for a total of 47 weeks with Timber going up to #2</p>
+<p>In 2012 Pitbull had 3 songs on the rap charts for a total of 34 weeks with Don't Stop The Party going up to #5</p>
+<p>In 2011 Pitbull had 3 songs on the rap charts for a total of 48 weeks with Give Me Everything going up to #4</p>
+<p>In 2010 Pitbull had 3 songs on the rap charts for a total of 21 weeks with Hey Baby (Drop It To The Floor) going up to #10</p>
+<p>In 2009 Pitbull had 3 songs on the rap charts for a total of 41 weeks with I Know You Want Me (Calle Ocho) going up to #4</p>
+<p>In 2008 Pitbull had 3 songs on the rap charts for a total of 30 weeks with The Anthem going up to #8</p>
+<p>In 2007 Pitbull had 2 songs on the rap charts for a total of 11 weeks with Ay Chico (Lengua Afuera) going up to #19</p>
+<p>In 2006 Pitbull had 1 song on the rap charts for a total of 4 weeks with Ay Chico (Lengua Afuera) going up to #20</p>
+<p>In 2005 Pitbull had 1 song on the rap charts for a total of 7 weeks with Toma going up to #21</p>
+<p>In 2004 Pitbull had 1 song on the rap charts for a total of 22 weeks with Culo going up to #11</p>
+</li>
+<li><h2>The Game</h2>
+<p class='e y y2019'></p>
+<p class='e y y2018'></p>
+<p class='e y y2017'></p>
+<p>In 2016 The Game had 1 song on the rap charts for a total of 2 weeks with All Eyez going up to #21</p>
+<p>In 2015 The Game had 1 song on the rap charts for a total of 7 weeks with 100 going up to #22</p>
+<p class='e y y2014'></p>
+<p class='e y y2013'></p>
+<p class='e y y2012'></p>
+<p class='e y y2011'></p>
+<p class='e y y2010'></p>
+<p>In 2009 The Game had 1 song on the rap charts for a total of 5 weeks with My Life going up to #12</p>
+<p>In 2008 The Game had 2 songs on the rap charts for a total of 32 weeks with My Life going up to #4</p>
+<p>In 2007 The Game had 2 songs on the rap charts for a total of 16 weeks with Wouldn't Get Far going up to #11</p>
+<p>In 2006 The Game had 3 songs on the rap charts for a total of 19 weeks with Let's Ride going up to #14</p>
+<p>In 2005 The Game had 3 songs on the rap charts for a total of 35 weeks with Hate It Or Love It going up to #1</p>
+<p>In 2004 The Game had 1 song on the rap charts for a total of 5 weeks with How We Do going up to #11</p>
+</li>
+<li><h2>Kanye West</h2>
+<p class='e y y2019'></p>
+<p>In 2018 Kanye West had 7 songs on the rap charts for a total of 12 weeks with I Love It going up to #5</p>
+<p class='e y y2017'></p>
+<p>In 2016 Kanye West had 8 songs on the rap charts for a total of 24 weeks with Famous going up to #8</p>
+<p>In 2015 Kanye West had 1 song on the rap charts for a total of 16 weeks with All Day going up to #4</p>
+<p>In 2014 Kanye West had 1 song on the rap charts for a total of 7 weeks with Bound 2 going up to #16</p>
+<p>In 2013 Kanye West had 7 songs on the rap charts for a total of 19 weeks with Bound 2 going up to #3</p>
+<p>In 2012 Kanye West had 3 songs on the rap charts for a total of 36 weeks with Mercy going up to #1</p>
+<p>In 2011 Kanye West had 3 songs on the rap charts for a total of 37 weeks with All Of The Lights going up to #2</p>
+<p>In 2010 Kanye West had 3 songs on the rap charts for a total of 26 weeks with Runaway going up to #9</p>
+<p>In 2009 Kanye West had 2 songs on the rap charts for a total of 25 weeks with Heartless going up to #1</p>
+<p>In 2008 Kanye West had 4 songs on the rap charts for a total of 30 weeks with Good Life going up to #2</p>
+<p>In 2007 Kanye West had 4 songs on the rap charts for a total of 28 weeks with Good Life going up to #1</p>
+<p>In 2006 Kanye West had 3 songs on the rap charts for a total of 13 weeks with Touch The Sky going up to #10</p>
+<p>In 2005 Kanye West had 3 songs on the rap charts for a total of 34 weeks with Gold Digger going up to #1</p>
+<p>In 2004 Kanye West had 3 songs on the rap charts for a total of 42 weeks with All Falls Down going up to #2</p>
+<p>In 2003 Kanye West had 1 song on the rap charts for a total of 4 weeks with Through The Wire going up to #14</p>
+</li>
+<li><h2>T.I.</h2>
+<p class='e y y2019'></p>
+<p class='e y y2018'></p>
+<p class='e y y2017'></p>
+<p class='e y y2016'></p>
+<p class='e y y2015'></p>
+<p>In 2014 T.I. had 2 songs on the rap charts for a total of 25 weeks with No Mediocre going up to #6</p>
+<p>In 2013 T.I. had 2 songs on the rap charts for a total of 13 weeks with Ball going up to #11</p>
+<p>In 2012 T.I. had 2 songs on the rap charts for a total of 13 weeks with Ball going up to #10</p>
+<p>In 2011 T.I. had 2 songs on the rap charts for a total of 9 weeks with Get Back Up going up to #20</p>
+<p>In 2010 T.I. had 3 songs on the rap charts for a total of 40 weeks with Got Your Back going up to #4</p>
+<p>In 2009 T.I. had 3 songs on the rap charts for a total of 35 weeks with Dead And Gone going up to #1</p>
+<p>In 2008 T.I. had 4 songs on the rap charts for a total of 29 weeks with Whatever You Like going up to #1</p>
+<p>In 2007 T.I. had 3 songs on the rap charts for a total of 46 weeks with Big Things Poppin' (Do It) going up to #2</p>
+<p>In 2006 T.I. had 3 songs on the rap charts for a total of 38 weeks with What You Know going up to #1</p>
+<p>In 2005 T.I. had 3 songs on the rap charts for a total of 34 weeks with Bring Em Out going up to #4</p>
+<p>In 2004 T.I. had 3 songs on the rap charts for a total of 38 weeks with Let's Get Away going up to #10</p>
+<p>In 2003 T.I. had 2 songs on the rap charts for a total of 14 weeks with 24's going up to #15</p>
+</li>
+<li><h2>Lil Wayne</h2>
+<p>In 2019 Lil Wayne had 1 song on the rap charts for a total of 7 weeks with Uproar going up to #13</p>
+<p>In 2018 Lil Wayne had 10 songs on the rap charts for a total of 12 weeks with Mona Lisa going up to #1</p>
+<p>In 2017 Lil Wayne had 1 song on the rap charts for a total of 6 weeks with Sucker For Pain going up to #14</p>
+<p>In 2016 Lil Wayne had 1 song on the rap charts for a total of 24 weeks with Sucker For Pain going up to #1</p>
+<p>In 2015 Lil Wayne had 1 song on the rap charts for a total of 3 weeks with Nothing But Trouble (Instagram Models) going up to #24</p>
+<p>In 2014 Lil Wayne had 1 song on the rap charts for a total of 20 weeks with Believe Me going up to #2</p>
+<p>In 2013 Lil Wayne had 3 songs on the rap charts for a total of 33 weeks with Love Me going up to #3</p>
+<p>In 2012 Lil Wayne had 4 songs on the rap charts for a total of 30 weeks with She Will going up to #7</p>
+<p>In 2011 Lil Wayne had 5 songs on the rap charts for a total of 53 weeks with She Will going up to #2</p>
+<p>In 2010 Lil Wayne had 3 songs on the rap charts for a total of 22 weeks with Right Above It going up to #1</p>
+<p>In 2009 Lil Wayne had 2 songs on the rap charts for a total of 11 weeks with Mrs. Officer going up to #5</p>
+<p>In 2008 Lil Wayne had 5 songs on the rap charts for a total of 39 weeks with Lollipop going up to #1</p>
+<p class='e y y2007'></p>
+<p>In 2006 Lil Wayne had 2 songs on the rap charts for a total of 20 weeks with Fireman going up to #10</p>
+<p>In 2005 Lil Wayne had 2 songs on the rap charts for a total of 16 weeks with Fireman going up to #11</p>
+<p>In 2004 Lil Wayne had 1 song on the rap charts for a total of 13 weeks with Go D.J. going up to #3</p>
+<p class='e y y2003'></p>
+<p>In 2002 Lil Wayne had 1 song on the rap charts for a total of 11 weeks with Way Of Life going up to #16</p>
+</li>
+<li><h2>The Black Eyed Peas</h2>
+<p class='e y y2019'></p>
+<p class='e y y2018'></p>
+<p class='e y y2017'></p>
+<p class='e y y2016'></p>
+<p class='e y y2015'></p>
+<p class='e y y2014'></p>
+<p class='e y y2013'></p>
+<p class='e y y2012'></p>
+<p class='e y y2011'></p>
+<p class='e y y2010'></p>
+<p>In 2009 The Black Eyed Peas had 1 song on the rap charts for a total of 29 weeks with Boom Boom Pow going up to #1</p>
+<p class='e y y2008'></p>
+<p class='e y y2007'></p>
+<p>In 2006 The Black Eyed Peas had 1 song on the rap charts for a total of 2 weeks with My Humps going up to #19</p>
+<p>In 2005 The Black Eyed Peas had 2 songs on the rap charts for a total of 21 weeks with My Humps going up to #10</p>
+<p class='e y y2004'></p>
+<p>In 2003 The Black Eyed Peas had 1 song on the rap charts for a total of 15 weeks with Where Is The Love? going up to #19</p>
+<p class='e y y2002'></p>
+<p>In 2001 The Black Eyed Peas had 1 song on the rap charts for a total of 14 weeks with Request Line going up to #2</p>
+</li>
+<li><h2>Jadakiss</h2>
+<p class='e y y2019'></p>
+<p class='e y y2018'></p>
+<p class='e y y2017'></p>
+<p class='e y y2016'></p>
+<p class='e y y2015'></p>
+<p class='e y y2014'></p>
+<p class='e y y2013'></p>
+<p class='e y y2012'></p>
+<p class='e y y2011'></p>
+<p class='e y y2010'></p>
+<p>In 2009 Jadakiss had 1 song on the rap charts for a total of 14 weeks with Who's Real going up to #18</p>
+<p>In 2008 Jadakiss had 1 song on the rap charts for a total of 8 weeks with By My Side going up to #16</p>
+<p class='e y y2007'></p>
+<p class='e y y2006'></p>
+<p>In 2005 Jadakiss had 1 song on the rap charts for a total of 8 weeks with U Make Me Wanna going up to #9</p>
+<p>In 2004 Jadakiss had 3 songs on the rap charts for a total of 30 weeks with Why? going up to #3</p>
+<p class='e y y2003'></p>
+<p class='e y y2002'></p>
+<p>In 2001 Jadakiss had 1 song on the rap charts for a total of 3 weeks with We Gonna Make It going up to #5</p>
+</li>
+<li><h2>Ludacris</h2>
+<p class='e y y2019'></p>
+<p class='e y y2018'></p>
+<p class='e y y2017'></p>
+<p class='e y y2016'></p>
+<p>In 2015 Ludacris had 1 song on the rap charts for a total of 4 weeks with Good Lovin going up to #21</p>
+<p>In 2014 Ludacris had 1 song on the rap charts for a total of 4 weeks with Party Girls going up to #20</p>
+<p>In 2013 Ludacris had 1 song on the rap charts for a total of 1 week with Helluva Night going up to #23</p>
+<p>In 2012 Ludacris had 1 song on the rap charts for a total of 8 weeks with Representin' going up to #20</p>
+<p class='e y y2011'></p>
+<p>In 2010 Ludacris had 3 songs on the rap charts for a total of 38 weeks with My Chick Bad going up to #2</p>
+<p>In 2009 Ludacris had 2 songs on the rap charts for a total of 17 weeks with One More Drink going up to #4</p>
+<p>In 2008 Ludacris had 2 songs on the rap charts for a total of 17 weeks with One More Drink going up to #5</p>
+<p>In 2007 Ludacris had 3 songs on the rap charts for a total of 20 weeks with Runaway Love going up to #1</p>
+<p>In 2006 Ludacris had 3 songs on the rap charts for a total of 29 weeks with Money Maker going up to #1</p>
+<p>In 2005 Ludacris had 3 songs on the rap charts for a total of 44 weeks with Pimpin' All Over The World going up to #2</p>
+<p>In 2004 Ludacris had 3 songs on the rap charts for a total of 31 weeks with Splash Waterfalls going up to #3</p>
+<p>In 2003 Ludacris had 2 songs on the rap charts for a total of 30 weeks with Stand Up going up to #1</p>
+<p>In 2002 Ludacris had 4 songs on the rap charts for a total of 49 weeks with Move B***h going up to #3</p>
+<p>In 2001 Ludacris had 4 songs on the rap charts for a total of 33 weeks with Southern Hospitality going up to #5</p>
+<p>In 2000 Ludacris had 1 song on the rap charts for a total of 10 weeks with What's Your Fantasy going up to #12</p>
+</li>
+<li><h2>Lil Jon</h2>
+<p class='e y y2019'></p>
+<p class='e y y2018'></p>
+<p class='e y y2017'></p>
+<p class='e y y2016'></p>
+<p class='e y y2015'></p>
+<p>In 2014 Lil Jon had 1 song on the rap charts for a total of 9 weeks with Bend Ova going up to #19</p>
+<p class='e y y2013'></p>
+<p class='e y y2012'></p>
+<p class='e y y2011'></p>
+<p class='e y y2010'></p>
+<p class='e y y2009'></p>
+<p class='e y y2008'></p>
+<p class='e y y2007'></p>
+<p>In 2006 Lil Jon had 1 song on the rap charts for a total of 39 weeks with Snap Yo Fingers going up to #2</p>
+<p>In 2005 Lil Jon had 2 songs on the rap charts for a total of 22 weeks with Lovers And Friends going up to #1</p>
+<p>In 2004 Lil Jon had 3 songs on the rap charts for a total of 18 weeks with Lovers And Friends going up to #2</p>
+<p>In 2003 Lil Jon had 1 song on the rap charts for a total of 34 weeks with Get Low going up to #1</p>
+<p class='e y y2002'></p>
+<p class='e y y2001'></p>
+<p>In 2000 Lil Jon had 1 song on the rap charts for a total of 33 weeks with I Like Dem Girlz going up to #3</p>
+</li>
+<li><h2>Sean Paul</h2>
+<p class='e y y2019'></p>
+<p class='e y y2018'></p>
+<p class='e y y2017'></p>
+<p class='e y y2016'></p>
+<p class='e y y2015'></p>
+<p class='e y y2014'></p>
+<p class='e y y2013'></p>
+<p class='e y y2012'></p>
+<p>In 2011 Sean Paul had 1 song on the rap charts for a total of 6 weeks with Got 2 Luv U going up to #20</p>
+<p class='e y y2010'></p>
+<p>In 2009 Sean Paul had 1 song on the rap charts for a total of 10 weeks with So Fine going up to #13</p>
+<p class='e y y2008'></p>
+<p class='e y y2007'></p>
+<p>In 2006 Sean Paul had 3 songs on the rap charts for a total of 46 weeks with Temperature going up to #2</p>
+<p>In 2005 Sean Paul had 1 song on the rap charts for a total of 14 weeks with We Be Burnin' going up to #6</p>
+<p>In 2004 Sean Paul had 1 song on the rap charts for a total of 20 weeks with I'm Still In Love With You going up to #8</p>
+<p>In 2003 Sean Paul had 3 songs on the rap charts for a total of 41 weeks with Get Busy going up to #2</p>
+<p>In 2002 Sean Paul had 1 song on the rap charts for a total of 25 weeks with Gimme The Light going up to #3</p>
+<p class='e y y2001'></p>
+<p>In 2000 Sean Paul had 1 song on the rap charts for a total of 14 weeks with Hot Gal Today (Haffi Get De Gal Yah) going up to #5</p>
+</li>
+<li><h2>Talib Kweli</h2>
+<p class='e y y2019'></p>
+<p class='e y y2018'></p>
+<p class='e y y2017'></p>
+<p class='e y y2016'></p>
+<p class='e y y2015'></p>
+<p class='e y y2014'></p>
+<p class='e y y2013'></p>
+<p class='e y y2012'></p>
+<p class='e y y2011'></p>
+<p class='e y y2010'></p>
+<p class='e y y2009'></p>
+<p class='e y y2008'></p>
+<p class='e y y2007'></p>
+<p class='e y y2006'></p>
+<p class='e y y2005'></p>
+<p class='e y y2004'></p>
+<p>In 2003 Talib Kweli had 1 song on the rap charts for a total of 8 weeks with Get By going up to #16</p>
+<p class='e y y2002'></p>
+<p>In 2001 Talib Kweli had 2 songs on the rap charts for a total of 13 weeks with The Blast going up to #2</p>
+<p>In 2000 Talib Kweli had 2 songs on the rap charts for a total of 19 weeks with Move Somethin' going up to #1</p>
+</li>
+<li><h2>50 Cent</h2>
+<p class='e y y2019'></p>
+<p class='e y y2018'></p>
+<p class='e y y2017'></p>
+<p class='e y y2016'></p>
+<p class='e y y2015'></p>
+<p>In 2014 50 Cent had 1 song on the rap charts for a total of 1 week with Pilot going up to #20</p>
+<p class='e y y2013'></p>
+<p>In 2012 50 Cent had 2 songs on the rap charts for a total of 8 weeks with My Life going up to #5</p>
+<p class='e y y2011'></p>
+<p>In 2010 50 Cent had 2 songs on the rap charts for a total of 15 weeks with Baby By Me going up to #5</p>
+<p>In 2009 50 Cent had 3 songs on the rap charts for a total of 26 weeks with Baby By Me going up to #3</p>
+<p>In 2008 50 Cent had 1 song on the rap charts for a total of 9 weeks with Get Up going up to #9</p>
+<p>In 2007 50 Cent had 5 songs on the rap charts for a total of 35 weeks with I Get Money going up to #4</p>
+<p>In 2006 50 Cent had 2 songs on the rap charts for a total of 20 weeks with Best Friend going up to #10</p>
+<p>In 2005 50 Cent had 5 songs on the rap charts for a total of 53 weeks with Just A Lil Bit going up to #1</p>
+<p>In 2004 50 Cent had 1 song on the rap charts for a total of 3 weeks with Disco Inferno going up to #5</p>
+<p>In 2003 50 Cent had 6 songs on the rap charts for a total of 47 weeks with In Da Club going up to #1</p>
+<p>In 2002 50 Cent had 1 song on the rap charts for a total of 10 weeks with Wanksta going up to #11</p>
+<p class='e y y2001'></p>
+<p class='e y y2000'></p>
+<p>In 1999 50 Cent had 1 song on the rap charts for a total of 1 week with How To Rob going up to #24</p>
+</li>
+<li><h2>Missy Elliott</h2>
+<p class='e y y2019'></p>
+<p class='e y y2018'></p>
+<p>In 2017 Missy Elliott had 1 song on the rap charts for a total of 1 week with I'm Better going up to #18</p>
+<p>In 2016 Missy Elliott had 1 song on the rap charts for a total of 10 weeks with WTF (Where They From) going up to #12</p>
+<p>In 2015 Missy Elliott had 4 songs on the rap charts for a total of 6 weeks with WTF (Where They From) going up to #5</p>
+<p class='e y y2014'></p>
+<p class='e y y2013'></p>
+<p class='e y y2012'></p>
+<p class='e y y2011'></p>
+<p class='e y y2010'></p>
+<p class='e y y2009'></p>
+<p>In 2008 Missy Elliott had 1 song on the rap charts for a total of 15 weeks with Ching-A-Ling going up to #11</p>
+<p class='e y y2007'></p>
+<p class='e y y2006'></p>
+<p>In 2005 Missy Elliott had 1 song on the rap charts for a total of 26 weeks with Lose Control going up to #3</p>
+<p>In 2004 Missy Elliott had 2 songs on the rap charts for a total of 11 weeks with I'm Really Hot going up to #18</p>
+<p>In 2003 Missy Elliott had 4 songs on the rap charts for a total of 34 weeks with Work It going up to #1</p>
+<p>In 2002 Missy Elliott had 2 songs on the rap charts for a total of 16 weeks with Work It going up to #1</p>
+<p>In 2001 Missy Elliott had 2 songs on the rap charts for a total of 13 weeks with Get Ur Freak On going up to #7</p>
+<p>In 2000 Missy Elliott had 1 song on the rap charts for a total of 30 weeks with Hot Boyz going up to #1</p>
+<p>In 1999 Missy Elliott had 2 songs on the rap charts for a total of 12 weeks with Hot Boyz going up to #1</p>
+</li>
+<li><h2>Juvenile</h2>
+<p class='e y y2019'></p>
+<p class='e y y2018'></p>
+<p class='e y y2017'></p>
+<p class='e y y2016'></p>
+<p class='e y y2015'></p>
+<p class='e y y2014'></p>
+<p class='e y y2013'></p>
+<p class='e y y2012'></p>
+<p class='e y y2011'></p>
+<p class='e y y2010'></p>
+<p>In 2009 Juvenile had 1 song on the rap charts for a total of 5 weeks with Gotta Get It going up to #23</p>
+<p class='e y y2008'></p>
+<p class='e y y2007'></p>
+<p>In 2006 Juvenile had 2 songs on the rap charts for a total of 16 weeks with Rodeo going up to #7</p>
+<p>In 2005 Juvenile had 2 songs on the rap charts for a total of 6 weeks with Rodeo going up to #16</p>
+<p>In 2004 Juvenile had 3 songs on the rap charts for a total of 51 weeks with Slow Motion going up to #1</p>
+<p class='e y y2003'></p>
+<p class='e y y2002'></p>
+<p>In 2001 Juvenile had 1 song on the rap charts for a total of 4 weeks with Set It Off going up to #18</p>
+<p>In 2000 Juvenile had 1 song on the rap charts for a total of 2 weeks with Back That Thang Up going up to #18</p>
+<p>In 1999 Juvenile had 2 songs on the rap charts for a total of 11 weeks with Back That Thang Up going up to #9</p>
+</li>
+<li><h2>GZA</h2>
+<p class='e y y2019'></p>
+<p class='e y y2018'></p>
+<p class='e y y2017'></p>
+<p class='e y y2016'></p>
+<p class='e y y2015'></p>
+<p class='e y y2014'></p>
+<p class='e y y2013'></p>
+<p class='e y y2012'></p>
+<p class='e y y2011'></p>
+<p class='e y y2010'></p>
+<p class='e y y2009'></p>
+<p class='e y y2008'></p>
+<p class='e y y2007'></p>
+<p class='e y y2006'></p>
+<p class='e y y2005'></p>
+<p class='e y y2004'></p>
+<p class='e y y2003'></p>
+<p>In 2002 GZA had 1 song on the rap charts for a total of 2 weeks with Fame going up to #19</p>
+<p class='e y y2001'></p>
+<p class='e y y2000'></p>
+<p>In 1999 GZA had 1 song on the rap charts for a total of 3 weeks with Breaker, Breaker going up to #16</p>
+</li>
+<li><h2>Eminem</h2>
+<p class='e y y2019'></p>
+<p>In 2018 Eminem had 11 songs on the rap charts for a total of 18 weeks with Killshot going up to #2</p>
+<p>In 2017 Eminem had 1 song on the rap charts for a total of 2 weeks with Walk On Water going up to #6</p>
+<p class='e y y2016'></p>
+<p>In 2015 Eminem had 2 songs on the rap charts for a total of 3 weeks with Phenomenal going up to #9</p>
+<p>In 2014 Eminem had 7 songs on the rap charts for a total of 33 weeks with The Monster going up to #1</p>
+<p>In 2013 Eminem had 6 songs on the rap charts for a total of 16 weeks with The Monster going up to #1</p>
+<p class='e y y2012'></p>
+<p>In 2011 Eminem had 1 song on the rap charts for a total of 5 weeks with No Love going up to #16</p>
+<p>In 2010 Eminem had 3 songs on the rap charts for a total of 32 weeks with Love The Way You Lie going up to #1</p>
+<p>In 2009 Eminem had 3 songs on the rap charts for a total of 21 weeks with Crack A Bottle going up to #4</p>
+<p class='e y y2008'></p>
+<p class='e y y2007'></p>
+<p>In 2006 Eminem had 2 songs on the rap charts for a total of 13 weeks with Shake That going up to #11</p>
+<p>In 2005 Eminem had 3 songs on the rap charts for a total of 21 weeks with Mockingbird going up to #10</p>
+<p>In 2004 Eminem had 2 songs on the rap charts for a total of 11 weeks with Just Lose It going up to #7</p>
+<p>In 2003 Eminem had 4 songs on the rap charts for a total of 24 weeks with Lose Yourself going up to #4</p>
+<p>In 2002 Eminem had 4 songs on the rap charts for a total of 30 weeks with Lose Yourself going up to #2</p>
+<p class='e y y2001'></p>
+<p>In 2000 Eminem had 2 songs on the rap charts for a total of 7 weeks with The Real Slim Shady going up to #7</p>
+<p>In 1999 Eminem had 2 songs on the rap charts for a total of 16 weeks with Just Don't Give A F*** going up to #5</p>
+<p>In 1998 Eminem had 1 song on the rap charts for a total of 4 weeks with Just Don't Give A F*** going up to #10</p>
+</li>
+<li><h2>N.O.R.E.</h2>
+<p class='e y y2019'></p>
+<p class='e y y2018'></p>
+<p class='e y y2017'></p>
+<p class='e y y2016'></p>
+<p class='e y y2015'></p>
+<p class='e y y2014'></p>
+<p class='e y y2013'></p>
+<p class='e y y2012'></p>
+<p class='e y y2011'></p>
+<p class='e y y2010'></p>
+<p class='e y y2009'></p>
+<p class='e y y2008'></p>
+<p class='e y y2007'></p>
+<p class='e y y2006'></p>
+<p>In 2005 N.O.R.E. had 1 song on the rap charts for a total of 5 weeks with Oye Mi Canto going up to #17</p>
+<p>In 2004 N.O.R.E. had 1 song on the rap charts for a total of 17 weeks with Oye Mi Canto going up to #8</p>
+<p class='e y y2003'></p>
+<p>In 2002 N.O.R.E. had 1 song on the rap charts for a total of 28 weeks with Nothin' going up to #3</p>
+<p class='e y y2001'></p>
+<p class='e y y2000'></p>
+<p>In 1999 N.O.R.E. had 1 song on the rap charts for a total of 6 weeks with SuperThug (What What) going up to #12</p>
+<p>In 1998 N.O.R.E. had 1 song on the rap charts for a total of 16 weeks with SuperThug (What What) going up to #1</p>
+</li>
+<li><h2>Mos Def</h2>
+<p class='e y y2019'></p>
+<p class='e y y2018'></p>
+<p class='e y y2017'></p>
+<p class='e y y2016'></p>
+<p class='e y y2015'></p>
+<p class='e y y2014'></p>
+<p class='e y y2013'></p>
+<p class='e y y2012'></p>
+<p class='e y y2011'></p>
+<p class='e y y2010'></p>
+<p class='e y y2009'></p>
+<p class='e y y2008'></p>
+<p class='e y y2007'></p>
+<p class='e y y2006'></p>
+<p class='e y y2005'></p>
+<p class='e y y2004'></p>
+<p class='e y y2003'></p>
+<p class='e y y2002'></p>
+<p>In 2001 Mos Def had 2 songs on the rap charts for a total of 9 weeks with Oh No going up to #1</p>
+<p>In 2000 Mos Def had 2 songs on the rap charts for a total of 8 weeks with Oh No going up to #2</p>
+<p>In 1999 Mos Def had 2 songs on the rap charts for a total of 16 weeks with Respiration going up to #6</p>
+<p>In 1998 Mos Def had 1 song on the rap charts for a total of 13 weeks with Definition going up to #3</p>
+</li>
+<li><h2>DMX</h2>
+<p class='e y y2019'></p>
+<p class='e y y2018'></p>
+<p class='e y y2017'></p>
+<p>In 2016 DMX had 1 song on the rap charts for a total of 2 weeks with X Gon' Give It To Ya going up to #13</p>
+<p class='e y y2015'></p>
+<p class='e y y2014'></p>
+<p class='e y y2013'></p>
+<p class='e y y2012'></p>
+<p class='e y y2011'></p>
+<p class='e y y2010'></p>
+<p class='e y y2009'></p>
+<p class='e y y2008'></p>
+<p class='e y y2007'></p>
+<p class='e y y2006'></p>
+<p class='e y y2005'></p>
+<p class='e y y2004'></p>
+<p>In 2003 DMX had 2 songs on the rap charts for a total of 16 weeks with Where The Hood At? going up to #13</p>
+<p class='e y y2002'></p>
+<p>In 2001 DMX had 2 songs on the rap charts for a total of 10 weeks with We Right Here going up to #8</p>
+<p>In 2000 DMX had 3 songs on the rap charts for a total of 25 weeks with Party Up (Up In Here) going up to #11</p>
+<p>In 1999 DMX had 1 song on the rap charts for a total of 1 week with What's My Name going up to #11</p>
+<p>In 1998 DMX had 3 songs on the rap charts for a total of 32 weeks with Get At Me Dog going up to #6</p>
+</li>
+<li><h2>Twista</h2>
+<p class='e y y2019'></p>
+<p class='e y y2018'></p>
+<p class='e y y2017'></p>
+<p class='e y y2016'></p>
+<p class='e y y2015'></p>
+<p class='e y y2014'></p>
+<p class='e y y2013'></p>
+<p class='e y y2012'></p>
+<p>In 2011 Twista had 1 song on the rap charts for a total of 16 weeks with Make A Movie going up to #6</p>
+<p>In 2010 Twista had 1 song on the rap charts for a total of 10 weeks with Make A Movie going up to #8</p>
+<p>In 2009 Twista had 1 song on the rap charts for a total of 25 weeks with Wetter (Calling You Daddy) going up to #3</p>
+<p class='e y y2008'></p>
+<p class='e y y2007'></p>
+<p>In 2006 Twista had 2 songs on the rap charts for a total of 5 weeks with Girl Tonite going up to #9</p>
+<p>In 2005 Twista had 3 songs on the rap charts for a total of 25 weeks with Girl Tonite going up to #2</p>
+<p>In 2004 Twista had 3 songs on the rap charts for a total of 41 weeks with Slow Jamz going up to #1</p>
+<p>In 2003 Twista had 1 song on the rap charts for a total of 5 weeks with Slow Jamz going up to #8</p>
+<p class='e y y2002'></p>
+<p class='e y y2001'></p>
+<p class='e y y2000'></p>
+<p class='e y y1999'></p>
+<p>In 1998 Twista had 2 songs on the rap charts for a total of 5 weeks with In Your World going up to #17</p>
+<p>In 1997 Twista had 2 songs on the rap charts for a total of 23 weeks with Emotions going up to #11</p>
+</li>
+<li><h2>Foxy Brown</h2>
+<p class='e y y2019'></p>
+<p class='e y y2018'></p>
+<p class='e y y2017'></p>
+<p class='e y y2016'></p>
+<p class='e y y2015'></p>
+<p class='e y y2014'></p>
+<p class='e y y2013'></p>
+<p class='e y y2012'></p>
+<p class='e y y2011'></p>
+<p class='e y y2010'></p>
+<p class='e y y2009'></p>
+<p class='e y y2008'></p>
+<p class='e y y2007'></p>
+<p class='e y y2006'></p>
+<p class='e y y2005'></p>
+<p class='e y y2004'></p>
+<p class='e y y2003'></p>
+<p class='e y y2002'></p>
+<p>In 2001 Foxy Brown had 2 songs on the rap charts for a total of 6 weeks with Candy going up to #10</p>
+<p class='e y y2000'></p>
+<p>In 1999 Foxy Brown had 1 song on the rap charts for a total of 1 week with Hot Spot going up to #23</p>
+<p>In 1998 Foxy Brown had 1 song on the rap charts for a total of 1 week with Hot Spot going up to #24</p>
+<p>In 1997 Foxy Brown had 2 songs on the rap charts for a total of 30 weeks with I'll Be going up to #2</p>
+</li>
+<li><h2>Big Pun</h2>
+<p class='e y y2019'></p>
+<p class='e y y2018'></p>
+<p class='e y y2017'></p>
+<p class='e y y2016'></p>
+<p class='e y y2015'></p>
+<p class='e y y2014'></p>
+<p class='e y y2013'></p>
+<p class='e y y2012'></p>
+<p class='e y y2011'></p>
+<p class='e y y2010'></p>
+<p class='e y y2009'></p>
+<p class='e y y2008'></p>
+<p class='e y y2007'></p>
+<p class='e y y2006'></p>
+<p class='e y y2005'></p>
+<p class='e y y2004'></p>
+<p class='e y y2003'></p>
+<p class='e y y2002'></p>
+<p>In 2001 Big Pun had 1 song on the rap charts for a total of 4 weeks with How We Roll going up to #16</p>
+<p>In 2000 Big Pun had 1 song on the rap charts for a total of 11 weeks with It's So Hard going up to #11</p>
+<p class='e y y1999'></p>
+<p>In 1998 Big Pun had 2 songs on the rap charts for a total of 19 weeks with I'm Not A Player going up to #4</p>
+<p>In 1997 Big Pun had 1 song on the rap charts for a total of 9 weeks with I'm Not A Player going up to #3</p>
+</li>
+<li><h2>Jay Z</h2>
+<p class='e y y2019'></p>
+<p class='e y y2018'></p>
+<p>In 2017 Jay Z had 7 songs on the rap charts for a total of 2 weeks with The Story Of O.J. going up to #7</p>
+<p class='e y y2016'></p>
+<p class='e y y2015'></p>
+<p>In 2014 Jay Z had 3 songs on the rap charts for a total of 21 weeks with Holy Grail going up to #6</p>
+<p>In 2013 Jay Z had 6 songs on the rap charts for a total of 23 weeks with Holy Grail going up to #1</p>
+<p>In 2012 Jay Z had 1 song on the rap charts for a total of 1 week with Glory going up to #23</p>
+<p class='e y y2011'></p>
+<p>In 2010 Jay Z had 4 songs on the rap charts for a total of 26 weeks with Empire State Of Mind going up to #1</p>
+<p>In 2009 Jay Z had 5 songs on the rap charts for a total of 33 weeks with Empire State Of Mind going up to #1</p>
+<p>In 2008 Jay Z had 6 songs on the rap charts for a total of 44 weeks with Swagga Like Us going up to #4</p>
+<p>In 2007 Jay Z had 6 songs on the rap charts for a total of 26 weeks with Roc Boys (And The Winner Is)... going up to #8</p>
+<p>In 2006 Jay Z had 3 songs on the rap charts for a total of 11 weeks with Show Me What You Got going up to #4</p>
+<p class='e y y2005'></p>
+<p>In 2004 Jay Z had 4 songs on the rap charts for a total of 29 weeks with Dirt Off Your Shoulder going up to #2</p>
+<p>In 2003 Jay Z had 4 songs on the rap charts for a total of 44 weeks with Excuse Me Miss going up to #2</p>
+<p>In 2002 Jay Z had 3 songs on the rap charts for a total of 18 weeks with '03 Bonnie & Clyde going up to #2</p>
+<p>In 2001 Jay Z had 5 songs on the rap charts for a total of 21 weeks with Izzo (H.O.V.A.) going up to #7</p>
+<p>In 2000 Jay Z had 5 songs on the rap charts for a total of 42 weeks with I Just Wanna Love U (Give It 2 Me) going up to #4</p>
+<p>In 1999 Jay Z had 4 songs on the rap charts for a total of 42 weeks with Jigga My N**** going up to #1</p>
+<p>In 1998 Jay Z had 3 songs on the rap charts for a total of 16 weeks with A Million And One Questions/The City Is Mine going up to #14</p>
+<p>In 1997 Jay Z had 4 songs on the rap charts for a total of 14 weeks with Feelin' It going up to #13</p>
+<p>In 1996 Jay Z had 2 songs on the rap charts for a total of 41 weeks with Ain't No Nigga/Dead Presidents going up to #4</p>
+</li>
+<li><h2>Busta Rhymes</h2>
+<p class='e y y2019'></p>
+<p class='e y y2018'></p>
+<p class='e y y2017'></p>
+<p class='e y y2016'></p>
+<p class='e y y2015'></p>
+<p>In 2014 Busta Rhymes had 1 song on the rap charts for a total of 1 week with Calm Down going up to #16</p>
+<p class='e y y2013'></p>
+<p class='e y y2012'></p>
+<p class='e y y2011'></p>
+<p class='e y y2010'></p>
+<p>In 2009 Busta Rhymes had 2 songs on the rap charts for a total of 12 weeks with Arab Money going up to #9</p>
+<p>In 2008 Busta Rhymes had 1 song on the rap charts for a total of 7 weeks with Arab Money going up to #10</p>
+<p class='e y y2007'></p>
+<p>In 2006 Busta Rhymes had 3 songs on the rap charts for a total of 37 weeks with Touch It going up to #2</p>
+<p>In 2005 Busta Rhymes had 1 song on the rap charts for a total of 4 weeks with Touch It going up to #20</p>
+<p class='e y y2004'></p>
+<p>In 2003 Busta Rhymes had 3 songs on the rap charts for a total of 40 weeks with I Know What You Want going up to #3</p>
+<p>In 2002 Busta Rhymes had 3 songs on the rap charts for a total of 36 weeks with Pass The Courvoisier Part II going up to #5</p>
+<p>In 2001 Busta Rhymes had 2 songs on the rap charts for a total of 10 weeks with As I Come Back going up to #7</p>
+<p>In 2000 Busta Rhymes had 1 song on the rap charts for a total of 1 week with Fire going up to #24</p>
+<p>In 1999 Busta Rhymes had 2 songs on the rap charts for a total of 25 weeks with What's It Gonna Be?! going up to #1</p>
+<p>In 1998 Busta Rhymes had 2 songs on the rap charts for a total of 32 weeks with Dangerous going up to #1</p>
+<p class='e y y1997'></p>
+<p>In 1996 Busta Rhymes had 2 songs on the rap charts for a total of 32 weeks with Woo-Hah!! Got You All In Check/Everything Remains Raw going up to #1</p>
+</li>
+<li><h2>Master P</h2>
+<p class='e y y2019'></p>
+<p class='e y y2018'></p>
+<p class='e y y2017'></p>
+<p class='e y y2016'></p>
+<p class='e y y2015'></p>
+<p class='e y y2014'></p>
+<p class='e y y2013'></p>
+<p class='e y y2012'></p>
+<p class='e y y2011'></p>
+<p class='e y y2010'></p>
+<p class='e y y2009'></p>
+<p class='e y y2008'></p>
+<p class='e y y2007'></p>
+<p class='e y y2006'></p>
+<p class='e y y2005'></p>
+<p class='e y y2004'></p>
+<p class='e y y2003'></p>
+<p class='e y y2002'></p>
+<p>In 2001 Master P had 1 song on the rap charts for a total of 6 weeks with Souljas going up to #4</p>
+<p>In 2000 Master P had 2 songs on the rap charts for a total of 24 weeks with Souljas going up to #1</p>
+<p>In 1999 Master P had 2 songs on the rap charts for a total of 15 weeks with Step To This going up to #4</p>
+<p>In 1998 Master P had 4 songs on the rap charts for a total of 47 weeks with I Got The Hook Up! going up to #1</p>
+<p>In 1997 Master P had 2 songs on the rap charts for a total of 33 weeks with I Miss My Homies going up to #2</p>
+<p>In 1996 Master P had 2 songs on the rap charts for a total of 19 weeks with Mr. Ice Cream Man going up to #13</p>
+</li>
+<li><h2>M.O.P.</h2>
+<p class='e y y2019'></p>
+<p class='e y y2018'></p>
+<p class='e y y2017'></p>
+<p class='e y y2016'></p>
+<p class='e y y2015'></p>
+<p class='e y y2014'></p>
+<p class='e y y2013'></p>
+<p class='e y y2012'></p>
+<p class='e y y2011'></p>
+<p class='e y y2010'></p>
+<p class='e y y2009'></p>
+<p class='e y y2008'></p>
+<p class='e y y2007'></p>
+<p class='e y y2006'></p>
+<p class='e y y2005'></p>
+<p class='e y y2004'></p>
+<p class='e y y2003'></p>
+<p class='e y y2002'></p>
+<p>In 2001 M.O.P. had 1 song on the rap charts for a total of 2 weeks with Ante Up (Robbing-Hoodz Theory) going up to #19</p>
+<p class='e y y2000'></p>
+<p class='e y y1999'></p>
+<p>In 1998 M.O.P. had 1 song on the rap charts for a total of 3 weeks with Handle UR Bizness going up to #18</p>
+<p class='e y y1997'></p>
+<p>In 1996 M.O.P. had 1 song on the rap charts for a total of 3 weeks with Dead & Gone going up to #18</p>
+</li>
+<li><h2>Mystikal</h2>
+<p class='e y y2019'></p>
+<p class='e y y2018'></p>
+<p class='e y y2017'></p>
+<p class='e y y2016'></p>
+<p class='e y y2015'></p>
+<p class='e y y2014'></p>
+<p class='e y y2013'></p>
+<p class='e y y2012'></p>
+<p class='e y y2011'></p>
+<p class='e y y2010'></p>
+<p class='e y y2009'></p>
+<p class='e y y2008'></p>
+<p class='e y y2007'></p>
+<p class='e y y2006'></p>
+<p class='e y y2005'></p>
+<p class='e y y2004'></p>
+<p class='e y y2003'></p>
+<p>In 2002 Mystikal had 1 song on the rap charts for a total of 9 weeks with Bouncin' Back (Bumpin' Me Against The Wall) going up to #7</p>
+<p>In 2001 Mystikal had 2 songs on the rap charts for a total of 13 weeks with Danger (Been So Long) going up to #5</p>
+<p>In 2000 Mystikal had 2 songs on the rap charts for a total of 19 weeks with Danger (Been So Long) going up to #3</p>
+<p class='e y y1999'></p>
+<p class='e y y1998'></p>
+<p class='e y y1997'></p>
+<p>In 1996 Mystikal had 1 song on the rap charts for a total of 1 week with Y'all Ain't Ready Yet going up to #19</p>
+<p>In 1995 Mystikal had 1 song on the rap charts for a total of 14 weeks with Y'all Ain't Ready Yet going up to #12</p>
+</li>
+<li><h2>The Notorious B.I.G.</h2>
+<p class='e y y2019'></p>
+<p class='e y y2018'></p>
+<p class='e y y2017'></p>
+<p class='e y y2016'></p>
+<p class='e y y2015'></p>
+<p class='e y y2014'></p>
+<p class='e y y2013'></p>
+<p class='e y y2012'></p>
+<p class='e y y2011'></p>
+<p class='e y y2010'></p>
+<p class='e y y2009'></p>
+<p class='e y y2008'></p>
+<p class='e y y2007'></p>
+<p>In 2006 The Notorious B.I.G. had 1 song on the rap charts for a total of 12 weeks with Nasty Girl going up to #9</p>
+<p>In 2005 The Notorious B.I.G. had 1 song on the rap charts for a total of 2 weeks with Nasty Girl going up to #21</p>
+<p class='e y y2004'></p>
+<p>In 2003 The Notorious B.I.G. had 1 song on the rap charts for a total of 11 weeks with Realest N*ggas going up to #21</p>
+<p>In 2002 The Notorious B.I.G. had 2 songs on the rap charts for a total of 8 weeks with One More Chance/Stay With Me going up to #18</p>
+<p>In 2001 The Notorious B.I.G. had 2 songs on the rap charts for a total of 19 weeks with Big Poppa/Warning going up to #4</p>
+<p class='e y y2000'></p>
+<p class='e y y1999'></p>
+<p>In 1998 The Notorious B.I.G. had 1 song on the rap charts for a total of 11 weeks with Going Back To Cali going up to #3</p>
+<p>In 1997 The Notorious B.I.G. had 3 songs on the rap charts for a total of 36 weeks with Hypnotize going up to #1</p>
+<p class='e y y1996'></p>
+<p>In 1995 The Notorious B.I.G. had 3 songs on the rap charts for a total of 47 weeks with Big Poppa/Warning going up to #1</p>
+<p>In 1994 The Notorious B.I.G. had 1 song on the rap charts for a total of 18 weeks with Juicy/Unbelievable going up to #3</p>
+</li>
+<li><h2>OutKast</h2>
+<p class='e y y2019'></p>
+<p class='e y y2018'></p>
+<p class='e y y2017'></p>
+<p class='e y y2016'></p>
+<p class='e y y2015'></p>
+<p class='e y y2014'></p>
+<p class='e y y2013'></p>
+<p class='e y y2012'></p>
+<p class='e y y2011'></p>
+<p class='e y y2010'></p>
+<p class='e y y2009'></p>
+<p class='e y y2008'></p>
+<p class='e y y2007'></p>
+<p>In 2006 OutKast had 1 song on the rap charts for a total of 6 weeks with Mighty "O" going up to #18</p>
+<p class='e y y2005'></p>
+<p>In 2004 OutKast had 2 songs on the rap charts for a total of 31 weeks with The Way You Move going up to #1</p>
+<p>In 2003 OutKast had 1 song on the rap charts for a total of 14 weeks with The Way You Move going up to #1</p>
+<p>In 2002 OutKast had 1 song on the rap charts for a total of 2 weeks with The Whole World going up to #21</p>
+<p>In 2001 OutKast had 2 songs on the rap charts for a total of 18 weeks with Ms. Jackson going up to #1</p>
+<p class='e y y2000'></p>
+<p class='e y y1999'></p>
+<p class='e y y1998'></p>
+<p>In 1997 OutKast had 3 songs on the rap charts for a total of 26 weeks with ATLiens/Wheelz Of Steel going up to #5</p>
+<p>In 1996 OutKast had 2 songs on the rap charts for a total of 23 weeks with Elevators (Me & You) going up to #1</p>
+<p>In 1995 OutKast had 1 song on the rap charts for a total of 2 weeks with Git Up, Git Out going up to #22</p>
+<p>In 1994 OutKast had 3 songs on the rap charts for a total of 43 weeks with Player's Ball going up to #1</p>
+</li>
+<li><h2>Craig Mack</h2>
+<p class='e y y2019'></p>
+<p class='e y y2018'></p>
+<p class='e y y2017'></p>
+<p class='e y y2016'></p>
+<p class='e y y2015'></p>
+<p class='e y y2014'></p>
+<p class='e y y2013'></p>
+<p class='e y y2012'></p>
+<p class='e y y2011'></p>
+<p class='e y y2010'></p>
+<p class='e y y2009'></p>
+<p class='e y y2008'></p>
+<p class='e y y2007'></p>
+<p class='e y y2006'></p>
+<p class='e y y2005'></p>
+<p class='e y y2004'></p>
+<p class='e y y2003'></p>
+<p class='e y y2002'></p>
+<p>In 2001 Craig Mack had 1 song on the rap charts for a total of 1 week with Flava In Ya Ear going up to #24</p>
+<p class='e y y2000'></p>
+<p class='e y y1999'></p>
+<p class='e y y1998'></p>
+<p>In 1997 Craig Mack had 1 song on the rap charts for a total of 5 weeks with What I Need going up to #16</p>
+<p class='e y y1996'></p>
+<p>In 1995 Craig Mack had 2 songs on the rap charts for a total of 22 weeks with Get Down going up to #2</p>
+<p>In 1994 Craig Mack had 2 songs on the rap charts for a total of 21 weeks with Flava In Ya Ear going up to #1</p>
+</li>
+<li><h2>Nas</h2>
+<p class='e y y2019'></p>
+<p class='e y y2018'></p>
+<p class='e y y2017'></p>
+<p class='e y y2016'></p>
+<p class='e y y2015'></p>
+<p class='e y y2014'></p>
+<p class='e y y2013'></p>
+<p class='e y y2012'></p>
+<p class='e y y2011'></p>
+<p class='e y y2010'></p>
+<p class='e y y2009'></p>
+<p class='e y y2008'></p>
+<p class='e y y2007'></p>
+<p>In 2006 Nas had 1 song on the rap charts for a total of 1 week with Hip Hop Is Dead going up to #25</p>
+<p>In 2005 Nas had 1 song on the rap charts for a total of 1 week with Just A Moment going up to #24</p>
+<p class='e y y2004'></p>
+<p>In 2003 Nas had 2 songs on the rap charts for a total of 26 weeks with I Can going up to #6</p>
+<p>In 2002 Nas had 3 songs on the rap charts for a total of 29 weeks with Got Ur Self A... going up to #4</p>
+<p>In 2001 Nas had 1 song on the rap charts for a total of 3 weeks with Got Ur Self A... going up to #2</p>
+<p>In 2000 Nas had 1 song on the rap charts for a total of 10 weeks with NAStradamus going up to #9</p>
+<p>In 1999 Nas had 3 songs on the rap charts for a total of 20 weeks with Nas Is Like going up to #3</p>
+<p class='e y y1998'></p>
+<p>In 1997 Nas had 1 song on the rap charts for a total of 11 weeks with Street Dreams going up to #4</p>
+<p>In 1996 Nas had 2 songs on the rap charts for a total of 13 weeks with Street Dreams going up to #1</p>
+<p class='e y y1995'></p>
+<p>In 1994 Nas had 2 songs on the rap charts for a total of 14 weeks with It Ain't Hard To Tell going up to #13</p>
+</li>
+<li><h2>The Roots</h2>
+<p class='e y y2019'></p>
+<p class='e y y2018'></p>
+<p class='e y y2017'></p>
+<p class='e y y2016'></p>
+<p class='e y y2015'></p>
+<p class='e y y2014'></p>
+<p class='e y y2013'></p>
+<p class='e y y2012'></p>
+<p class='e y y2011'></p>
+<p class='e y y2010'></p>
+<p class='e y y2009'></p>
+<p class='e y y2008'></p>
+<p class='e y y2007'></p>
+<p class='e y y2006'></p>
+<p class='e y y2005'></p>
+<p class='e y y2004'></p>
+<p class='e y y2003'></p>
+<p class='e y y2002'></p>
+<p class='e y y2001'></p>
+<p class='e y y2000'></p>
+<p>In 1999 The Roots had 1 song on the rap charts for a total of 2 weeks with You Got Me going up to #19</p>
+<p class='e y y1998'></p>
+<p>In 1997 The Roots had 1 song on the rap charts for a total of 15 weeks with What They Do going up to #5</p>
+<p>In 1996 The Roots had 2 songs on the rap charts for a total of 17 weeks with Clones/Section going up to #11</p>
+<p>In 1995 The Roots had 1 song on the rap charts for a total of 5 weeks with Proceed I going up to #13</p>
+<p>In 1994 The Roots had 1 song on the rap charts for a total of 1 week with Distortion To Static going up to #25</p>
+</li>
+<li><h2>Snoop Dogg</h2>
+<p class='e y y2019'></p>
+<p class='e y y2018'></p>
+<p class='e y y2017'></p>
+<p class='e y y2016'></p>
+<p class='e y y2015'></p>
+<p class='e y y2014'></p>
+<p class='e y y2013'></p>
+<p>In 2012 Snoop Dogg had 1 song on the rap charts for a total of 19 weeks with Young, Wild & Free going up to #4</p>
+<p>In 2011 Snoop Dogg had 2 songs on the rap charts for a total of 10 weeks with Young, Wild & Free going up to #16</p>
+<p>In 2010 Snoop Dogg had 2 songs on the rap charts for a total of 17 weeks with I Wanna Rock going up to #3</p>
+<p>In 2009 Snoop Dogg had 2 songs on the rap charts for a total of 9 weeks with Gangsta Luv going up to #5</p>
+<p>In 2008 Snoop Dogg had 1 song on the rap charts for a total of 11 weeks with Life Of Da Party going up to #14</p>
+<p>In 2007 Snoop Dogg had 2 songs on the rap charts for a total of 15 weeks with That's That going up to #3</p>
+<p>In 2006 Snoop Dogg had 1 song on the rap charts for a total of 9 weeks with That's That going up to #4</p>
+<p>In 2005 Snoop Dogg had 2 songs on the rap charts for a total of 25 weeks with Drop It Like It's Hot going up to #1</p>
+<p>In 2004 Snoop Dogg had 1 song on the rap charts for a total of 14 weeks with Drop It Like It's Hot going up to #1</p>
+<p>In 2003 Snoop Dogg had 1 song on the rap charts for a total of 25 weeks with Beautiful going up to #3</p>
+<p>In 2002 Snoop Dogg had 1 song on the rap charts for a total of 4 weeks with From Tha Chuuuch To Da Palace going up to #16</p>
+<p>In 2001 Snoop Dogg had 2 songs on the rap charts for a total of 16 weeks with Baby If You're Ready going up to #1</p>
+<p>In 2000 Snoop Dogg had 2 songs on the rap charts for a total of 31 weeks with Baby If You're Ready going up to #1</p>
+<p>In 1999 Snoop Dogg had 3 songs on the rap charts for a total of 28 weeks with Woof going up to #3</p>
+<p>In 1998 Snoop Dogg had 1 song on the rap charts for a total of 17 weeks with Still A G Thang going up to #3</p>
+<p class='e y y1997'></p>
+<p class='e y y1996'></p>
+<p class='e y y1995'></p>
+<p>In 1994 Snoop Dogg had 2 songs on the rap charts for a total of 26 weeks with What's My Name? going up to #1</p>
+<p>In 1993 Snoop Dogg had 1 song on the rap charts for a total of 2 weeks with What's My Name? going up to #1</p>
+</li>
+<li><h2>Fat Joe</h2>
+<p class='e y y2019'></p>
+<p class='e y y2018'></p>
+<p class='e y y2017'></p>
+<p>In 2016 Fat Joe had 1 song on the rap charts for a total of 23 weeks with All The Way Up going up to #5</p>
+<p class='e y y2015'></p>
+<p class='e y y2014'></p>
+<p class='e y y2013'></p>
+<p>In 2012 Fat Joe had 1 song on the rap charts for a total of 20 weeks with Another Round going up to #6</p>
+<p class='e y y2011'></p>
+<p>In 2010 Fat Joe had 2 songs on the rap charts for a total of 5 weeks with (HaHa) Slow Down going up to #23</p>
+<p class='e y y2009'></p>
+<p>In 2008 Fat Joe had 1 song on the rap charts for a total of 20 weeks with I Won't Tell going up to #3</p>
+<p>In 2007 Fat Joe had 2 songs on the rap charts for a total of 22 weeks with Make It Rain going up to #2</p>
+<p>In 2006 Fat Joe had 1 song on the rap charts for a total of 9 weeks with Make It Rain going up to #6</p>
+<p>In 2005 Fat Joe had 2 songs on the rap charts for a total of 24 weeks with Get It Poppin' going up to #6</p>
+<p class='e y y2004'></p>
+<p>In 2003 Fat Joe had 2 songs on the rap charts for a total of 4 weeks with All I Need going up to #21</p>
+<p>In 2002 Fat Joe had 3 songs on the rap charts for a total of 35 weeks with What's Luv? going up to #3</p>
+<p>In 2001 Fat Joe had 1 song on the rap charts for a total of 10 weeks with We Thuggin' going up to #7</p>
+<p class='e y y2000'></p>
+<p class='e y y1999'></p>
+<p>In 1998 Fat Joe had 1 song on the rap charts for a total of 3 weeks with Don Cartagena going up to #21</p>
+<p class='e y y1997'></p>
+<p>In 1996 Fat Joe had 1 song on the rap charts for a total of 12 weeks with Envy/Firewater going up to #8</p>
+<p class='e y y1995'></p>
+<p class='e y y1994'></p>
+<p>In 1993 Fat Joe had 1 song on the rap charts for a total of 13 weeks with Flow Joe going up to #1</p>
+</li>
+<li><h2>Dr. Dre</h2>
+<p class='e y y2019'></p>
+<p class='e y y2018'></p>
+<p class='e y y2017'></p>
+<p class='e y y2016'></p>
+<p class='e y y2015'></p>
+<p class='e y y2014'></p>
+<p class='e y y2013'></p>
+<p class='e y y2012'></p>
+<p>In 2011 Dr. Dre had 2 songs on the rap charts for a total of 22 weeks with Kush going up to #11</p>
+<p>In 2010 Dr. Dre had 1 song on the rap charts for a total of 4 weeks with Kush going up to #11</p>
+<p class='e y y2009'></p>
+<p class='e y y2008'></p>
+<p class='e y y2007'></p>
+<p class='e y y2006'></p>
+<p class='e y y2005'></p>
+<p class='e y y2004'></p>
+<p class='e y y2003'></p>
+<p class='e y y2002'></p>
+<p class='e y y2001'></p>
+<p>In 2000 Dr. Dre had 2 songs on the rap charts for a total of 15 weeks with The Next Episode going up to #9</p>
+<p>In 1999 Dr. Dre had 1 song on the rap charts for a total of 4 weeks with Still D.R.E. going up to #11</p>
+<p class='e y y1998'></p>
+<p class='e y y1997'></p>
+<p class='e y y1996'></p>
+<p>In 1995 Dr. Dre had 1 song on the rap charts for a total of 23 weeks with Keep Their Heads Ringin' (From "Friday") going up to #1</p>
+<p>In 1994 Dr. Dre had 1 song on the rap charts for a total of 1 week with Let Me Ride going up to #25</p>
+<p>In 1993 Dr. Dre had 3 songs on the rap charts for a total of 31 weeks with Nuthin' But A "G" Thang going up to #1</p>
+</li>
+<li><h2>The Beatnuts</h2>
+<p class='e y y2019'></p>
+<p class='e y y2018'></p>
+<p class='e y y2017'></p>
+<p class='e y y2016'></p>
+<p class='e y y2015'></p>
+<p class='e y y2014'></p>
+<p class='e y y2013'></p>
+<p class='e y y2012'></p>
+<p class='e y y2011'></p>
+<p class='e y y2010'></p>
+<p class='e y y2009'></p>
+<p class='e y y2008'></p>
+<p class='e y y2007'></p>
+<p class='e y y2006'></p>
+<p class='e y y2005'></p>
+<p class='e y y2004'></p>
+<p class='e y y2003'></p>
+<p class='e y y2002'></p>
+<p>In 2001 The Beatnuts had 2 songs on the rap charts for a total of 9 weeks with No Escapin' This going up to #12</p>
+<p class='e y y2000'></p>
+<p>In 1999 The Beatnuts had 1 song on the rap charts for a total of 23 weeks with Watch Out Now going up to #3</p>
+<p class='e y y1998'></p>
+<p>In 1997 The Beatnuts had 1 song on the rap charts for a total of 14 weeks with Off The Books going up to #12</p>
+<p class='e y y1996'></p>
+<p class='e y y1995'></p>
+<p class='e y y1994'></p>
+<p>In 1993 The Beatnuts had 1 song on the rap charts for a total of 8 weeks with Reign Of The Tec going up to #6</p>
+</li>
+<li><h2>Mobb Deep</h2>
+<p class='e y y2019'></p>
+<p class='e y y2018'></p>
+<p class='e y y2017'></p>
+<p class='e y y2016'></p>
+<p class='e y y2015'></p>
+<p class='e y y2014'></p>
+<p class='e y y2013'></p>
+<p class='e y y2012'></p>
+<p class='e y y2011'></p>
+<p class='e y y2010'></p>
+<p class='e y y2009'></p>
+<p class='e y y2008'></p>
+<p class='e y y2007'></p>
+<p>In 2006 Mobb Deep had 1 song on the rap charts for a total of 2 weeks with Have A Party going up to #23</p>
+<p class='e y y2005'></p>
+<p>In 2004 Mobb Deep had 1 song on the rap charts for a total of 16 weeks with Got It Twisted going up to #18</p>
+<p class='e y y2003'></p>
+<p>In 2002 Mobb Deep had 1 song on the rap charts for a total of 4 weeks with Burn going up to #20</p>
+<p>In 2001 Mobb Deep had 2 songs on the rap charts for a total of 6 weeks with Burn going up to #14</p>
+<p class='e y y2000'></p>
+<p>In 1999 Mobb Deep had 2 songs on the rap charts for a total of 5 weeks with Quiet Storm going up to #17</p>
+<p class='e y y1998'></p>
+<p>In 1997 Mobb Deep had 1 song on the rap charts for a total of 6 weeks with G.O.D. Pt. III going up to #18</p>
+<p>In 1996 Mobb Deep had 1 song on the rap charts for a total of 4 weeks with Front Lines (Hell On Earth) going up to #13</p>
+<p>In 1995 Mobb Deep had 2 songs on the rap charts for a total of 25 weeks with Shook Ones Part II going up to #7</p>
+<p class='e y y1994'></p>
+<p>In 1993 Mobb Deep had 1 song on the rap charts for a total of 5 weeks with Hit It From The Back going up to #18</p>
+</li>
+<li><h2>Wu-Tang Clan</h2>
+<p class='e y y2019'></p>
+<p class='e y y2018'></p>
+<p class='e y y2017'></p>
+<p class='e y y2016'></p>
+<p class='e y y2015'></p>
+<p class='e y y2014'></p>
+<p class='e y y2013'></p>
+<p class='e y y2012'></p>
+<p class='e y y2011'></p>
+<p class='e y y2010'></p>
+<p class='e y y2009'></p>
+<p class='e y y2008'></p>
+<p class='e y y2007'></p>
+<p class='e y y2006'></p>
+<p class='e y y2005'></p>
+<p class='e y y2004'></p>
+<p class='e y y2003'></p>
+<p>In 2002 Wu-Tang Clan had 1 song on the rap charts for a total of 2 weeks with Uzi (Pinky Ring) going up to #16</p>
+<p>In 2001 Wu-Tang Clan had 1 song on the rap charts for a total of 1 week with Gravel Pit going up to #20</p>
+<p>In 2000 Wu-Tang Clan had 2 songs on the rap charts for a total of 7 weeks with Protect Ya Neck (The Jump Off) going up to #9</p>
+<p class='e y y1999'></p>
+<p class='e y y1998'></p>
+<p>In 1997 Wu-Tang Clan had 1 song on the rap charts for a total of 1 week with It's Yourz going up to #21</p>
+<p class='e y y1996'></p>
+<p class='e y y1995'></p>
+<p>In 1994 Wu-Tang Clan had 3 songs on the rap charts for a total of 22 weeks with C.R.E.A.M. (Cash Rules Everything Around Me) going up to #8</p>
+<p>In 1993 Wu-Tang Clan had 1 song on the rap charts for a total of 8 weeks with Method Man going up to #17</p>
+</li>
+<li><h2>KRS-One</h2>
+<p class='e y y2019'></p>
+<p class='e y y2018'></p>
+<p class='e y y2017'></p>
+<p class='e y y2016'></p>
+<p class='e y y2015'></p>
+<p class='e y y2014'></p>
+<p class='e y y2013'></p>
+<p class='e y y2012'></p>
+<p class='e y y2011'></p>
+<p class='e y y2010'></p>
+<p class='e y y2009'></p>
+<p class='e y y2008'></p>
+<p class='e y y2007'></p>
+<p class='e y y2006'></p>
+<p class='e y y2005'></p>
+<p class='e y y2004'></p>
+<p class='e y y2003'></p>
+<p class='e y y2002'></p>
+<p class='e y y2001'></p>
+<p class='e y y2000'></p>
+<p class='e y y1999'></p>
+<p class='e y y1998'></p>
+<p>In 1997 KRS-One had 2 songs on the rap charts for a total of 14 weeks with Step Into A World (Rapture's Delight) going up to #8</p>
+<p class='e y y1996'></p>
+<p>In 1995 KRS-One had 1 song on the rap charts for a total of 10 weeks with MC's Act Like They Don't Know going up to #9</p>
+<p>In 1994 KRS-One had 1 song on the rap charts for a total of 9 weeks with Sound Of Da Police going up to #17</p>
+<p>In 1993 KRS-One had 1 song on the rap charts for a total of 8 weeks with Outta Here going up to #5</p>
+</li>
+<li><h2>Jeru The Damaja</h2>
+<p class='e y y2019'></p>
+<p class='e y y2018'></p>
+<p class='e y y2017'></p>
+<p class='e y y2016'></p>
+<p class='e y y2015'></p>
+<p class='e y y2014'></p>
+<p class='e y y2013'></p>
+<p class='e y y2012'></p>
+<p class='e y y2011'></p>
+<p class='e y y2010'></p>
+<p class='e y y2009'></p>
+<p class='e y y2008'></p>
+<p class='e y y2007'></p>
+<p class='e y y2006'></p>
+<p class='e y y2005'></p>
+<p class='e y y2004'></p>
+<p class='e y y2003'></p>
+<p class='e y y2002'></p>
+<p class='e y y2001'></p>
+<p class='e y y2000'></p>
+<p class='e y y1999'></p>
+<p class='e y y1998'></p>
+<p class='e y y1997'></p>
+<p>In 1996 Jeru The Damaja had 1 song on the rap charts for a total of 5 weeks with Ya Playin' Yaself going up to #20</p>
+<p class='e y y1995'></p>
+<p>In 1994 Jeru The Damaja had 2 songs on the rap charts for a total of 14 weeks with Come Clean going up to #10</p>
+<p>In 1993 Jeru The Damaja had 1 song on the rap charts for a total of 4 weeks with Come Clean going up to #14</p>
+</li>
+<li><h2>Tupac</h2>
+<p class='e y y2019'></p>
+<p class='e y y2018'></p>
+<p class='e y y2017'></p>
+<p class='e y y2016'></p>
+<p class='e y y2015'></p>
+<p class='e y y2014'></p>
+<p class='e y y2013'></p>
+<p class='e y y2012'></p>
+<p class='e y y2011'></p>
+<p class='e y y2010'></p>
+<p class='e y y2009'></p>
+<p class='e y y2008'></p>
+<p class='e y y2007'></p>
+<p class='e y y2006'></p>
+<p class='e y y2005'></p>
+<p>In 2004 Tupac had 2 songs on the rap charts for a total of 9 weeks with Runnin (Dying To Live) going up to #6</p>
+<p>In 2003 Tupac had 3 songs on the rap charts for a total of 44 weeks with Thugz Mansion going up to #4</p>
+<p>In 2002 Tupac had 1 song on the rap charts for a total of 5 weeks with Thugz Mansion going up to #6</p>
+<p class='e y y2001'></p>
+<p class='e y y2000'></p>
+<p class='e y y1999'></p>
+<p>In 1998 Tupac had 1 song on the rap charts for a total of 14 weeks with Do For Love going up to #2</p>
+<p>In 1997 Tupac had 3 songs on the rap charts for a total of 21 weeks with How Do U Want It/California Love going up to #13</p>
+<p>In 1996 Tupac had 2 songs on the rap charts for a total of 29 weeks with How Do U Want It/California Love going up to #1</p>
+<p>In 1995 Tupac had 3 songs on the rap charts for a total of 35 weeks with Dear Mama/Old School going up to #1</p>
+<p>In 1994 Tupac had 3 songs on the rap charts for a total of 12 weeks with Keep Ya Head Up going up to #2</p>
+<p>In 1993 Tupac had 2 songs on the rap charts for a total of 21 weeks with Keep Ya Head Up going up to #2</p>
+<p>In 1992 Tupac had 1 song on the rap charts for a total of 11 weeks with Brenda's Got A Baby/If My Homie Calls going up to #3</p>
+</li>
+<li><h2>Redman</h2>
+<p class='e y y2019'></p>
+<p class='e y y2018'></p>
+<p class='e y y2017'></p>
+<p class='e y y2016'></p>
+<p class='e y y2015'></p>
+<p class='e y y2014'></p>
+<p class='e y y2013'></p>
+<p class='e y y2012'></p>
+<p class='e y y2011'></p>
+<p class='e y y2010'></p>
+<p class='e y y2009'></p>
+<p class='e y y2008'></p>
+<p class='e y y2007'></p>
+<p class='e y y2006'></p>
+<p class='e y y2005'></p>
+<p class='e y y2004'></p>
+<p class='e y y2003'></p>
+<p class='e y y2002'></p>
+<p>In 2001 Redman had 2 songs on the rap charts for a total of 10 weeks with Let's Get Dirty (I Can't Get In Da Club) going up to #9</p>
+<p class='e y y2000'></p>
+<p>In 1999 Redman had 1 song on the rap charts for a total of 5 weeks with Da Goodness going up to #9</p>
+<p class='e y y1998'></p>
+<p>In 1997 Redman had 2 songs on the rap charts for a total of 17 weeks with Whateva Man going up to #3</p>
+<p>In 1996 Redman had 2 songs on the rap charts for a total of 15 weeks with That's How It Is (It's Like That) going up to #11</p>
+<p>In 1995 Redman had 3 songs on the rap charts for a total of 24 weeks with How High (From "The Show") going up to #2</p>
+<p>In 1994 Redman had 1 song on the rap charts for a total of 7 weeks with Rockafella going up to #10</p>
+<p>In 1993 Redman had 2 songs on the rap charts for a total of 16 weeks with Time 4 Sum Aksion going up to #1</p>
+<p>In 1992 Redman had 1 song on the rap charts for a total of 13 weeks with Blow Your Mind going up to #1</p>
+</li>
+<li><h2>Das EFX</h2>
+<p class='e y y2019'></p>
+<p class='e y y2018'></p>
+<p class='e y y2017'></p>
+<p class='e y y2016'></p>
+<p class='e y y2015'></p>
+<p class='e y y2014'></p>
+<p class='e y y2013'></p>
+<p class='e y y2012'></p>
+<p class='e y y2011'></p>
+<p class='e y y2010'></p>
+<p class='e y y2009'></p>
+<p class='e y y2008'></p>
+<p class='e y y2007'></p>
+<p class='e y y2006'></p>
+<p class='e y y2005'></p>
+<p class='e y y2004'></p>
+<p class='e y y2003'></p>
+<p class='e y y2002'></p>
+<p class='e y y2001'></p>
+<p class='e y y2000'></p>
+<p class='e y y1999'></p>
+<p class='e y y1998'></p>
+<p class='e y y1997'></p>
+<p>In 1996 Das EFX had 1 song on the rap charts for a total of 4 weeks with Microphone Master going up to #5</p>
+<p>In 1995 Das EFX had 1 song on the rap charts for a total of 5 weeks with Real Hip Hop going up to #10</p>
+<p>In 1994 Das EFX had 1 song on the rap charts for a total of 6 weeks with Freakit going up to #13</p>
+<p>In 1993 Das EFX had 2 songs on the rap charts for a total of 14 weeks with Straight Out The Sewer going up to #3</p>
+<p>In 1992 Das EFX had 3 songs on the rap charts for a total of 34 weeks with They Want EFX going up to #1</p>
+</li>
+<li><h2>Common</h2>
+<p class='e y y2019'></p>
+<p class='e y y2018'></p>
+<p class='e y y2017'></p>
+<p class='e y y2016'></p>
+<p>In 2015 Common had 1 song on the rap charts for a total of 3 weeks with Glory going up to #11</p>
+<p class='e y y2014'></p>
+<p class='e y y2013'></p>
+<p class='e y y2012'></p>
+<p class='e y y2011'></p>
+<p class='e y y2010'></p>
+<p>In 2009 Common had 1 song on the rap charts for a total of 8 weeks with Universal Mind Control going up to #13</p>
+<p>In 2008 Common had 1 song on the rap charts for a total of 2 weeks with Universal Mind Control going up to #19</p>
+<p>In 2007 Common had 1 song on the rap charts for a total of 6 weeks with I Want You going up to #21</p>
+<p class='e y y2006'></p>
+<p>In 2005 Common had 1 song on the rap charts for a total of 6 weeks with Go! going up to #21</p>
+<p class='e y y2004'></p>
+<p>In 2003 Common had 1 song on the rap charts for a total of 11 weeks with Come Close To Me going up to #18</p>
+<p class='e y y2002'></p>
+<p class='e y y2001'></p>
+<p>In 2000 Common had 2 songs on the rap charts for a total of 18 weeks with The Light going up to #13</p>
+<p>In 1999 Common had 1 song on the rap charts for a total of 18 weeks with One-Nine-Nine-Nine going up to #4</p>
+<p class='e y y1998'></p>
+<p>In 1997 Common had 1 song on the rap charts for a total of 11 weeks with Reminding Me (Of Sef) going up to #9</p>
+<p class='e y y1996'></p>
+<p>In 1995 Common had 1 song on the rap charts for a total of 2 weeks with Resurrection going up to #22</p>
+<p class='e y y1994'></p>
+<p>In 1993 Common had 3 songs on the rap charts for a total of 20 weeks with Soul By The Pound going up to #7</p>
+<p>In 1992 Common had 1 song on the rap charts for a total of 8 weeks with Take It Ez going up to #5</p>
+</li>
+<li><h2>Digable Planets</h2>
+<p class='e y y2019'></p>
+<p class='e y y2018'></p>
+<p class='e y y2017'></p>
+<p class='e y y2016'></p>
+<p class='e y y2015'></p>
+<p class='e y y2014'></p>
+<p class='e y y2013'></p>
+<p class='e y y2012'></p>
+<p class='e y y2011'></p>
+<p class='e y y2010'></p>
+<p class='e y y2009'></p>
+<p class='e y y2008'></p>
+<p class='e y y2007'></p>
+<p class='e y y2006'></p>
+<p class='e y y2005'></p>
+<p class='e y y2004'></p>
+<p class='e y y2003'></p>
+<p class='e y y2002'></p>
+<p class='e y y2001'></p>
+<p class='e y y2000'></p>
+<p class='e y y1999'></p>
+<p class='e y y1998'></p>
+<p class='e y y1997'></p>
+<p class='e y y1996'></p>
+<p class='e y y1995'></p>
+<p>In 1994 Digable Planets had 1 song on the rap charts for a total of 10 weeks with 9th Wonder (Slicker This Year) going up to #8</p>
+<p>In 1993 Digable Planets had 3 songs on the rap charts for a total of 29 weeks with Rebirth Of Slick (Cool Like Dat) going up to #1</p>
+<p>In 1992 Digable Planets had 1 song on the rap charts for a total of 2 weeks with Rebirth Of Slick (Cool Like Dat) going up to #15</p>
+</li>
+<li><h2>Cypress Hill</h2>
+<p class='e y y2019'></p>
+<p class='e y y2018'></p>
+<p class='e y y2017'></p>
+<p class='e y y2016'></p>
+<p class='e y y2015'></p>
+<p class='e y y2014'></p>
+<p class='e y y2013'></p>
+<p class='e y y2012'></p>
+<p class='e y y2011'></p>
+<p>In 2010 Cypress Hill had 1 song on the rap charts for a total of 1 week with Armada Latina going up to #25</p>
+<p class='e y y2009'></p>
+<p class='e y y2008'></p>
+<p class='e y y2007'></p>
+<p class='e y y2006'></p>
+<p class='e y y2005'></p>
+<p class='e y y2004'></p>
+<p class='e y y2003'></p>
+<p class='e y y2002'></p>
+<p class='e y y2001'></p>
+<p class='e y y2000'></p>
+<p class='e y y1999'></p>
+<p>In 1998 Cypress Hill had 1 song on the rap charts for a total of 8 weeks with Dr. Greenthumb going up to #14</p>
+<p class='e y y1997'></p>
+<p>In 1996 Cypress Hill had 2 songs on the rap charts for a total of 13 weeks with Throw Your Set In The Air going up to #16</p>
+<p>In 1995 Cypress Hill had 1 song on the rap charts for a total of 10 weeks with Throw Your Set In The Air going up to #11</p>
+<p>In 1994 Cypress Hill had 1 song on the rap charts for a total of 3 weeks with We Ain't Goin' Out Like That going up to #21</p>
+<p>In 1993 Cypress Hill had 1 song on the rap charts for a total of 13 weeks with Insane In The Brain going up to #1</p>
+<p>In 1992 Cypress Hill had 3 songs on the rap charts for a total of 36 weeks with The Phuncky Feel One/How I Could Just Kill A Man going up to #1</p>
+<p>In 1991 Cypress Hill had 1 song on the rap charts for a total of 10 weeks with The Phuncky Feel One/How I Could Just Kill A Man going up to #4</p>
+</li>
+<li><h2>Scarface</h2>
+<p class='e y y2019'></p>
+<p class='e y y2018'></p>
+<p class='e y y2017'></p>
+<p class='e y y2016'></p>
+<p class='e y y2015'></p>
+<p class='e y y2014'></p>
+<p class='e y y2013'></p>
+<p class='e y y2012'></p>
+<p class='e y y2011'></p>
+<p class='e y y2010'></p>
+<p class='e y y2009'></p>
+<p class='e y y2008'></p>
+<p class='e y y2007'></p>
+<p class='e y y2006'></p>
+<p class='e y y2005'></p>
+<p class='e y y2004'></p>
+<p class='e y y2003'></p>
+<p>In 2002 Scarface had 1 song on the rap charts for a total of 8 weeks with Guess Who's Back going up to #5</p>
+<p class='e y y2001'></p>
+<p class='e y y2000'></p>
+<p class='e y y1999'></p>
+<p class='e y y1998'></p>
+<p>In 1997 Scarface had 1 song on the rap charts for a total of 15 weeks with Smile going up to #2</p>
+<p class='e y y1996'></p>
+<p>In 1995 Scarface had 3 songs on the rap charts for a total of 23 weeks with I Never Seen A Man Cry (I Seen A Man Die) going up to #2</p>
+<p>In 1994 Scarface had 1 song on the rap charts for a total of 7 weeks with I Never Seen A Man Cry (I Seen A Man Die) going up to #3</p>
+<p>In 1993 Scarface had 2 songs on the rap charts for a total of 15 weeks with Let Me Roll going up to #2</p>
+<p>In 1992 Scarface had 2 songs on the rap charts for a total of 17 weeks with Mr. Scarface going up to #8</p>
+<p>In 1991 Scarface had 1 song on the rap charts for a total of 2 weeks with Mr. Scarface going up to #22</p>
+</li>
+<li><h2>Brand Nubian</h2>
+<p class='e y y2019'></p>
+<p class='e y y2018'></p>
+<p class='e y y2017'></p>
+<p class='e y y2016'></p>
+<p class='e y y2015'></p>
+<p class='e y y2014'></p>
+<p class='e y y2013'></p>
+<p class='e y y2012'></p>
+<p class='e y y2011'></p>
+<p class='e y y2010'></p>
+<p class='e y y2009'></p>
+<p class='e y y2008'></p>
+<p class='e y y2007'></p>
+<p class='e y y2006'></p>
+<p class='e y y2005'></p>
+<p class='e y y2004'></p>
+<p class='e y y2003'></p>
+<p class='e y y2002'></p>
+<p class='e y y2001'></p>
+<p class='e y y2000'></p>
+<p>In 1999 Brand Nubian had 1 song on the rap charts for a total of 7 weeks with Don't Let It Go To Your Head going up to #7</p>
+<p>In 1998 Brand Nubian had 1 song on the rap charts for a total of 10 weeks with Don't Let It Go To Your Head going up to #3</p>
+<p class='e y y1997'></p>
+<p class='e y y1996'></p>
+<p class='e y y1995'></p>
+<p>In 1994 Brand Nubian had 1 song on the rap charts for a total of 3 weeks with Word Is Bond going up to #11</p>
+<p>In 1993 Brand Nubian had 2 songs on the rap charts for a total of 16 weeks with Punks Jump Up To Get Beat Down going up to #2</p>
+<p>In 1992 Brand Nubian had 2 songs on the rap charts for a total of 10 weeks with Punks Jump Up To Get Beat Down going up to #4</p>
+<p>In 1991 Brand Nubian had 2 songs on the rap charts for a total of 24 weeks with Slow Down going up to #3</p>
+</li>
+<li><h2>Ice Cube</h2>
+<p class='e y y2019'></p>
+<p class='e y y2018'></p>
+<p class='e y y2017'></p>
+<p class='e y y2016'></p>
+<p class='e y y2015'></p>
+<p class='e y y2014'></p>
+<p class='e y y2013'></p>
+<p class='e y y2012'></p>
+<p class='e y y2011'></p>
+<p class='e y y2010'></p>
+<p class='e y y2009'></p>
+<p class='e y y2008'></p>
+<p class='e y y2007'></p>
+<p>In 2006 Ice Cube had 1 song on the rap charts for a total of 1 week with Go To Church going up to #25</p>
+<p class='e y y2005'></p>
+<p class='e y y2004'></p>
+<p class='e y y2003'></p>
+<p class='e y y2002'></p>
+<p class='e y y2001'></p>
+<p>In 2000 Ice Cube had 1 song on the rap charts for a total of 15 weeks with You Can Do It going up to #2</p>
+<p>In 1999 Ice Cube had 2 songs on the rap charts for a total of 20 weeks with You Can Do It going up to #3</p>
+<p>In 1998 Ice Cube had 1 song on the rap charts for a total of 9 weeks with Pushin' Weight going up to #1</p>
+<p class='e y y1997'></p>
+<p class='e y y1996'></p>
+<p class='e y y1995'></p>
+<p>In 1994 Ice Cube had 3 songs on the rap charts for a total of 43 weeks with You Know How We Do It going up to #5</p>
+<p>In 1993 Ice Cube had 4 songs on the rap charts for a total of 32 weeks with Wicked going up to #1</p>
+<p>In 1992 Ice Cube had 2 songs on the rap charts for a total of 18 weeks with Wicked going up to #2</p>
+<p class='e y y1991'></p>
+<p>In 1990 Ice Cube had 1 song on the rap charts for a total of 13 weeks with Amerikkka's Most Wanted going up to #1</p>
+</li>
+<li><h2>A Tribe Called Quest</h2>
+<p class='e y y2019'></p>
+<p class='e y y2018'></p>
+<p class='e y y2017'></p>
+<p>In 2016 A Tribe Called Quest had 1 song on the rap charts for a total of 1 week with We The People.... going up to #23</p>
+<p class='e y y2015'></p>
+<p class='e y y2014'></p>
+<p class='e y y2013'></p>
+<p class='e y y2012'></p>
+<p class='e y y2011'></p>
+<p class='e y y2010'></p>
+<p class='e y y2009'></p>
+<p class='e y y2008'></p>
+<p class='e y y2007'></p>
+<p class='e y y2006'></p>
+<p class='e y y2005'></p>
+<p class='e y y2004'></p>
+<p class='e y y2003'></p>
+<p class='e y y2002'></p>
+<p class='e y y2001'></p>
+<p class='e y y2000'></p>
+<p class='e y y1999'></p>
+<p>In 1998 A Tribe Called Quest had 1 song on the rap charts for a total of 4 weeks with Find A Way going up to #18</p>
+<p>In 1997 A Tribe Called Quest had 1 song on the rap charts for a total of 4 weeks with Stressed Out going up to #19</p>
+<p>In 1996 A Tribe Called Quest had 1 song on the rap charts for a total of 1 week with Stressed Out going up to #15</p>
+<p class='e y y1995'></p>
+<p>In 1994 A Tribe Called Quest had 3 songs on the rap charts for a total of 25 weeks with Award Tour going up to #8</p>
+<p>In 1993 A Tribe Called Quest had 1 song on the rap charts for a total of 6 weeks with Award Tour going up to #7</p>
+<p>In 1992 A Tribe Called Quest had 3 songs on the rap charts for a total of 21 weeks with Scenario going up to #6</p>
+<p>In 1991 A Tribe Called Quest had 2 songs on the rap charts for a total of 22 weeks with Check The Rhime going up to #1</p>
+<p>In 1990 A Tribe Called Quest had 2 songs on the rap charts for a total of 22 weeks with Bonita Applebum going up to #4</p>
+</li>
+<li><h2>Gang Starr</h2>
+<p class='e y y2019'></p>
+<p class='e y y2018'></p>
+<p class='e y y2017'></p>
+<p class='e y y2016'></p>
+<p class='e y y2015'></p>
+<p class='e y y2014'></p>
+<p class='e y y2013'></p>
+<p class='e y y2012'></p>
+<p class='e y y2011'></p>
+<p class='e y y2010'></p>
+<p class='e y y2009'></p>
+<p class='e y y2008'></p>
+<p class='e y y2007'></p>
+<p class='e y y2006'></p>
+<p class='e y y2005'></p>
+<p class='e y y2004'></p>
+<p class='e y y2003'></p>
+<p class='e y y2002'></p>
+<p class='e y y2001'></p>
+<p class='e y y2000'></p>
+<p class='e y y1999'></p>
+<p>In 1998 Gang Starr had 1 song on the rap charts for a total of 11 weeks with You Know My Steez going up to #10</p>
+<p>In 1997 Gang Starr had 1 song on the rap charts for a total of 4 weeks with You Know My Steez going up to #5</p>
+<p class='e y y1996'></p>
+<p class='e y y1995'></p>
+<p>In 1994 Gang Starr had 2 songs on the rap charts for a total of 14 weeks with Mass Appeal going up to #10</p>
+<p class='e y y1993'></p>
+<p>In 1992 Gang Starr had 3 songs on the rap charts for a total of 26 weeks with Take It Personal going up to #1</p>
+<p>In 1991 Gang Starr had 4 songs on the rap charts for a total of 29 weeks with Step In The Arena going up to #5</p>
+<p>In 1990 Gang Starr had 1 song on the rap charts for a total of 6 weeks with Positivity going up to #19</p>
+</li>
+<li><h2>LL Cool J</h2>
+<p class='e y y2019'></p>
+<p class='e y y2018'></p>
+<p class='e y y2017'></p>
+<p class='e y y2016'></p>
+<p class='e y y2015'></p>
+<p class='e y y2014'></p>
+<p class='e y y2013'></p>
+<p class='e y y2012'></p>
+<p class='e y y2011'></p>
+<p class='e y y2010'></p>
+<p class='e y y2009'></p>
+<p>In 2008 LL Cool J had 1 song on the rap charts for a total of 16 weeks with Baby going up to #10</p>
+<p class='e y y2007'></p>
+<p>In 2006 LL Cool J had 1 song on the rap charts for a total of 8 weeks with Control Myself going up to #9</p>
+<p>In 2005 LL Cool J had 1 song on the rap charts for a total of 2 weeks with Hush going up to #23</p>
+<p>In 2004 LL Cool J had 2 songs on the rap charts for a total of 24 weeks with Headsprung going up to #4</p>
+<p>In 2003 LL Cool J had 2 songs on the rap charts for a total of 10 weeks with Paradise going up to #10</p>
+<p>In 2002 LL Cool J had 2 songs on the rap charts for a total of 19 weeks with Luv U Better going up to #2</p>
+<p class='e y y2001'></p>
+<p>In 2000 LL Cool J had 1 song on the rap charts for a total of 4 weeks with Imagine That going up to #16</p>
+<p class='e y y1999'></p>
+<p>In 1998 LL Cool J had 2 songs on the rap charts for a total of 19 weeks with Father going up to #1</p>
+<p>In 1997 LL Cool J had 4 songs on the rap charts for a total of 15 weeks with Ain't Nobody (From "Beavis And Butt-Head Do America") going up to #4</p>
+<p>In 1996 LL Cool J had 4 songs on the rap charts for a total of 50 weeks with Loungin going up to #1</p>
+<p>In 1995 LL Cool J had 1 song on the rap charts for a total of 7 weeks with Hey Lover going up to #1</p>
+<p class='e y y1994'></p>
+<p>In 1993 LL Cool J had 3 songs on the rap charts for a total of 23 weeks with How I'm Comin' going up to #1</p>
+<p class='e y y1992'></p>
+<p>In 1991 LL Cool J had 3 songs on the rap charts for a total of 35 weeks with Mama Said Knock You Out going up to #1</p>
+<p>In 1990 LL Cool J had 4 songs on the rap charts for a total of 37 weeks with The Boomin' System going up to #1</p>
+<p>In 1989 LL Cool J had 2 songs on the rap charts for a total of 20 weeks with I'm That Type Of Guy going up to #1</p>
+</li>
+<li><h2>MC Lyte</h2>
+<p class='e y y2019'></p>
+<p class='e y y2018'></p>
+<p class='e y y2017'></p>
+<p class='e y y2016'></p>
+<p class='e y y2015'></p>
+<p class='e y y2014'></p>
+<p class='e y y2013'></p>
+<p class='e y y2012'></p>
+<p class='e y y2011'></p>
+<p class='e y y2010'></p>
+<p class='e y y2009'></p>
+<p class='e y y2008'></p>
+<p class='e y y2007'></p>
+<p class='e y y2006'></p>
+<p class='e y y2005'></p>
+<p class='e y y2004'></p>
+<p class='e y y2003'></p>
+<p class='e y y2002'></p>
+<p class='e y y2001'></p>
+<p class='e y y2000'></p>
+<p class='e y y1999'></p>
+<p class='e y y1998'></p>
+<p>In 1997 MC Lyte had 1 song on the rap charts for a total of 19 weeks with Cold Rock A Party going up to #1</p>
+<p>In 1996 MC Lyte had 2 songs on the rap charts for a total of 32 weeks with Cold Rock A Party going up to #2</p>
+<p class='e y y1995'></p>
+<p>In 1994 MC Lyte had 1 song on the rap charts for a total of 2 weeks with Ruffneck going up to #21</p>
+<p>In 1993 MC Lyte had 2 songs on the rap charts for a total of 23 weeks with Ruffneck going up to #1</p>
+<p>In 1992 MC Lyte had 2 songs on the rap charts for a total of 16 weeks with Poor Georgie going up to #1</p>
+<p>In 1991 MC Lyte had 1 song on the rap charts for a total of 13 weeks with When In Love going up to #3</p>
+<p>In 1990 MC Lyte had 3 songs on the rap charts for a total of 24 weeks with Cappucino going up to #8</p>
+<p>In 1989 MC Lyte had 2 songs on the rap charts for a total of 17 weeks with Cha Cha Cha going up to #1</p>
+</li>
+<li><h2>Public Enemy</h2>
+<p class='e y y2019'></p>
+<p class='e y y2018'></p>
+<p class='e y y2017'></p>
+<p class='e y y2016'></p>
+<p class='e y y2015'></p>
+<p class='e y y2014'></p>
+<p class='e y y2013'></p>
+<p class='e y y2012'></p>
+<p class='e y y2011'></p>
+<p class='e y y2010'></p>
+<p class='e y y2009'></p>
+<p class='e y y2008'></p>
+<p class='e y y2007'></p>
+<p class='e y y2006'></p>
+<p class='e y y2005'></p>
+<p class='e y y2004'></p>
+<p class='e y y2003'></p>
+<p class='e y y2002'></p>
+<p class='e y y2001'></p>
+<p class='e y y2000'></p>
+<p class='e y y1999'></p>
+<p class='e y y1998'></p>
+<p class='e y y1997'></p>
+<p class='e y y1996'></p>
+<p class='e y y1995'></p>
+<p>In 1994 Public Enemy had 1 song on the rap charts for a total of 11 weeks with Give It Up going up to #5</p>
+<p class='e y y1993'></p>
+<p>In 1992 Public Enemy had 4 songs on the rap charts for a total of 30 weeks with Shut 'Em Down going up to #1</p>
+<p>In 1991 Public Enemy had 2 songs on the rap charts for a total of 20 weeks with Can't Truss It going up to #1</p>
+<p>In 1990 Public Enemy had 4 songs on the rap charts for a total of 35 weeks with 911 Is A Joke going up to #1</p>
+<p>In 1989 Public Enemy had 2 songs on the rap charts for a total of 27 weeks with Fight The Power going up to #1</p>
+</li>
+<li><h2>De La Soul</h2>
+<p class='e y y2019'></p>
+<p class='e y y2018'></p>
+<p class='e y y2017'></p>
+<p class='e y y2016'></p>
+<p class='e y y2015'></p>
+<p class='e y y2014'></p>
+<p class='e y y2013'></p>
+<p class='e y y2012'></p>
+<p class='e y y2011'></p>
+<p class='e y y2010'></p>
+<p class='e y y2009'></p>
+<p class='e y y2008'></p>
+<p class='e y y2007'></p>
+<p class='e y y2006'></p>
+<p class='e y y2005'></p>
+<p class='e y y2004'></p>
+<p class='e y y2003'></p>
+<p class='e y y2002'></p>
+<p>In 2001 De La Soul had 1 song on the rap charts for a total of 8 weeks with All Good? going up to #6</p>
+<p>In 2000 De La Soul had 2 songs on the rap charts for a total of 8 weeks with All Good? going up to #10</p>
+<p class='e y y1999'></p>
+<p class='e y y1998'></p>
+<p class='e y y1997'></p>
+<p>In 1996 De La Soul had 2 songs on the rap charts for a total of 8 weeks with Itzsoweezee (Hot) going up to #17</p>
+<p class='e y y1995'></p>
+<p class='e y y1994'></p>
+<p>In 1993 De La Soul had 1 song on the rap charts for a total of 6 weeks with Breakadawn going up to #16</p>
+<p class='e y y1992'></p>
+<p>In 1991 De La Soul had 1 song on the rap charts for a total of 11 weeks with Ring Ring Ring (Ha Ha Hey) going up to #3</p>
+<p>In 1990 De La Soul had 1 song on the rap charts for a total of 17 weeks with Buddy going up to #2</p>
+<p>In 1989 De La Soul had 4 songs on the rap charts for a total of 36 weeks with Me Myself And I going up to #1</p>
+</li>
+<li><h2>Too Short</h2>
+<p class='e y y2019'></p>
+<p class='e y y2018'></p>
+<p class='e y y2017'></p>
+<p class='e y y2016'></p>
+<p class='e y y2015'></p>
+<p class='e y y2014'></p>
+<p class='e y y2013'></p>
+<p class='e y y2012'></p>
+<p class='e y y2011'></p>
+<p class='e y y2010'></p>
+<p class='e y y2009'></p>
+<p class='e y y2008'></p>
+<p class='e y y2007'></p>
+<p>In 2006 Too Short had 1 song on the rap charts for a total of 13 weeks with Blow The Whistle going up to #21</p>
+<p class='e y y2005'></p>
+<p>In 2004 Too Short had 1 song on the rap charts for a total of 4 weeks with Shake That Monkey going up to #23</p>
+<p>In 2003 Too Short had 1 song on the rap charts for a total of 4 weeks with Shake That Monkey going up to #23</p>
+<p class='e y y2002'></p>
+<p class='e y y2001'></p>
+<p>In 2000 Too Short had 2 songs on the rap charts for a total of 26 weeks with 2 B*tches going up to #2</p>
+<p>In 1999 Too Short had 2 songs on the rap charts for a total of 32 weeks with More Freaky Tales going up to #3</p>
+<p>In 1998 Too Short had 1 song on the rap charts for a total of 14 weeks with Invasion Of The Flat Booty B*****s going up to #4</p>
+<p class='e y y1997'></p>
+<p>In 1996 Too Short had 1 song on the rap charts for a total of 11 weeks with Gettin' It going up to #9</p>
+<p>In 1995 Too Short had 1 song on the rap charts for a total of 11 weeks with Cocktales going up to #3</p>
+<p>In 1994 Too Short had 1 song on the rap charts for a total of 7 weeks with Money In The Ghetto going up to #14</p>
+<p>In 1993 Too Short had 1 song on the rap charts for a total of 1 week with I'm A Player going up to #17</p>
+<p>In 1992 Too Short had 2 songs on the rap charts for a total of 13 weeks with I Want To Be Free going up to #5</p>
+<p>In 1991 Too Short had 2 songs on the rap charts for a total of 14 weeks with The Ghetto going up to #3</p>
+<p>In 1990 Too Short had 1 song on the rap charts for a total of 9 weeks with The Ghetto going up to #3</p>
+<p>In 1989 Too Short had 2 songs on the rap charts for a total of 22 weeks with Life Is. . .Too Short going up to #7</p>
+</li>
+<li><h2>The 2 Live Crew</h2>
+<p class='e y y2019'></p>
+<p class='e y y2018'></p>
+<p class='e y y2017'></p>
+<p class='e y y2016'></p>
+<p class='e y y2015'></p>
+<p class='e y y2014'></p>
+<p class='e y y2013'></p>
+<p class='e y y2012'></p>
+<p class='e y y2011'></p>
+<p class='e y y2010'></p>
+<p class='e y y2009'></p>
+<p class='e y y2008'></p>
+<p class='e y y2007'></p>
+<p class='e y y2006'></p>
+<p class='e y y2005'></p>
+<p class='e y y2004'></p>
+<p class='e y y2003'></p>
+<p class='e y y2002'></p>
+<p class='e y y2001'></p>
+<p class='e y y2000'></p>
+<p>In 1999 The 2 Live Crew had 1 song on the rap charts for a total of 18 weeks with The Real One going up to #9</p>
+<p>In 1998 The 2 Live Crew had 2 songs on the rap charts for a total of 30 weeks with 2 Live Party going up to #9</p>
+<p>In 1997 The 2 Live Crew had 1 song on the rap charts for a total of 2 weeks with Do The Damn Thing going up to #24</p>
+<p>In 1996 The 2 Live Crew had 1 song on the rap charts for a total of 16 weeks with Shake A Lil' Somethin'... going up to #11</p>
+<p class='e y y1995'></p>
+<p class='e y y1994'></p>
+<p class='e y y1993'></p>
+<p>In 1992 The 2 Live Crew had 1 song on the rap charts for a total of 1 week with Pop That Coochie going up to #22</p>
+<p>In 1991 The 2 Live Crew had 1 song on the rap charts for a total of 13 weeks with Pop That Coochie going up to #5</p>
+<p>In 1990 The 2 Live Crew had 3 songs on the rap charts for a total of 20 weeks with Me So Horny going up to #4</p>
+<p>In 1989 The 2 Live Crew had 3 songs on the rap charts for a total of 29 weeks with Me So Horny going up to #1</p>
+</li>
+<li><h2>EPMD</h2>
+<p class='e y y2019'></p>
+<p class='e y y2018'></p>
+<p class='e y y2017'></p>
+<p class='e y y2016'></p>
+<p class='e y y2015'></p>
+<p class='e y y2014'></p>
+<p class='e y y2013'></p>
+<p class='e y y2012'></p>
+<p class='e y y2011'></p>
+<p class='e y y2010'></p>
+<p class='e y y2009'></p>
+<p class='e y y2008'></p>
+<p class='e y y2007'></p>
+<p class='e y y2006'></p>
+<p class='e y y2005'></p>
+<p class='e y y2004'></p>
+<p class='e y y2003'></p>
+<p class='e y y2002'></p>
+<p class='e y y2001'></p>
+<p class='e y y2000'></p>
+<p class='e y y1999'></p>
+<p class='e y y1998'></p>
+<p>In 1997 EPMD had 1 song on the rap charts for a total of 2 weeks with The Joint going up to #17</p>
+<p class='e y y1996'></p>
+<p class='e y y1995'></p>
+<p class='e y y1994'></p>
+<p>In 1993 EPMD had 1 song on the rap charts for a total of 7 weeks with Head Banger going up to #11</p>
+<p>In 1992 EPMD had 2 songs on the rap charts for a total of 16 weeks with Crossover going up to #1</p>
+<p>In 1991 EPMD had 2 songs on the rap charts for a total of 27 weeks with Gold Digger going up to #1</p>
+<p class='e y y1990'></p>
+<p>In 1989 EPMD had 1 song on the rap charts for a total of 13 weeks with So Wat Cha Sayin' going up to #5</p>
+</li>
+<li><h2>N.W.A</h2>
+<p class='e y y2019'></p>
+<p class='e y y2018'></p>
+<p class='e y y2017'></p>
+<p class='e y y2016'></p>
+<p>In 2015 N.W.A had 2 songs on the rap charts for a total of 3 weeks with Straight Outta Compton going up to #9</p>
+<p class='e y y2014'></p>
+<p class='e y y2013'></p>
+<p class='e y y2012'></p>
+<p class='e y y2011'></p>
+<p class='e y y2010'></p>
+<p class='e y y2009'></p>
+<p class='e y y2008'></p>
+<p class='e y y2007'></p>
+<p class='e y y2006'></p>
+<p class='e y y2005'></p>
+<p class='e y y2004'></p>
+<p class='e y y2003'></p>
+<p class='e y y2002'></p>
+<p class='e y y2001'></p>
+<p class='e y y2000'></p>
+<p class='e y y1999'></p>
+<p class='e y y1998'></p>
+<p class='e y y1997'></p>
+<p class='e y y1996'></p>
+<p class='e y y1995'></p>
+<p class='e y y1994'></p>
+<p class='e y y1993'></p>
+<p class='e y y1992'></p>
+<p>In 1991 N.W.A had 1 song on the rap charts for a total of 1 week with 100 Miles And Runnin' going up to #21</p>
+<p>In 1990 N.W.A had 1 song on the rap charts for a total of 15 weeks with 100 Miles And Runnin' going up to #2</p>
+<p>In 1989 N.W.A had 2 songs on the rap charts for a total of 33 weeks with Express Yourself going up to #2</p>
+</li>
+<li><h2>Eazy-E</h2>
+<p class='e y y2019'></p>
+<p class='e y y2018'></p>
+<p class='e y y2017'></p>
+<p class='e y y2016'></p>
+<p>In 2015 Eazy-E had 1 song on the rap charts for a total of 3 weeks with Boyz-N-The Hood going up to #14</p>
+<p class='e y y2014'></p>
+<p class='e y y2013'></p>
+<p class='e y y2012'></p>
+<p class='e y y2011'></p>
+<p class='e y y2010'></p>
+<p class='e y y2009'></p>
+<p class='e y y2008'></p>
+<p class='e y y2007'></p>
+<p class='e y y2006'></p>
+<p class='e y y2005'></p>
+<p class='e y y2004'></p>
+<p class='e y y2003'></p>
+<p class='e y y2002'></p>
+<p class='e y y2001'></p>
+<p class='e y y2000'></p>
+<p class='e y y1999'></p>
+<p class='e y y1998'></p>
+<p class='e y y1997'></p>
+<p>In 1996 Eazy-E had 1 song on the rap charts for a total of 9 weeks with Just Tah Let U Know going up to #4</p>
+<p>In 1995 Eazy-E had 1 song on the rap charts for a total of 2 weeks with Just Tah Let U Know going up to #5</p>
+<p>In 1994 Eazy-E had 1 song on the rap charts for a total of 10 weeks with Real Muthaphuckkin G's going up to #7</p>
+<p>In 1993 Eazy-E had 1 song on the rap charts for a total of 6 weeks with Real Muthaphuckkin G's going up to #2</p>
+<p class='e y y1992'></p>
+<p class='e y y1991'></p>
+<p class='e y y1990'></p>
+<p>In 1989 Eazy-E had 1 song on the rap charts for a total of 16 weeks with We Want Eazy going up to #7</p>
+</li>
+</ol>
+<div style="clear: both;"></div>
+<br/>
+<br/>
+<a href="/">Tommy Unger's Home Page</a>
+<br/>
+<br/>
+<img src="/images/top-rap-artists-screenshot.png" width="1" height="1" />
+</body>
+</html>

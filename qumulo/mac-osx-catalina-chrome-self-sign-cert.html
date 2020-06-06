@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+    <meta charset="UTF-8" />
+    <meta property="og:title" content="Chrome + Mac OSX Catalina + Self-signed Certificates" />
+    <meta property="og:description" content="Solving the mystery of Mac + Chrome + openssl" />
+    <meta property="og:image" content="https://tommyseattle.com/images/certificate-management-trust-everything.png" />
+    <meta property="og:url" content="https://tommyseattle.com/qumulo/mac-osx-catalina-chrome-self-sign-cert.html" />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:image" content="https://tommyseattle.com/images/keychain-access-mac.png" />
+    <title>Seattle e-assist bike share comparison: Jump vs Lime</title>
+    <style>
+        body{
+            font-family: Avenir, Helvetica, Sans-serif;
+        }
+        img{
+            padding: 10px;
+            background-color: white;
+            border-radius: 3px;
+            border: 1px solid #ccc;
+            -webkit-box-shadow: 0px 1px 9px -3px rgba(94,94,94,0.74);
+            -moz-box-shadow: 0px 1px 9px -3px rgba(94,94,94,0.74);
+            box-shadow: 0px 1px 9px -3px rgba(94,94,94,0.74);
+            margin-left: auto;
+            margin-right: auto;
+            display: block;
+          }
+        #content{
+            max-width: 1030px;
+            margin: 0px auto;
+        }
+        h1, h3{
+            text-align: center;
+        }
+        h1{
+            margin-bottom: 0;
+        }
+        h3{
+            margin-top: 0px;
+            font-weight: normal;
+        }
+        h3>a{
+            font-weight: bold;
+        }
+        p{
+            font-size: 1.1em;
+        }
+        a{
+            color: #5577aa;
+        }
+        table.summary{
+            width: 400px;
+            margin-left: auto;
+            margin-right: auto;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+            -webkit-box-shadow: 0px 1px 9px -3px rgba(94,94,94,0.74);
+            -moz-box-shadow: 0px 1px 9px -3px rgba(94,94,94,0.74);
+            box-shadow: 0px 1px 9px -3px rgba(94,94,94,0.74);
+            background-color: white;
+            padding: 5px;
+        }
+        .home_link{
+            text-align: center;
+        }
+
+        code{
+            white-space: pre;
+            font-size: 1.3em;
+            margin: 0;
+            padding: 0;
+            display: block;
+            border: 1px solid #333;
+            background-color: #eee;
+            padding: 0.3em;
+        }
+
+        code span.change{
+            background-color: rgba(220, 220, 80, 0.9)
+        }
+    </style>
+</head>
+<body>
+
+    <div id="content">
+    <h1>Chrome + Mac OSX Catalina + Self-signed Certificates</h1>
+    <h3>By: @<a href="https://twitter.com/tommyunger">tommyunger</a></h3>
+
+    <hr />
+    <p>
+        I just upgraded my Mac to the latest OSX Catalina (10.15.2) release. Wow! A new login 
+        screen background. I don't really know what else I get, but sure, thanks Apple. What I didn't 
+        want was the new security measures around local/dev websites and the Chrome (version: 
+        79.0.3945.79) web browser. The error that popped up was <b>NET::ERR_CERT_INVALID</b>. And 
+        there's a whole bunch of text that basically offers nothing for how to solve this problem. 
+        And, there's no override.
+    </p>
+    <img src="/images/chrome-certificate-error.png" width="500" 
+        alt="NET::ERR_CERT_INVALID error in Google Chrome" />
+
+    <p>
+        Of course, the best option here is to get a real certificate and a real domain. But, if I'm
+        running a dev build or a local web server, I'd rather just put in my own self-signed certificate using <b>openssl</b>.
+        So, let's generate that certificate locally from the command line on my Mac. Also note, you should
+        change the highlighted elements to values that represent your local server(s) and/or IPs.</p>
+        <code>$ openssl req \
+    -newkey rsa:2048 \
+    -x509 \
+    -sha256 \
+    -days 365 \
+    -nodes \
+    -keyout cert.key \
+    -new \
+    -out cert.crt \
+    -subj /CN=<span class='change'>product.eng.qumulo.com</span> \
+    -reqexts SAN \
+    -extensions SAN \
+    -config <(cat /System/Library/OpenSSL/openssl.cnf \
+        <(printf '[SAN]\nsubjectAltName=<span class='change'>DNS.1:product.eng.qumulo.com,IP.1:10.220.246.172</span>'))</code>
+
+    <p>
+        That command will generate two files <b>cert.key</b> and <b>cert.crt</b>. You need to install 
+        those on your server. It could be as simple as this <a href="https://gist.github.com/dergachev/7028596">python approach</a>, but odds are it's specific to your web server. In my case, I'm running a petabyte-scale 
+        Qumulo file server that has a simple command line API for adding the certificate and key.
+    </p>
+
+    <code>$ qq --host product login -u tommy
+$ qq --host product ssl_modify_certificate -c cert.crt -k cert.key
+</code>
+
+    <p>
+        But, there's still more to do. Back on the Mac, we need to add the same certificate to the Mac OSX keychain.
+        Open up "Keychain Access" via "Spotlight" which is actually a magnifying glass :-/.
+    </p>
+
+    <img src="/images/keychain-access-mac.png" width="250" 
+        alt="Keychain Access via Spotlight" />
+
+    <p>
+        The UI will look something like what you see below. Is it Keychain Access or certificate management or just security settings? Only Jony Ive knows, but he quit...
+    </p>
+    <img src="/images/certificate-management-mac.png" width="500" 
+        alt="Keychain Access, certificates, Mac OSX" />
+
+    <p>
+        Next, press Shift-command-I or use the dropdown menu to "Import Items" the certificate you 
+        generated above. Find the cert.crt file generated above and click Open.
+    </p>
+    <img src="/images/import-certificate.png" width="400" 
+        alt="Import Itmes (certificate) on Mac OSX" />
+
+    <p>
+        Did I mention you'll need to be an administator of your machine do this? Hopefully you 
+        are. If not, head over to I.T. and tell them you're trying to circumvent security settings.
+    </p>
+    <img src="/images/enter-your-password-mac.png" width="300" 
+        alt="Password prompt on Mac" />
+
+    <p>
+        The certificate is now loaded into the Mac's Keychain. In my case you see "product.eng.qumulo.com"
+    </p>
+    <img src="/images/certificate-created-mac.png" width="500" 
+        alt="New dev certificate added to Mac Keychain" />
+
+    <p>
+        Double-click the certificate you just added. That will pop up the window below. In that window,
+        expand the "Trust" section in the upper left.
+    </p>
+    <img src="/images/certificate-management-trust.png" width="400" 
+        alt="Individual certificate management for dev server" />
+
+    <p>
+        Change the "When using this certificate" dropdown to "Always Trust" and it will look like this:
+    </p>
+    <img src="/images/certificate-management-trust-everything.png" width="400" 
+        alt="Trust this new certificate" />
+
+    <p>
+        And finally, in my case, I headed to the website via my URL and could see the wonder that is 
+        the Qumulo dashboard, with the nice little lock button in the address bar.
+    </p>
+    <img src="/images/see-the-qumulo-web-ui.png" width="700" 
+        alt="Petabyte-scale file storage from Qumulo" />
+
+    <br />
+    <br />
+    <a href="/">Tommy Unger's Home Page</a>
+    <br />
+    <br />
+    </div>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-141213264-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-141213264-1');
+</script>
+</body>
+</html>

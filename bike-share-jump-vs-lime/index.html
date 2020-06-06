@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+    <meta charset="UTF-8" />
+    <meta property="og:title" content="Jump vs Lime: Bike share comparison" />
+    <meta property="og:description" content="A dive into speed and costs of Seattle's Bike Share options" />
+    <meta property="og:image" content="https://tommyseattle.com/images/jump-vs-lime-bike-speed-distribution-thumb.png" />
+    <meta property="og:url" content="https://tommyseattle.com/bike-share-jump-vs-lime/" />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:image" content="https://tommyseattle.com/images/jump-vs-lime-thumb.png" />
+    <title>Seattle e-assist bike share comparison: Jump vs Lime</title>
+    <style>
+        body{
+            font-family: Avenir, Helvetica, Sans-serif;
+        }
+        img{
+            padding: 10px;
+            background-color: white;
+            border-radius: 3px;
+            border: 1px solid #ccc;
+            -webkit-box-shadow: 0px 1px 9px -3px rgba(94,94,94,0.74);
+            -moz-box-shadow: 0px 1px 9px -3px rgba(94,94,94,0.74);
+            box-shadow: 0px 1px 9px -3px rgba(94,94,94,0.74);
+            margin-left: auto;
+            margin-right: auto;
+            display: block;
+          }
+        #content{
+            max-width: 1030px;
+            margin: 0px auto;
+        }
+        h1, h3{
+            text-align: center;
+        }
+        h1{
+            margin-bottom: 0;
+        }
+        h3{
+            margin-top: 0px;
+            font-weight: normal;
+        }
+        h3>a{
+            font-weight: bold;
+        }
+        p{
+            font-size: 1.1em;
+        }
+        a{
+            color: #5577aa;
+        }
+        table.summary{
+            width: 400px;
+            margin-left: auto;
+            margin-right: auto;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+            -webkit-box-shadow: 0px 1px 9px -3px rgba(94,94,94,0.74);
+            -moz-box-shadow: 0px 1px 9px -3px rgba(94,94,94,0.74);
+            box-shadow: 0px 1px 9px -3px rgba(94,94,94,0.74);
+            background-color: white;
+            padding: 5px;
+        }
+        .home_link{
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="content">
+    <h1>Seattle e-assist bike share comparison: Jump vs Lime</h1>
+    <h3>By: @<a href="https://twitter.com/tommyunger">tommyunger</a></h3>
+
+    <hr />
+
+    <h2>Summary</h2>
+
+    <ul>
+        <li>Lime bikes <b>cost 68%</b> more than Jump bikes on a 5.5 mile ride in Seattle.</li>
+        <li>Jump bikes are 10-20% faster than Lime bikes.</li>
+        <li>Based on heart rate, I had to work 15% harder for lower speed on the Lime bike.</li>
+        <li>Jump bikes are 350 watts and Lime bikes are 250 watts.</li>
+    </ul>
+
+    <hr />
+
+    <p>
+        I've been bike commuting in Seattle since I first moved here nearly 20 years ago. From my east-side commute to Microsoft to various commutes around North Seattle and Downtown, I've found biking to be a great way to get around. For the most part, during rush hour it's similar to car speed and it's usually significantly faster than the bus.
+    </p>
+
+    <p>
+        I've never really had a bike trip computer, but from time-to-time I'll track a ride in Strava. Recently, I bought a Garmin Instinct GPS watch and I've been a bit more obsessive about tracking. The watch is accurate with distance and altitude and tracks heart rate as well. We have an e-assist cargo bike for the family to share, but I'm gnerally against electric-assist for my own personal bike use as biking is my main form of exercise.
+    </p>
+
+    <p>
+        With that said, it's fun to ride the electric-assist bikes. Last week I decided to do a Bike Share comparison between a Jump Bike vs a Lime Bike. Jump is now owned by Uber which is not ideal, but at least bike shares are a net-good for a sustainable future. Anyway, I set out to compare Jump and Lime on measures such as speed, acceleration, and cost.
+    </p>
+
+    <hr />
+    <h2>Which Seattle Bike Share's the fastest? Jump or Lime?</h2>
+    <p>
+        First, let's take a look at a map of the two trips. On the left is Jump and on the right is Lime. I've colored the routes to show when speeds are above or below 14 miles-per-hour, and generally, I think 15+ is somewhat fast biking and &lt;15 mph is somewhat slow.
+    </p>
+    <img src="/images/jump-vs-lime-bike-side-by-side-map.png" width="800" 
+         alt="Map showing two bike commutes in North Seattle on Jump and Lime bikes. Jump is more orange, indicating it's faster than the blues on the Lime graph." />
+
+    <p>
+        It's already pretty obvious that Jump is faster, but let's combine the two routes into one easy comparison map. Each point is a rounded latitude/longitude along my journey and a comparison of the bike speeds at that particular location. The gaps indicating missing or anamolous data. Not only is is the Jump bike faster at almost every position on the journey, it's significantly faster as well. Usually at least 2 miles per hour faster.
+    </p>
+    <img src="/images/jump-vs-lime-bike-single-map.png" width="600" 
+         alt="Map of bike commute with comparison of speeds between Jump and Lime. Mostly red shows Jump is faster." />
+
+    <p>
+        While this next chart is a technical one, it's also very illuminating. Lime bikes are weaker across the board. From slower acceleration to the lower sustained speed, to the less time spent at high speeds. There's no redeeming aspect to the Lime bikes when it comes to speed. Jump bikes are substantially faster bicycles.
+    </p>
+    <img src="/images/jump-vs-lime-bike-histogram.png" width="800" 
+         alt="" />
+    <p>
+        Finally, we'll take one last look at the distribution of recorded speeds on a number line. Once again, the Jump bike exceeds the Lime bike in all statistical measures of speed. The only thing that would be fun to explore a bit more is top speed 😃, but we'll save that for another day.
+    </p>
+    <img src="/images/jump-vs-lime-bike-speed-distribution.png" width="800" 
+         alt=""/>
+    <p>
+        Maybe Lime has some advantage depending on the climb or descent or maybe the flats? The next chart take a look at speed and elevation. It's the same story, Lime's are slow all-around, though it looks like Lime might be slightly less bad on the descents or flats.
+    </p>
+    <img src="/images/jump-vs-lime-bike-speed-by-elevation.png" width="600" 
+         alt="" />
+    <p>
+        So, it's looking bad for Lime. But, maybe I was just pedaling harder on the Jump bike. With my heart rate monitoring, I can see if my heart rate was higher on the Jump bike. For the first few minutes that may have been the case, but I quickly found myself exerting much more effort on the Lime bike to go slower than the Jump bike.        
+    </p>
+    <img src="/images/jump-vs-lime-bike-heart-rates.png" width="600" 
+         alt="" />
+
+    <hr />
+
+    <h2>Jump bike pricing vs Lime bike pricing</h2>
+    <p>
+        Jump bikes are faster and they take less effort to pedal. They are also a bit more comfortable/smooth. I think that might be from the tires or frame, but I'm not sure. So, with all that, you would think Jump bikes would cost more to ride. Nope!
+    </p>
+    <ul>
+        <li><b>Jump e-assist pricing</b>: $0 to start + $0.15 / minute</li>
+        <li><b>Lime e-assist pricing</b>: $1.00 to start + $0.20 / minute</li>
+    </ul>
+
+    <p>
+        So, either Jump/Uber is losing a ton of money or Lime has some odd strategy of being way more expensive. But regardless, from a consumer perspective, Lime bikes are simply a terrible choice when compared with Jump. Let's summarize the numbers on my two bike-share commutres.
+    </p>
+
+    <table class='summary'>
+        <thead>
+            <tr><th></th><th>Jump</th><th>Lime</th></tr>
+        </thead>
+        <tbody>
+            <tr><td>Start time</td><td>5/29 9:20PM</td><td>5/30 6:29PM</td></tr>
+            <tr><td>Average speed (mph)</td><td>16.4</td><td>14.6</td></tr>
+            <tr><td>Top speed (mph)</td><td>28</td><td>25</td></tr>
+            <tr><td>Average heart rate</td><td>120</td><td>134</td></tr>
+            <tr><td>Moving time (min)</td><td>22.8</td><td>25.3</td></tr>
+            <tr><td>Distance (miles)</td><td>5.48</td><td>5.43</td></tr>
+            <tr><td>Cost</td><td>$3.96</td><td>$6.60</td></tr>
+            <tr><td>Cost per mile</td><td>$0.72</td><td>$1.21</td></tr>
+        </tbody>
+    </table>
+
+    <p>
+        Jump bikes are faster, more comfortable, cheaper, and simply more fun. The only possible downside to Jump is over potential misgivings regarding internal Uber employee issues (mistreatment of women) and/or the fact their employees aren't FTEs and don't have benefits. But purely based on the bicycles, Jump is the clear choice over lime. Summarizing all of the data above into the final bullet points.
+    </p>
+
+    <ul>
+        <li>Jump bikes are 12% faster Lime.</li>
+        <li>Jump bikes have a higher top speed than Lime.</li>
+        <li>I have to work 12% harder on a Lime bike and it's still slower.</li>
+        <li>A ride takes 11% longer on a Lime bike vs a Jump bike</li>
+        <li>The Lime e-assist bike share <b>costs 67% more</b> for a 5.5 mile ride in Seattle.</li>
+        <li>The Lime e-assist bike share <b>costs 68% more</b> per mile.</li>
+    </ul>
+
+    <p>
+        Update Jun 3, 2019: After posting, I've learned a pretty critical fact from <a href="https://twitter.com/dreeves">David Reeves</a> on Twitter. The Jump bikes are 350 watts and the Lime bikes are 250 watts. I assume that this story about <a href="https://www.cbc.ca/news/canada/montreal/jump-electric-bike-service-montreal-1.5158767">Montreal's bikes</a> and a similar looking model corroborate the 350 watt fact.
+    </p>
+    <hr />
+    <p>
+        If you're looking for interactive versions of these graphs, they can also be found on <a href="https://public.tableau.com/profile/tommy.unger#!/vizhome/JumpBikevsLimeBikeinSeattle/Sidebysidemap">Tableau Public</a>.
+        <br />
+        If you want to get your own data from Strava's API, you can try my approach (though it's admittedly a bit rough around the edges) <a href="https://github.com/TommyUnger/strava-api">Strava API to PostgreSQL</a>.
+    </p>
+    <br />
+    <div class="home_link">- <a href="/">tommyseattle.com</a> -</div>
+    <br />
+
+    </div>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-141213264-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-141213264-1');
+</script>
+</body>
+</html>
