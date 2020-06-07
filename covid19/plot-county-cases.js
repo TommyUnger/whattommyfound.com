@@ -53,7 +53,7 @@ function setup() {
 }
 
 function draw() {
-    let selected = covid_data.length - 6;
+    let selected = covid_data.length - 1;
     if(covid_data[selected].values.length >= 10){
         translate(-100, -250);
         rotateX(PI/6);
