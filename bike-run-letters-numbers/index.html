@@ -130,7 +130,6 @@ TEST</textarea>
             var current_letter = current_letters[i];
             if(current_letter["char"] != new_letter)
             {
-                console.log("Need ro render: " + new_letter)
                 if(current_letter["map"] != null){
                     current_letter["map"].remove();
                     current_letter["el_map"].setAttribute("class", current_letter["el_map"].getAttribute("class").replace("opa40", ""));
@@ -151,8 +150,6 @@ TEST</textarea>
             }
         }
         if(letters.length < current_letters.length){
-            console.log(current_letters.length);
-            console.log(letters.length);
             var remove_count =  current_letters.length - letters.length;
             for(var i=0; i < remove_count; i++){
                 var l = current_letters.pop();
