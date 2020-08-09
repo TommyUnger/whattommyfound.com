@@ -106,7 +106,7 @@ TEST</textarea>
 
     function new_map(i){
         var map = L.map('map' + i).setView([47.682, -122.371], 13);
-                L.tileLayer('http://c.tile.stamen.com/watercolor/{z}/{x}/{y}.jpg', {
+                L.tileLayer('https://a.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                     maxZoom: 13,
                     opacity: 0.5,
             	    attribution: ''
@@ -139,7 +139,10 @@ TEST</textarea>
                 current_letter["map"] = new_map(i);
                 if(new_letter in alphabet){
                     var l_shape = L.polygon(alphabet[new_letter]["ll"]).addTo(current_letter["map"]);
-                    current_letter["map"].fitBounds(l_shape.getBounds());
+                    l_shape.setStyle({weight:1, color: "rgb(50, 100, 200)", opacity:0.2, fill:"rgb(50, 100, 200)", fillOpacity:0.6});
+                    if(new_letter != "."){
+                        current_letter["map"].fitBounds(l_shape.getBounds());
+                    }
                 }else if(new_letter == "\n"){
                     current_letter["el_map"].setAttribute("class", "map hidden");
                     current_letter["el_extra"].setAttribute("class", "extra break");
@@ -155,11 +158,8 @@ TEST</textarea>
                 var l = current_letters.pop();
                 l['el_map'].remove();
                 l['el_extra'].remove();
-                console.log("Remove: " + l['char']);
             }
-
         }
-
     }
 
 </script>
