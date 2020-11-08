@@ -107,7 +107,7 @@ TEST</textarea>
     function new_map(i){
         var map = L.map('map' + i).setView([47.682, -122.371], 13);
                 L.tileLayer('https://a.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                    maxZoom: 13,
+                    maxZoom: 14,
                     opacity: 0.5,
             	    attribution: ''
                 }).addTo(map);
@@ -137,14 +137,36 @@ TEST</textarea>
                     current_letter["el_extra"].setAttribute("class", "extra");
                 }
                 current_letter["map"] = new_map(i);
+                if(alphabet == null){
+                    return;
+                }
                 if(new_letter in alphabet){
                     var l_shape = L.polygon(alphabet[new_letter]["ll"]).addTo(current_letter["map"]);
                     l_shape.setStyle({weight:1, color: "rgb(50, 100, 200)", opacity:0.2, fill:"rgb(50, 100, 200)", fillOpacity:0.6});
-                    if(new_letter != "."){
-                        var ll = l_shape.getBounds();
-                        current_letter["el_map"].style.width = ((ll.getEast() - ll.getWest())*8000) + "px";
+                    var ll = l_shape.getBounds();
+                    var map_width = ((ll.getEast() - ll.getWest())*8000);
+                    if(/[,._]/.test(new_letter)){
+                        var cc = l_shape.getCenter();
+                        var new_center = L.latLng(cc.lat+0.003, cc.lng);
+                        current_letter["map"].setView(new_center);
+                        if(new_letter == "_"){
+                            map_width = 70;
+                            current_letter["el_map"].style.width = map_width + "px";
+                            current_letter["map"].invalidateSize();
+                        }
+                    }else if(/[\^\*'"]/.test(new_letter)){
+                        var cc = l_shape.getCenter();
+                        var new_center = L.latLng(cc.lat-0.0034, cc.lng);
+                        current_letter["map"].setView(new_center);
+                    }else{
+                        if(map_width <= 50){
+                            map_width = 50;
+                        }
+                        current_letter["el_map"].style.width = map_width + "px";
                         current_letter["map"].invalidateSize();
-                        current_letter["map"].fitBounds(l_shape.getBounds());                        
+                        var bb = l_shape.getBounds();
+                        // console.log(bb)
+                        current_letter["map"].fitBounds(bb);
                         // current_letter["map"].setView(l_shape.getCenter());
                         // current_letter["map"].setZoom(13);
                     }
@@ -153,6 +175,19 @@ TEST</textarea>
                     current_letter["el_extra"].setAttribute("class", "extra break");
                 }else if(new_letter == " "){
                     current_letter["el_map"].setAttribute("class", current_letter["el_map"].getAttribute("class") + " opa40");
+                }
+                if(new_letter == "^"){
+                    var cc = current_letter["map"].getCenter();
+                    var new_center = L.latLng(cc.lat-0.005, cc.lng+0.001);
+                    current_letter["map"].flyTo(new_center, 12);
+                }else if(new_letter == ":"){
+                    var cc = current_letter["map"].getCenter();
+                    var new_center = L.latLng(cc.lat, cc.lng);
+                    current_letter["map"].flyTo(new_center, 13);
+                }else if(new_letter == "_"){
+                    var cc = current_letter["map"].getCenter();
+                    var new_center = L.latLng(cc.lat-0.001, cc.lng-0.0002);
+                    current_letter["map"].flyTo(new_center, 14);
                 }
                 current_letter["char"] = new_letter;
             }
