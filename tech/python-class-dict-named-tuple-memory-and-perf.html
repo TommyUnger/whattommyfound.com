@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+     <meta charset="UTF-8" />
+     <title>Python class, dict, named tuple performance and memory usage</title>
+     <style>
+        body{
+          font-family: Avenir, sans-serif;
+          background-color: rgb(250, 250, 250);
+        }
+        h1{
+            line-height: 1.1em;
+        }
+
+        body>div{
+            margin: 0px auto;
+            max-width: 900px;
+        }
+        .dd{
+            width: 100px;
+            text-align: right;
+        }
+        th.dd{
+            text-align: center;
+        }
+
+        img{
+            padding: 10px;
+            background-color: white;
+            border-radius: 3px;
+            border: 1px solid #ccc;
+            -webkit-box-shadow: 0px 1px 9px -3px rgba(94,94,94,0.74);
+            -moz-box-shadow: 0px 1px 9px -3px rgba(94,94,94,0.74);
+            box-shadow: 0px 1px 9px -3px rgba(94,94,94,0.74);
+            margin-left: auto;
+            margin-right: auto;
+            display: block;
+          }
+
+     </style>
+     <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/6.5.0/d3.min.js" integrity="sha512-0XfwGD1nxplHpehcSVI7lY+m/5L37PNHDt+DOc7aLFckwPXjnjeA1oeNbru7YeI4VLs9i+ADnnHEhP69C9CqTA==" crossorigin="anonymous"></script>
+</head>
+<body>
+    <div>
+        <h1>A quick look at Python class, dict, slots, and named tuple performance and memory usage</h1>
+        <p>
+            While most would say to use C or C++ or Rust or C# or Java... I decided I wanted to look
+            at the edges of Python performance and memory usage. Specifically, I set out to figure out
+            the best approach for efficiently approximating C structs or classes that are more about 
+            properties than functionality.
+        </p>
+        <img src="/images/python-class-dict-named-tuple-memory-and-perf.png" width="600" />
+
+        <p>I wanted to find what Python3 "class" or dictionary was most memory efficient but also fast 
+            for creating, updating and reading a single object. I chose to look at the following:
+        </p>
+        <ul>
+            <li>Python dict (the old standby)</li>
+            <li>Python class</li>
+            <li>Python class with __slots__ (this idea was added after suggestion from an engineer)</li>
+            <li><a href="https://docs.python.org/3/library/dataclasses.html">dataclass</a></li>
+            <li><a href="https://pypi.org/project/recordclass/">recordclass</a> (still beta)</li>
+            <li><a href="https://docs.python.org/3/library/typing.html">NamedTuple</a> an extension of collections</li>
+        </ul>
+
+        <p>
+            In the end I borrowed from <a href="https://gist.github.com/jacktator">these gists</a> to create some Python code 
+            to test all of the above. Then I also found a "total size" function to estimate the size of the data structures in 
+            memory from <a href="https://gist.github.com/nkonin/072e891b0e27ef7fa8e072aa7c7a7cb1">this gist</a>. Here's 
+            <a href="/tech/python-object-performance-memory-test.py.html">the code to measure and test Python's performance 
+            and memory usage</a>.
+        </p>
+
+        <p>
+            The test involved the following:
+            <ol>
+                <li>Create dictionary of 100,000 objects for each of the various "classes".</li>
+                <li>Read each of object entry value.</li>
+                <li>Read a sub-property of the each entry.</li>
+                <li>Read and make a small calculation of two sub-properties.</li>
+                <li>Make a top-level change/overwrite to each object.</li>
+                <li>Read a property via a class method rather than directly.</li>
+                <li>Change/overwrite a property via a class method rather than directly.</li>
+                <li>Measure the memory footprint of the 100,000 object dictionary</li>
+            </ol>
+        </p>
+        <br />
+
+        <h2>Raw performance and memory test results</h2>
+        <table>
+            <thead>
+                <tr>	<th>Test</th>	<th class='dd'>Python dict</th>	<th class='dd'>Python class</th>	<th class='dd'>Python class + slots</th>	<th class='dd'>dataclass</th>	<th class='dd'>recordclass</th>	<th class='dd'>NamedTuple</th>	</tr>
+            </thead>
+            <tbody>
+                <tr>	<td>creates / sec</td>	<td class='dd'>369,377</td>	<td class='dd'>264,405</td>	<td class='dd'>354,373</td>	<td class='dd'>274,175</td>	<td class='dd'>418,359</td>	<td class='dd'>307,269</td>	</tr>
+                <tr>	<td>reads / sec</td>	<td class='dd'>17,076,394</td>	<td class='dd'>24,402,513</td>	<td class='dd'>25,380,031</td>	<td class='dd'>21,810,119</td>	<td class='dd'>28,528,798</td>	<td class='dd'>24,930,480</td>	</tr>
+                <tr>	<td>sub-reads / sec</td>	<td class='dd'>8,383,577</td>	<td class='dd'>7,880,326</td>	<td class='dd'>10,508,616</td>	<td class='dd'>7,355,073</td>	<td class='dd'>8,597,880</td>	<td class='dd'>6,196,159</td>	</tr>
+                <tr>	<td>read + calc / sec</td>	<td class='dd'>1,434,553</td>	<td class='dd'>1,386,120</td>	<td class='dd'>1,478,981</td>	<td class='dd'>1,183,287</td>	<td class='dd'>1,298,735</td>	<td class='dd'>1,129,088</td>	</tr>
+                <tr>	<td>top-level change / sec</td>	<td class='dd'>6,586,636</td>	<td class='dd'>5,969,859</td>	<td class='dd'>8,098,519</td>	<td class='dd'>6,318,340</td>	<td class='dd'>7,849,210</td>	<td class='dd'>849,501</td>	</tr>
+                <tr>	<td>class read / sec</td>	<td class='dd'>1,437,646</td>	<td class='dd'>1,165,268</td>	<td class='dd'>1,265,406</td>	<td class='dd'>1,143,719</td>	<td class='dd'>1,101,867</td>	<td class='dd'>1,000,530</td>	</tr>
+                <tr>	<td>class update / sec</td>	<td class='dd'>10,171,955</td>	<td class='dd'>4,178,176</td>	<td class='dd'>5,626,841</td>	<td class='dd'>4,727,680</td>	<td class='dd'>4,761,006</td>	<td class='dd'>787,321</td>	</tr>
+                <tr>	<td>bytes per entry (memory)</td>	<td class='dd'>658</td>	<td class='dd'>170</td>	<td class='dd'>178</td>	<td class='dd'>170</td>	<td class='dd'>154</td>	<td class='dd'>346</td>	</tr>
+            </tbody>
+        </table>
+        <p>Overall, performance was pretty high across the board. However creation of new objects was consistently slower across 
+            all approaches. No doubt this is due to the fact that memory has to be managed at some point. It was encouraging to see
+            Python can generally manage millions of reads and updates per second in a single process/single thread. It's also pretty apparent
+            that our default dictionary approach does indeed have some cost in terms of memory.
+        </p>
+        <br />
+
+        <h2>Normalized performance and memory test results for quick comparison</h2>
+        <table>
+            <thead>
+                <tr>	<th>Test</th>	<th class='dd'>Python dict</th>	<th class='dd'>Python class</th>	<th class='dd'>Python class + slots</th>	<th class='dd'>dataclass</th>	<th class='dd'>recordclass</th>	<th class='dd'>NamedTuple</th>	</tr>
+            </thead>
+            <tbody>
+                <tr>	<td>creates / sec</td>	<td class='dd'>0.88</td>	<td class='dd'>0.63</td>	<td class='dd'>0.85</td>	<td class='dd'>0.66</td>	<td class='dd'>1.00</td>	<td class='dd'>0.73</td>	</tr>
+                <tr>	<td>reads / sec</td>	<td class='dd'>0.60</td>	<td class='dd'>0.86</td>	<td class='dd'>0.89</td>	<td class='dd'>0.76</td>	<td class='dd'>1.00</td>	<td class='dd'>0.87</td>	</tr>
+                <tr>	<td>sub-reads / sec</td>	<td class='dd'>0.80</td>	<td class='dd'>0.75</td>	<td class='dd'>1.00</td>	<td class='dd'>0.70</td>	<td class='dd'>0.82</td>	<td class='dd'>0.59</td>	</tr>
+                <tr>	<td>read + calc / sec</td>	<td class='dd'>0.97</td>	<td class='dd'>0.94</td>	<td class='dd'>1.00</td>	<td class='dd'>0.80</td>	<td class='dd'>0.88</td>	<td class='dd'>0.76</td>	</tr>
+                <tr>	<td>top-level change / sec</td>	<td class='dd'>0.81</td>	<td class='dd'>0.74</td>	<td class='dd'>1.00</td>	<td class='dd'>0.78</td>	<td class='dd'>0.97</td>	<td class='dd'>0.10</td>	</tr>
+                <tr>	<td>class read / sec</td>	<td class='dd'>1.00</td>	<td class='dd'>0.81</td>	<td class='dd'>0.88</td>	<td class='dd'>0.80</td>	<td class='dd'>0.77</td>	<td class='dd'>0.70</td>	</tr>
+                <tr>	<td>class update / sec</td>	<td class='dd'>1.00</td>	<td class='dd'>0.41</td>	<td class='dd'>0.55</td>	<td class='dd'>0.46</td>	<td class='dd'>0.47</td>	<td class='dd'>0.08</td>	</tr>
+                <tr>	<td>bytes per entry (memory)</td>	<td class='dd'>0.23</td>	<td class='dd'>0.91</td>	<td class='dd'>0.87</td>	<td class='dd'>0.91</td>	<td class='dd'>1.00</td>	<td class='dd'>0.45</td>	</tr>
+            </tbody>
+        </table>
+        <p>
+            This view helps make a quick comparison of all options. Every row is normalized against the best entry in that row. Reading 
+            the first row, recordclass is the best in terms of creates per second while Python classes perform at 63% of recordclass's
+            performance for that same creates per second metric.
+        </p>
+
+        <h2>Conclusion: What's is the best performing approach for managing "objects" in Python?</h2>
+        <p>
+            Let's just go with the ranked list approach from best to worst:
+        </p>
+        <ol>
+            <li>Python class + slots - This approach really balanced everything. High performance, low memory usage.</li>
+            <li>recordclass - This could have taken the #1 spot, but it's reads where a bit slower and it's still considered beta,.</li>
+            <li>(Tie) Python class & dataclass - Both of these approaches did pretty well, though creates are slowest in the bunch.</li>
+            <li>Python dict - if you don't care about memory or "class-style" properties, then python dict is very good, but with nearly 4x the memory overhead, it was moved down the list.</li>
+            <li>NamedTuple - This approach doesn't really buy you anything compared to everything else on the list. More memory and slower perf due to working around immutability means it's the best of no worlds.</li>
+        </ol>
+        <br />
+        <br />
+    </div>
+    <script>
+
+        var color = d3.scaleSequential().domain([0.2,1.2])
+            .interpolator(d3.interpolatePiYG);
+  
+        d3.selectAll("td")
+            .each(function(d){
+                var val = +d3.select(this).text();
+                if(val >= 0 && val <=1){
+                    if(val < 0.3){
+                        val = 0.3
+                    }
+                    d3.select(this).style("background-color", color(val));
+                }
+            })
+    </script>
+</body>
+</html>

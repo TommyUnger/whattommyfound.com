@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+     <meta charset="UTF-8" />
+     <title>Python class, dict, named tuple performance and memory usage</title>
+     <style>
+     </style>
+     <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
+</head>
+<body>
+From: <a href="/tech/python-class-dict-named-tuple-memory-and-perf.html">Python class, dict, named tuple performance and memory usage</a>
+<pre class="prettyprint lang-python">
+    from __future__ import print_function
+    
+    import time
+    import sys
+    import random
+    import datetime
+    from datetime import date
+    from typing import NamedTuple, Dict
+    from dataclasses import dataclass
+    from recordclass import RecordClass
+    from itertools import chain
+    from collections import deque
+    try:
+        from reprlib import repr
+    except ImportError:
+        pass
+    
+    
+    
+    def total_size(o, handlers={}, verbose=False):
+        """ Returns the approximate memory footprint an object and all of its contents.
+    
+        Automatically finds the contents of the following builtin containers and
+        their subclasses:  tuple, list, deque, dict, set and frozenset.
+        To search other containers, add handlers to iterate over their contents:
+    
+            handlers = {SomeContainerClass: iter,
+                        OtherContainerClass: OtherContainerClass.get_elements}
+    
+        """
+        dict_handler = lambda d: chain.from_iterable(d.items())
+        all_handlers = {tuple: iter,
+                        list: iter,
+                        deque: iter,
+                        dict: dict_handler,
+                        set: iter,
+                        frozenset: iter,
+                       }
+        all_handlers.update(handlers)     # user handlers take precedence
+        seen = set()                      # track which object id's have already been seen
+        default_size = sys.getsizeof(0)       # estimate sizeof object without __sizeof__
+    
+        def sizeof(o):
+            if id(o) in seen:       # do not double count the same object
+                return 0
+            seen.add(id(o))
+            s = sys.getsizeof(o, default_size)
+    
+            if verbose:
+                print(s, type(o), repr(o), file=sys.stderr)
+    
+            for typ, handler in all_handlers.items():
+                if isinstance(o, typ):
+                    s += sum(map(sizeof, handler(o)))
+                    break
+            return s
+    
+        return sizeof(o)
+    
+    
+    ##### NamedTuple #####
+    class PricesNamedTuple(NamedTuple("Prices", 
+                             [('open', float), 
+                              ('high', float), 
+                              ('low', float), 
+                              ('close', float)])):
+        pass
+    
+    class TradeDayNamedTuple(NamedTuple("TradeDay", 
+                              (("symbol", str), 
+                               ("dt", date), 
+                               ("prices", PricesNamedTuple)))):
+    
+        def return_change(self):
+            return round((self.prices.close - self.prices.open) / self.prices.open, 4)
+    
+        def update_symbol(self, symb):
+            self = self._replace(symbol = symb)
+    
+    
+    
+    ##### DataClass #####
+    @dataclass
+    class PricesDataClass: 
+        open: float
+        high: float
+        low: float
+        close: float
+    
+    @dataclass
+    class TradeDayDataClass:
+        symbol: str
+        dt: date
+        prices: PricesDataClass
+    
+        return_change = lambda self : round(
+                (self.prices.close - self.prices.open) / self.prices.open, 
+                4)
+    
+        def update_symbol(self, symb):
+            self.symbol = symb
+    
+    
+    ##### RecordClass #####        
+    class PricesRecordClass(RecordClass):
+        open: float
+        high: float
+        low: float
+        close: float
+    
+    class TradeDayRecordClass(RecordClass):
+        symbol: str
+        dt: date
+        prices: PricesRecordClass
+    
+        return_change = lambda self : round(
+                (self.prices.close - self.prices.open) / self.prices.open, 
+                4)
+    
+        def update_symbol(self, symb):
+            self.symbol = symb
+    
+    
+    ##### Regular Python class #####
+    class PricesClass():
+        open: float
+        high: float
+        low: float
+        close: float
+    
+        def __init__(self, _open, _high, _low, _close):
+            self.open = _open
+            self.high = _high
+            self.low = _low
+            self.close = _close
+    
+    class TradeDayClass():
+        symbol: str
+        dt: date
+        prices: PricesRecordClass
+    
+        def __init__(self, _symbol, _dt, _prices):
+            self.symbol = _symbol
+            self.dt = _dt
+            self.prices = _prices
+    
+        def return_change(self):
+            return round((self.prices.close - self.prices.open) / self.prices.open, 4)
+    
+        def update_symbol(self, symb):
+            self.symbol = symb
+    
+    
+    ##### Regular Python class with slots #####
+    class PricesClassSlots():
+        __slots__ = ['open', 'high', 'low', 'close']
+        open: float
+        high: float
+        low: float
+        close: float
+    
+        def __init__(self, _open, _high, _low, _close):
+            self.open = _open
+            self.high = _high
+            self.low = _low
+            self.close = _close
+    
+    class TradeDayClassSlots():
+        __slots__ = ['symbol', 'dt', 'prices']
+        symbol: str
+        dt: date
+        prices: PricesRecordClass
+    
+        def __init__(self, _symbol, _dt, _prices):
+            self.symbol = _symbol
+            self.dt = _dt
+            self.prices = _prices
+    
+        def return_change(self):
+            return round((self.prices.close - self.prices.open) / self.prices.open, 4)
+    
+        def update_symbol(self, symb):
+            self.symbol = symb
+    
+    
+    ##### Python dict #####
+    def PricesDict(_open, _high, _low, _close):
+        return {"open": _open, "high": _high, "low": _low, "close": _close}
+    
+    
+    def TradeDayDict(symbol, dt, prices):
+        return {"symbol": symbol, "dt": dt, "prices": prices}
+    
+    
+    
+    def run_test(objType):
+        print("====== %s Performance Report ======" % objType)
+        print("Time it takes to create 'day' object is: ")
+        TradeDay = eval("TradeDay%s" % objType)
+        Prices = eval("Prices%s" % objType)
+        data: Dict[str, TradeDay] = {}
+        # data = sorteddict()
+        obj_count = 100000
+    
+        st = time.time()
+        for i in range(0, obj_count):
+            data[str(i)] = TradeDay("MA", datetime.date.today(), Prices(random.random(), 30.0, 5.0, 20.0))
+        print("%s day %s created     at: %8s per second" % (obj_count, objType, int(obj_count / (time.time() - st))))
+    
+        st = time.time()
+        for k, v in data.items():
+            d = v
+        print("%s day %s top-read    at: %8s per second" % (obj_count, objType, int(obj_count / (time.time() - st))))
+    
+        st = time.time()
+        for k, v in data.items():
+            if objType == 'Dict':
+                d = v['prices']['open']
+            else:
+                d = v.prices.open
+        print("%s day %s sub-read    at: %8s per second" % (obj_count, objType, int(obj_count / (time.time() - st))))
+    
+        st = time.time()
+        for k, v in data.items():
+            if objType == 'Dict':
+                d = round((v['prices']['close'] - v['prices']['open']) / v['prices']['open'], 4)
+            else:
+                d = round((v.prices.close - v.prices.open) / v.prices.open, 4)
+        print("%s day %s change      at: %8s per second" % (obj_count, objType, int(obj_count / (time.time() - st))))
+    
+        st = time.time()
+        for k, v in data.items():
+            if objType == 'Dict':
+                v['symbol'] = "AAA"
+            elif objType == 'NamedTuple':
+                v = v._replace(symbol="AAA")
+            else:
+                v.symbol = "AAA"
+        print("%s day %s mutate      at: %8s per second" % (obj_count, objType, int(obj_count / (time.time() - st))))
+    
+        st = time.time()
+        for k, v in data.items():
+            if objType == 'Dict':
+                d = round((v['prices']['close'] - v['prices']['open']) / v['prices']['open'], 4)
+            else:
+                d = v.return_change()
+        print("%s day %s class_read      at: %8s per second" % (obj_count, objType, int(obj_count / (time.time() - st))))
+    
+        st = time.time()
+        for k, v in data.items():
+            if objType == 'Dict':
+                v['symbol'] = "AAA"
+            else:
+                v.update_symbol("AAA")
+        print("%s day %s class_update      at: %8s per second" % (obj_count, objType, int(obj_count / (time.time() - st))))
+    
+        print("The size of single {}:{}: bytes".format(objType, int(total_size(data) / obj_count)))
+    
+    
+    
+    
+    if __name__ == '__main__':
+        run_test('Dict')
+        run_test('Class')
+        run_test('ClassSlots')
+        run_test('DataClass')
+        run_test('RecordClass')
+        run_test('NamedTuple')
+    
+    
+</pre>
+</body>
+</html>
