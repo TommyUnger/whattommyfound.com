@@ -56,7 +56,7 @@
             the best approach for efficiently approximating C structs or classes that are more about 
             properties than functionality.
         </p>
-        <img src="/images/python-class-dict-named-tuple-memory-and-perf.png" width="600" />
+        <img alt="Python performance results for various data structures including dict, class, namedtuple, recordclass" src="/images/python-class-dict-named-tuple-memory-and-perf.png" width="600" />
 
         <p>I wanted to find what Python3 "class" or dictionary was most memory efficient but also fast 
             for creating, updating and reading a single object. I chose to look at the following:
@@ -95,6 +95,7 @@
 
         <h2>Raw performance and memory test results</h2>
         <table>
+            <caption>Python performance results for various data structures</caption>
             <thead>
                 <tr>	<th>Test</th>	<th class='dd'>Python dict</th>	<th class='dd'>Python class</th>	<th class='dd'>Python class + slots</th>	<th class='dd'>dataclass</th>	<th class='dd'>recordclass</th>	<th class='dd'>NamedTuple</th>	</tr>
             </thead>
