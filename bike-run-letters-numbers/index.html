@@ -65,6 +65,34 @@
             margin-bottom: 10px;
             line-height: 1em;
          }
+         #current_letter{
+            border: 2px solid #eeeeee;
+         }
+         #current_letter h2{
+            font-weight: normal;
+            margin: 0px;
+        }
+
+         #letter_details{            
+            list-style-type:none;
+            margin: 0px;
+            padding: 0px;
+         }
+         .letter_list{
+            list-style-type:none;
+            margin: 0px;
+            padding: 0px;
+         }
+         .letter_list li{
+            display: inline-block;
+            background-color: #dddddd;
+            width: 1.2em;
+            cursor: pointer;
+            padding: 0px;
+            margin: 4px 2px;
+            border-radius: 2px;
+            filter: drop-shadow(1px 1px 2px #999999);
+         }
      </style>
     <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css"
@@ -81,6 +109,77 @@
         number and character I did a 2-5 mile bike ride or jog around my Ballard, Seattle neighborhood.
         All GPS coordinates were generated via my Garmin watch and tracked/pulled from the Strava API.
     </p>
+<ol class="letter_list" id="letter_list1">
+<li>0</li>
+<li>1</li>
+<li>2</li>
+<li>3</li>
+<li>4</li>
+<li>5</li>
+<li>6</li>
+<li>7</li>
+<li>8</li>
+<li>9</li>
+<li>A</li>
+<li>B</li>
+<li>C</li>
+<li>D</li>
+<li>E</li>
+<li>F</li>
+<li>G</li>
+<li>H</li>
+<li>I</li>
+<li>J</li>
+<li>K</li>
+<li>L</li>
+<li>M</li>
+<li>N</li>
+<li>O</li>
+<li>P</li>
+<li>Q</li>
+<li>R</li>
+<li>S</li>
+<li>T</li>
+<li>U</li>
+<li>V</li>
+<li>W</li>
+<li>X</li>
+<li>Y</li>
+<li>Z</li>
+</ol>
+<ol class="letter_list" id="letter_list2">
+<li>:</li>
+<li>=</li>
+<li>?</li>
+<li>!</li>
+<li>"</li>
+<li>#</li>
+<li>$</li>
+<li>%</li>
+<li>&</li>
+<li>'</li>
+<li>(</li>
+<li>)</li>
+<li>*</li>
+<li>+</li>
+<li>,</li>
+<li>-</li>
+<li>.</li>
+<li>/</li>
+<li>\</li>
+<li>^</li>
+<li>_</li>
+<li>|</li>
+<li style="width: 5em;">space</li>
+<li style="width: 4em;">enter</li>
+<li style="width: 6em;">backspace</li>
+</ol>
+<div id="current_letter">
+    <h2>Letter details for <b></b></h2>
+    <ul id="letter_details">
+        <li id="strava_link"><label>Strava Id</label> <b></b></li>
+    </ul>
+</div>
     <textarea type="text" id="words" autofocus onfocus="var temp_value=this.value; this.value=''; this.value=temp_value">THIS
 IS A
 TEST</textarea>
@@ -94,6 +193,29 @@ TEST</textarea>
         alphabet = data;
         renderLetters(document.getElementById('words').value);
     });
+    
+    function highlightLetter(c){
+        document.querySelector("#current_letter h2 b").innerText = c;
+        document.querySelector("#strava_link b").innerHTML = "<a target='_blank' href='https://www.strava.com/activities/" + alphabet[c].id + "'>" + alphabet[c].id + "</a>";
+        // console.log(alphabet[c])
+        //.innerHTML(alphabet[c])
+    }
+    document.querySelector('#letter_list1').addEventListener('click', e => {handleLetters(e)})
+    document.querySelector('#letter_list2').addEventListener('click', e => {handleLetters(e)})
+
+    function handleLetters(e){
+        if(e.target.innerText == "space"){
+            document.getElementById('words').value += " ";
+        }else if(e.target.innerText == "enter"){
+            document.getElementById('words').value += "\n";
+        }else if(e.target.innerText == "backspace"){
+            var s = document.getElementById('words').value;
+            document.getElementById('words').value = s.substring(0, s.length-1);
+        }else if(e.target.innerText.length == 1){
+            document.getElementById('words').value += e.target.innerText;
+        }
+        keyUpTextField(e);
+    }
 
     document.addEventListener("keyup", keyUpTextField, false);
 
@@ -200,6 +322,12 @@ TEST</textarea>
                 l['el_extra'].remove();
             }
         }
+        var ls = document.getElementById('words').value;
+        try{
+            highlightLetter(ls[ls.length-1].toUpperCase());
+        }catch(error){
+            // handle empty strings and such.
+        }
     }
 
 </script>
@@ -208,6 +336,5 @@ TEST</textarea>
 <br />
 <a href="/">Home</a>
 <br />
-<script type="text/javascript">!function(){var b=function(){window.__AudioEyeSiteHash = "16590a789c6b9b55b52bbbd7095c962c"; var a=document.createElement("script");a.src="https://wsmcdn.audioeye.com/aem.js";a.type="text/javascript";a.setAttribute("async","");document.getElementsByTagName("body")[0].appendChild(a)};"complete"!==document.readyState?window.addEventListener?window.addEventListener("load",b):window.attachEvent&&window.attachEvent("onload",b):b()}();</script>
 </body>
 </html>
