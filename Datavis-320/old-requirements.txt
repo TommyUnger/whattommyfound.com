@@ -40,7 +40,7 @@ google-crc32c==1.5.0
 google-resumable-media==2.4.0
 googleapis-common-protos==1.57.0
 greenlet==2.0.1
-grpcio==1.51.1
+grpcio==1.53.0
 grpcio-status==1.51.1
 h11==0.14.0
 idna==3.4
