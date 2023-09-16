@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="/static/jquery-ui-1.13.2.custom/jquery-ui.min.css">
+    <script src="/static/jquery-3.6.1.min.js"></script>
+    <script src="/static/jquery-ui-1.13.2.custom/jquery-ui.min.js"></script>
+    <style>
+        body{
+            font-family: Menlo, sans-serif;
+        }
+        table#sql_results{
+            border-collapse:collapse;
+            border: 1px solid #dddddd;
+        }
+        table#sql_results td,th{
+            border: 1px solid #dddddd;
+        }
+
+        textarea{
+            font-size: 0.8em;
+        }
+        ul, li{
+            list-style-type: none;
+            margin: 0px;
+            padding: 0px;
+        }
+        li.ui-selected{
+            border-color: rgba(80, 200, 70, 1.0);
+            background-color: rgba(80, 200, 70, 0.5);
+        }
+        li{
+            height: 170px;
+            width: 170px;
+            border: 1px solid #dddddd;
+            position: relative;
+            display: inline-block;
+            text-align: center;
+            background-color: #cccccc;
+        }
+        li .img{
+            position: relative;
+            width: 150px;
+            height: 150px;
+            display: inline-block;
+            max-height: 100%;
+            max-width: 100%;
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            margin: auto;
+        }
+        li img{
+            max-height: 100%;
+            max-width: 100%;
+            width: auto;
+            height: auto;
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            margin: auto;
+        }
+
+        .mini_menu{
+            position: absolute;
+            z-index: 999;
+            top: 0; left: 0;
+        }
+
+        .img .label{
+            position: absolute;
+            right: 2px;
+            bottom: -5px;
+            z-index: 999;
+            color: black;
+            background-color: rgba(255, 255, 255, 0.4);
+            font-size: 11px;
+            border-radius: 3px;
+            display: inline-block;
+            padding: 0px 5px;
+        }
+
+        .mini_menu span{
+            cursor: pointer;
+            font-weight: bold;
+            display: inline-block;
+            border-radius: 3px;
+            position: relative;
+            line-height: 18px;
+            height: 18px;
+            width: 18px;
+            margin-right: 2px;
+        }
+
+        .copy{
+            background-color: #778899;
+            color: white;
+        }
+
+        .delete{
+            background-color: #cc2211;
+            color: white;
+        }
+
+        .rotate.right, .rotate.left{
+            background-color: #3344aa;
+            color: white;
+        }
+    </style>
+    <meta charset="UTF-8" />
+    <title>Photos</title>
+</head>
+<body>
+    <h1>Photos</h1>
+    <form method="post" id="form">
+        <label for="tags">Tags:</label> <input type="text" name="tags" id="tags" />
+        <label for="date">Date:</label> <input type="text" name="date" id="date" />
+        <input type="hidden" name="selected_photos" id="selected_photos" />
+        <input type="submit" name="update" id="update" />
+    {% if grid %}
+    <ul class="selectable">
+    {% for row in rows %}
+        <li id="photo_{{ row.photo_id }}">
+        <span class="img">
+            <span class="label">{{ row.header|safe }}</span>
+            <div class="mini_menu">
+            <span class="delete" photo_id="{{ row.photo_id }}">X</span><span class="rotate left" photo_id="{{ row.photo_id }}">⟲</span><span class="rotate right" photo_id="{{ row.photo_id }}">⟳</span><span class="copy" file_path="open &quot;{{ row.file_path|safe }}&quot;">C</span>
+            </div>
+            <img height="120" src="data:image/png;base64,{{ row.thumb_color|safe }}">
+        </span>
+        </li>
+    {% endfor %}
+    </ul>
+    {% else %}
+    <table id="sql_results">
+        <thead>
+        <tr>
+            {% for th in headers %}
+            <th>{{ th|safe }}</th>
+            {% endfor %}
+        </tr>
+        </thead>
+        <tbody>
+        {% for row in rows %}
+        <tr>
+            {% for td in row %}
+            <td>{{ td.value|safe }}</td>
+            {% endfor %}
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    {% endif %}
+
+    <textarea id="sql" name="sql" rows="30" cols="140">{{ sql }}</textarea>
+    <br />
+    <input type="submit" />
+    </form>
+
+    <script>
+function fallbackCopyTextToClipboard(text) {
+  var textArea = document.createElement("textarea");
+  textArea.value = text;
+  
+  // Avoid scrolling to bottom
+  textArea.style.top = "0";
+  textArea.style.left = "0";
+  textArea.style.position = "fixed";
+
+  document.body.appendChild(textArea);
+  textArea.focus();
+  textArea.select();
+
+  try {
+    var successful = document.execCommand('copy');
+    var msg = successful ? 'successful' : 'unsuccessful';
+    console.log('Fallback: Copying text command was ' + msg);
+  } catch (err) {
+    console.error('Fallback: Oops, unable to copy', err);
+  }
+
+  document.body.removeChild(textArea);
+}
+function copyTextToClipboard(text) {
+  if (!navigator.clipboard) {
+    fallbackCopyTextToClipboard(text);
+    return;
+  }
+  navigator.clipboard.writeText(text).then(function() {
+    console.log('Async: Copying to clipboard was successful!');
+  }, function(err) {
+    console.error('Async: Could not copy text: ', err);
+  });
+}
+
+document.getElementById("sql").addEventListener("keydown", (event) => {
+    if (event.isComposing || event.keyCode === 229) {
+        return;
+    }
+    if(event.metaKey == true && event.keyCode == 13){
+        document.getElementById("form").submit()
+    }
+});
+
+document.querySelectorAll('.delete').forEach(item => {
+  item.addEventListener('click', event => {
+    var el = event.target.parentElement.parentElement;
+    el.style.opacity = "0.1";
+    el.parentElement.style.backgroundColor = "#bb9988";
+    $(el.parentElement).find('*').css("user-select", "none");
+    $(el.parentElement).find('*').css("cursor", "default");
+    var photo_id = event.target.getAttribute("photo_id");
+        fetch("/" + photo_id, {
+            method: 'DELETE',
+            headers: {
+                'Content-type': 'application/json'
+            }
+        });
+  });
+});
+
+document.querySelectorAll('.rotate').forEach(item => {
+  item.addEventListener('click', event => {
+    console.log(event)
+    var photo_id = event.target.getAttribute("photo_id");
+            fetch("/" + photo_id, {
+                method: 'PATCH',
+                headers: {
+                    'Content-type': 'application/json'
+                },
+                body: JSON.stringify({
+                    rotate: event.target.getAttribute("class")
+                }),
+            });
+  });
+});
+
+document.querySelectorAll('.copy').forEach(item => {
+  item.addEventListener('click', event => {
+    copyTextToClipboard(event.target.getAttribute("file_path"));
+  });
+});
+
+var curr_selected = {};
+var prev_selected = {};
+var deleted = {};
+
+$( function() {
+    $("#update").click(function(e){
+        var selected_ids = [];
+        $("li.ui-selected").each(function(i, el){
+            selected_ids.push(el.id.replace(/photo_/, ""));
+        })
+        $("#selected_photos").val(selected_ids.join(","));
+    })
+
+    $( ".selectable" ).selectable(
+    {
+        start: function(e, ui){
+        },
+        selecting: function(e, ui){
+        },
+        selected: function(e, ui){
+            if(ui.selected.id in prev_selected){
+                if(ui.selected.id){
+                    deleted[ui.selected.id] = ui.selected;
+                }
+            }else{
+                curr_selected[ui.selected.id] = ui.selected;
+            }
+        },
+
+        stop: function(e, ui){
+            var selected = Object.assign(curr_selected, prev_selected);
+            for(var el_id in selected){
+                if(el_id in deleted){
+                    $(selected[el_id]).removeClass("ui-selected");
+                    delete selected[el_id];
+                }else{
+                    $(selected[el_id]).addClass("ui-selected");
+                }
+            }
+            prev_selected = Object.assign({}, selected);
+            curr_selected = {};
+            deleted = {};
+        },
+        unselecting: function(e, ui){
+            // console.log("unselecting");
+        },
+        unselected: function(e, ui){
+            // console.log("unselected");
+        },
+    }
+
+
+    );
+} );
+</script>
+
+</body>
+</html>
