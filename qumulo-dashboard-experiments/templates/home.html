@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Dashboard Visualizations</title>
+        <meta charset="utf-8" />
+        <link rel="stylesheet" type="text/css" href="/static/dashboard-style.css" />
+    </head>
+    <body>
+        <h1></h1>
+
+        <div class="wrapper" style="min-height: 220px; min-width: 460px;">
+        <h2>Capacity Trend</h2>
+        <div class="cap_trend">
+            <svg></svg>
+        </div>
+        </div>
+
+        <div class="wrapper" style="min-height: 220px; min-width: 460px;">
+        <h2>Capacity Usage</h2>
+        <table>
+            <tr>
+                <td>
+                    <svg width="200" height="100" id="capacity_grid"></svg>
+                </td>
+                <td class="caps">
+                    <!-- <div><label>Total Used</label> <span class="cap" id="used_cap"></span></div> -->
+                    <div><label>Data</label> <span class="cap" id="data_cap"></span></div>
+                    <div><label>Snapshots</label> <span class="cap" id="snap_cap"></span></div>
+                    <div><label>Free</label> <span class="cap" id="free_cap"></span></div>
+                </td>
+            </tr>
+        </table>
+        </div>
+
+        <div class="wrapper" style="min-height: 220px; min-width: 460px;">
+            <h2>Read cache media source</h2>
+            <br />
+            <div class="cache">
+            </div>
+        </div>
+
+        <div class="wrapper" style="min-height: 220px; min-width: 460px;">
+            <h2>Read prefetch with throughput</h2>
+            <div class="prefetch">
+                <svg></svg>
+            </div>
+        </div>
+
+        <div class="wrapper" style="min-height: 220px; min-width: 210px;">
+            <h2>Read size</h2>
+            <div class="read_size block_size">
+            </div>
+        </div>
+
+        <div class="wrapper" style="min-height: 220px; min-width: 210px;">
+            <h2>Write size</h2>
+            <div class="write_size block_size">
+            </div>
+        </div>
+
+        <div class="wrapper" style="min-height: 220px; min-width: 210px;">
+            <h2>Network Tput</h2>
+            <svg width="200" height="175" id="throughput"></svg>
+        </div>
+
+        <div class="wrapper" style="min-width: 210px; height: 220px;">
+            <h2>Active clients</h2>
+            <div class="clients">
+            <div><label>Client Count</label> <span id="client_count"></span></div>
+            <div><label>Read IOPS</label> <span id="read_iops"></span></div>
+            <div><label>Write IOPS</label> <span id="write_iops"></span></div>
+            <div><label>Read Throughput</label> <span id="read_throughput"></span></div>
+            <div><label>Write Throughput</label> <span id="write_throughput"></span></div>
+            </div>
+        </div>
+
+        <div class="wrapper" style="min-width: 210px; height: 220px;">
+            <h2>Capacity Changes</h2>
+            <div class="cap_change">
+            </div>
+        </div>
+
+        <div class="wrapper" style="min-height: 300px; ">
+        <h2>Read Throughput</h2>
+        <div id="throughput_read_table">
+        </div>
+        </div>
+
+        <div class="wrapper" style="min-height: 300px; ">
+            <h2>Write Throughput</h2>
+            <div id="throughput_write_table"></div>
+        </div>
+
+        <div class="wrapper" style="min-height: 300px; ">
+            <h2>Read IOPS</h2>
+            <div id="iops_read_table">
+            </div>
+        </div>
+
+        <div class="wrapper" style="min-height: 300px; ">
+            <h2>Write IOPS</h2>
+            <div id="iops_write_table"></div>
+        </div>
+
+        <div class="wrapper">
+            <h2>Capacity map</h2>
+            <svg height="750" class="cap_tree"></svg>
+        </div>
+
+        <script src="/static/d3.v4.js"></script>
+        <script src="/static/moment.js"></script>
+        <script src="/static/d3-scale-chromatic.v1.min.js"></script>
+        <script src="/static/dashboard-script.js"></script>
+    </body>
+</html>
