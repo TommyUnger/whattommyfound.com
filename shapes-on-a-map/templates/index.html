@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leaflet with D3 and Flask</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+</head>
+<body>
+    <div id="map" style="height: 500px;"></div>
+    <script>
+        function getBounds(fcg){
+            let coordinates = fcg.features.flatMap(feature => 
+                feature.geometry.coordinates[0]
+            );
+
+            let longitudes = coordinates.map(coord => coord[0]);
+            let latitudes = coordinates.map(coord => coord[1]);
+
+            let bounds = [
+                [Math.min(...longitudes), Math.min(...latitudes)],
+                [Math.max(...longitudes), Math.max(...latitudes)]
+            ];
+            return bounds;
+        }
+        
+        const map = L.map('map').setView([51.505, -0.09], 13); 
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+
+        const svg = d3.select(map.getPanes().overlayPane).append("svg");
+        const g = svg.append("g").attr("class", "leaflet-zoom-hide");
+        function projectPoint(x, y) {
+            console.log(x);
+            console.log(y);
+            const point = map.latLngToLayerPoint(new L.LatLng(y, x));
+            return [point.x, point.y];
+        }
+
+        d3.json("/data/")
+        .then(function(geo_data) {
+            let bounds = getBounds(geo_data);
+            // ... [As before]
+            // // const allBounds = data.features.map(feature => d3.geoBounds(feature));
+            // const bounds = d3.geoBounds(data);
+            const southWest = L.latLng(bounds[0][1], bounds[0][0]),
+                  northEast = L.latLng(bounds[1][1], bounds[1][0]),
+                  dataBounds = L.latLngBounds(southWest, northEast);
+            map.fitBounds(dataBounds);
+
+            L.geoJSON(geo_data, {
+                style: function (feature) {
+                    return {color: '#ff0000'}; // red color
+                },
+                onEachFeature: function (feature, layer) {
+                    layer.bindPopup(feature.properties.name);
+                }
+            }).addTo(map);
+        })
+        .catch(function(error) {
+            console.error("Error fetching or parsing data:", error);
+        });
+
+    </script>
+</body>
+</html>
