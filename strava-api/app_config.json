@@ -1,0 +1,5 @@
+{
+    "strava_client_id": "<client-id>",
+    "strava_client_secret": "<client-secret>",
+    "flask_port": "8001"
+}
