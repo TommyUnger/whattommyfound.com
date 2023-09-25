@@ -37,14 +37,23 @@ def get_data():
     sch.get_schools("public_school", "87376bdb0cb3490cbda39935626f6604_0", "3857")
     sch.get_schools("private_school", "0dfe37d2a68545a699b999804354dacf_0", "4326")
 
-    s = Utils.get_session()
-    for election_year in [2022, 2020, 2018, 2016, 2014]:
+    for election_year in [2022, 2021, 2020, 2019, 2018, 2017, 2016, 2015, 2014]:
+        s = Utils.get_session()
         if db.import_table_exists(f"king_county_election_{election_year}"):
             logger.info(f"Table king_county_election_{election_year} already exists")
             continue
         res = s.get(f"https://kingcounty.gov/en/legacy/depts/elections/results/{election_year}/{election_year}11.aspx")
+        url = None
         for m in re.findall(r'href="(.*?final-precinct-results.ashx[^"]*)"', res.text):
-            url = str(m)
+            if str(election_year) in m:
+                url = str(m)
+        if not url:
+            for m in re.findall(r'href="(https://data.kingcounty.gov/api/views/[^/]+/rows.csv\?accessType=DOWNLOAD)"', res.text):
+                url = str(m)
+
+        if not url:
+            logger.error(f"Cannot find election results for year {election_year}")
+            continue
         f = Utils.download_file(url, f"king_county_election_results_{election_year}.csv", session=s)
         db.csv2db(f, f"king_county_election_{election_year}", encoding='latin1')
 
