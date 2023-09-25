@@ -75,6 +75,7 @@ class Db:
         schema_name = self.import_schema
         if "." in table_name:
             schema_name, table_name = table_name.split(".")
+        self.exec(f"CREATE SCHEMA IF NOT EXISTS {schema_name}")
         if append == False:
             df.columns = [Utils.camel_to_snake(name) for name in df.columns]
             conn = create_engine(self.db_url)
