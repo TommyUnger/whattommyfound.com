@@ -3,6 +3,8 @@ import logging
 import os
 import re
 import time
+import gzip
+import shutil
 import requests
 import zipfile
 import subprocess
@@ -35,7 +37,7 @@ class Utils:
         if not os.path.exists(dest_folder):
             os.makedirs(dest_folder)
         if to_file_name is None:
-            filename = re.sub(r"[^a-z0-9]+", "_", url.lower())
+            filename = re.sub(r"[^a-z0-9.]+", "_", url.lower())
         else:
             filename = to_file_name
         logger.info(f"download file {url} to {filename}")
@@ -56,11 +58,21 @@ class Utils:
         return filename
 
     @staticmethod
-    def unzip_file(file_path, dest_folder):
+    def unzip_file(file_path, dest_folder=""):
         dest_folder = os.path.join("downloads", dest_folder)
-        logger.info(f"unzip file {file_path} to: {dest_folder}")
-        with zipfile.ZipFile(file_path, 'r') as zip_ref:
-            zip_ref.extractall(dest_folder)
+        if file_path.endswith(".gz"):
+            logger.info(f'gzip uncompressing file: {file_path}')
+            if not os.path.exists(dest_folder):
+                os.makedirs(dest_folder)
+            # Create output file path (remove .gz extension)
+            output_path = os.path.join(dest_folder, os.path.basename(file_path)[:-3])
+            with gzip.open(file_path, 'rb') as f_in:
+                with open(output_path, 'wb') as f_out:
+                    shutil.copyfileobj(f_in, f_out)
+        else:
+            logger.info(f"unzip file {file_path} to: {dest_folder}")
+            with zipfile.ZipFile(file_path, 'r') as zip_ref:
+                zip_ref.extractall(dest_folder)
         return dest_folder
     
     @staticmethod
