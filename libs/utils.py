@@ -84,5 +84,5 @@ class Utils:
         subprocess.run(cmd, shell=True, check=True, stdout=out_file, stderr=err_file)
         out_file.close()
         err_file.close()
-        return (open(f"logs/{cmd_txt}_out.log", "r").read(),
-                open(f"logs/{cmd_txt}_err.log", "r").read())
+        return (re.sub(r"[\n\r]+", " | ", open(f"logs/{cmd_txt}_out.log", "r").read()),
+                re.sub(r"[\n\r]+", " | ", open(f"logs/{cmd_txt}_err.log", "r").read()))
