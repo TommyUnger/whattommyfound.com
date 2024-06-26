@@ -62,6 +62,8 @@ class Db:
             create_table = '-c'
         cmd = f'shp2pgsql -s {srid} -D {create_table} {shp_file_path} {schema_name}.{table_name} > {sql_file_path}'
         out, err = Utils.run(cmd)
+        logger.info(out)
+        logger.info(err)
         return sql_file_path
     
     def csv2db(self, file_name, table_name, encoding='utf8'):
