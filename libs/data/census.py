@@ -56,7 +56,7 @@ class Census:
     def get_geos(self, geo_type):
         res = requests.get(f"https://www2.census.gov/geo/tiger/TIGER_RD18/LAYER/{geo_type}/")
         for file_name in re.findall(r'href="([^.]+.zip)"', res.text):
-            print(f"Process: {file_name}")
+            logger.info(f"Process: {file_name}")
             url = f"https://www2.census.gov/geo/tiger/TIGER_RD18/LAYER/{geo_type}/{file_name}"
             downloaded_file = Utils.download_file(url, file_name)
             try:
@@ -65,10 +65,11 @@ class Census:
                 print(f"deleting bad file: {downloaded_file}")
                 os.remove(downloaded_file)
                 continue
-            sql_file_path = self.db.shp2pgsql("census", f"geo_{geo_type.lower()}", unzipped_folder, "4326")
-            print(f"Load: {sql_file_path}")
-            subprocess.run(f"psql -d work -f {sql_file_path}", shell=True, check=True, 
-                        stdout=subprocess.DEVNULL, stderr=subprocess.STDOUT)
+            sql_file_path = self.db.shp2pg("census", f"geo_{geo_type.lower()}", unzipped_folder, "4326")
+            logger.info(f"Load: {sql_file_path}")
+            out, err = Utils.run(f"psql -d work -f {sql_file_path}")
+            logger.info(out)
+            logger.info(err)
             shutil.rmtree(unzipped_folder)
 
     def get_metric_details(self, data_set, variable):
